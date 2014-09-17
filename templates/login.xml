@@ -1,0 +1,12 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+
+        <h1 class="name-of-game">Epic Game</h1>
+    	<h2 class="header-of-screen">Login</h2>
+    	<form method="post" action="/api/v1/auth/signin" class="login">
+    		<input type="text" name="email" id="email" placeholder="Email"></input><br></br>
+    		<input type="password" name="password" id="password" placeholder="Password"></input><br></br>
+    		<input type="submit" value="Login" class="reg-login"></input><br></br>
+    	</form>
+    	<button class="back js-back">Back</button>
+
+</fest:template>

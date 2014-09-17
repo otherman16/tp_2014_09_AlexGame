@@ -1,0 +1,89 @@
+body {
+	font-family: serif;
+}
+div#page {
+	background-color:#EEEEEE;
+	text-align: center;
+	margin:0;
+	padding:0;
+	max-width:300px;
+	height:400px;
+	position:relative;
+}
+
+.name-of-game{
+	margin:0;
+	padding:0;
+	background-color: #555555;
+	display:block;
+	width:100%;
+	height:40px;
+	color:#FFFFFF;
+	font-size:20pt;
+	vertical-align: middle;
+}
+
+.header-of-screen{
+	margin:0;
+	padding:0;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color:#555555;
+	font-size: 18pt;
+}
+
+button.navigation{
+	border:none;
+	background-color:#555555;
+	color:#FFFFFF;
+	width:200px;
+	height:50px;
+	margin-bottom:10px;
+	font-size:14pt;
+}
+
+button.back{
+	border:none;
+	background-color:#555555;
+	color:#FFFFFF;
+	width:60px;
+	height:30px;
+	font-size:12pt;
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+input{
+	border:1px solid #AAAAAA;
+	border-radius:5px;
+	background-color:#CCCCCC;
+	width:188px;
+	height:30px;
+	font-size:12pt;
+	color:#000000;
+	margin-bottom:10px;
+	padding-left:10px;
+	font-weight:bold;
+}
+
+input.reg-login{
+	border:none;
+	border-radius: 0;
+	background-color:#555555;
+	color:#FFFFFF;
+	width:200px;
+	height:40px;
+	font-size:12pt;
+}
+
+.alert{
+	position:absolute;
+	width:100%;
+	height:30px;
+	bottom: 0;
+	background-color:#CCCCCC;
+	color:#000000;
+	font-size:10pt;
+	display:none;
+}
