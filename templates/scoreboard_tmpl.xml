@@ -2,6 +2,6 @@
 
         <h1 class="name-of-game">Epic Game</h1>
     	<h2 class="header-of-screen">Score Board</h2>
-    	<button class="back js-back">Back</button>
+    	<a href="/" class="btn back_button">Back</a>
 
 </fest:template>

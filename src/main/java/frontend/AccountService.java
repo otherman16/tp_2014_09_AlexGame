@@ -9,8 +9,8 @@ import java.util.Map;
  */
 public class AccountService {
 
-    private Map<String, UserProfile> userList = new HashMap<>();
-    private Map<String, UserProfile> sessionList = new HashMap<>();
+    private Map<String, UserProfile> userList = new HashMap<String, UserProfile>();
+    private Map<String, UserProfile> sessionList = new HashMap<String, UserProfile>();
 
 //  Проверка на наличие Email в базе
     private boolean isUser(UserProfile user) {

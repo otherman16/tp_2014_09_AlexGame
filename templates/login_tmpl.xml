@@ -7,6 +7,6 @@
     		<input type="password" name="password" id="password" placeholder="Password"></input><br></br>
     		<input type="submit" value="Login" class="reg-login"></input><br></br>
     	</form>
-    	<button class="back js-back">Back</button>
+    	<a href="/" class="btn back_button">Back</a>
 
 </fest:template>
