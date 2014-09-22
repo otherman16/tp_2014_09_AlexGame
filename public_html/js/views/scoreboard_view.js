@@ -7,9 +7,10 @@ define([
 	'scoreboard_tmpl'
 ], function($, Backbone, _, scoreboard_tmpl) {
 	var ScoreboardView = Backbone.View.extend({
+		template: scoreboard_tmpl,
 		el: $('#page'),
 		render: function() {
-			this.$el.html(scoreboard_tmpl);
+			this.$el.html(this.template());
 		}
 	});
 	return ScoreboardView;

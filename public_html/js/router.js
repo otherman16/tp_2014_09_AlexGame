@@ -16,7 +16,8 @@ define([
             'game': 'gameAction',
             'login': 'loginAction',
             'registration': 'registrationAction',
-            '*default': 'mainActions'
+            '*default': 'mainActions',
+            "": "mainActions"
         },
         mainAction: function () {
             var mainView = new MainView();

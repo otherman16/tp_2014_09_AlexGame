@@ -16,7 +16,10 @@ requirejs.config({
         "game_view" : "views/game_view",
         "login_view" : "views/login_view",
         "scoreboard_view" : "views/scoreboard_view",
-        "registration_view" : "views/registration_view"
+        "registration_view" : "views/registration_view",
+        "score_model" : "models/score_model",
+        "score_collection" : "collections/score_collection",
+        "score_view" : "views/score_view"
     },
     shim: {
         'backbone' : {
