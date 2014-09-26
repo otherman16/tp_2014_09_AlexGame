@@ -1,18 +1,18 @@
 {
-  "name": "Epicgame",
-  "version": "0.0.0",
-  "description": "Epicgame",
+  "name": "AlexGame",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "BSD-2-Clause",
+  "license": "ISC",
   "devDependencies": {
-    "grunt-shell": "~1.1.1",
-    "grunt": "~0.4.5",
-    "grunt-fest": "~0.1.5",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-concurrent": "~1.0.0"
+    "grunt": "^0.4.5",
+    "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-fest": "^0.1.5",
+    "grunt-shell": "^1.1.1"
   }
 }
