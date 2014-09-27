@@ -1,0 +1,13 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+
+        <h1 class="name-of-game">Epic Game</h1>
+    	<h2 class="header-of-screen">My Profile</h2>
+    	<ul class="screen__profile__info">
+    		<li>ID:<fest:space/><fest:value>json.id</fest:value></li>
+    		<li>LOGIN:<fest:space/><fest:value>json.login</fest:value></li>
+    		<li>EMAIL:<fest:space/><fest:value>json.email</fest:value></li>
+    		<li>SCORE:<fest:space/><fest:value>json.score</fest:value></li>
+    	</ul>
+    	<a href="/#" class="btn back_button">Back</a>
+
+</fest:template>

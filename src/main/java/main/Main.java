@@ -30,11 +30,13 @@ public class Main {
         HttpServlet registrationServlet = new RegistrationServlet(service);
         HttpServlet getUserServlet = new GetUserServlet(service);
         HttpServlet logoutUserServlet = new LogoutServlet(service);
+        HttpServlet adminServlet = new AdminServlet(service);
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(mainServlet), "/");
         context.addServlet(new ServletHolder(getUserServlet), "/get_user");
         context.addServlet(new ServletHolder(logoutUserServlet), "/logout");
+        context.addServlet(new ServletHolder(adminServlet), "/admin");
         context.addServlet(new ServletHolder(loginServlet), "/api/v1/auth/signin");
         context.addServlet(new ServletHolder(registrationServlet), "/registration");
         ResourceHandler resource_handler = new ResourceHandler();

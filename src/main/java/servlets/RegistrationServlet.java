@@ -22,7 +22,8 @@ public class RegistrationServlet extends HttpServlet {
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+        response.sendRedirect("/#");
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
@@ -46,10 +47,8 @@ public class RegistrationServlet extends HttpServlet {
             e.printStackTrace();
         }
         UserProfile user = new UserProfile(login,email,password);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         if (service.registerUser(user, request.getSession())) {
-            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+            response.setStatus(HttpServletResponse.SC_OK);
         }
         else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

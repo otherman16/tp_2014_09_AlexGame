@@ -18,15 +18,16 @@ public class LogoutServlet extends HttpServlet {
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+        response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+        response.sendRedirect("/#");
+    }
+    public void doPost(HttpServletRequest request,
+                       HttpServletResponse response) throws ServletException, IOException {
         if (service.logoutUser(request.getSession())) {
             response.setStatus(HttpServletResponse.SC_OK);
         }
         else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
 }

@@ -1,10 +1,8 @@
 define([
 	// Libs
-	'jquery',
 	'backbone',
-	'underscore',
 	// Deps
-], function($, Backbone, _) {
+], function(Backbone) {
 	var UserModel = Backbone.Model.extend({
 		defaults: {
 			id: "",

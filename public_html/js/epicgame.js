@@ -6,6 +6,7 @@ requirejs.config({
         "backbone" : "lib/backbone",
         "underscore" : "lib/underscore",
         "my_ajax" : "lib/my_ajax",
+        "logout" : "lib/logout",
         // Templates
         "alert_tmpl" : "tmpl/alert_tmpl",
         "game_tmpl" : "tmpl/game_tmpl",
@@ -13,6 +14,7 @@ requirejs.config({
         "main_tmpl" : "tmpl/main_tmpl",
         "registration_tmpl" : "tmpl/registration_tmpl",
         "scoreboard_tmpl" : "tmpl/scoreboard_tmpl",
+        "profile_tmpl" : "tmpl/profile_tmpl",
         "toolbar_tmpl" : "tmpl/toolbar_tmpl",
         // Router
         "router" : "router",
@@ -23,6 +25,7 @@ requirejs.config({
         "scoreboard_view" : "views/scoreboard_view",
         "registration_view" : "views/registration_view",
         "toolbar_view" : "views/toolbar_view",
+        "profile_view" : "views/profile_view",
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",
@@ -46,12 +49,9 @@ requirejs.config({
 
 requirejs([
     // Libs
-    'jquery',
     'backbone',
-    'underscore',
     // Deps
     'router'
-], function($, Backbone, _, Router) {
-    new Router();
+], function(Backbone, Router) {
     Backbone.history.start();
 })

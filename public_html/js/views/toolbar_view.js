@@ -2,31 +2,41 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	'underscore',
 	// Deps
 	'toolbar_tmpl',
-	'user_model'
-], function($, Backbone, _, toolbar_tmpl, UserModel) {
-	var ScoreboardView = Backbone.View.extend({
+	'logout',
+], function($, Backbone, toolbar_tmpl, logout) {
+	var ToolbarView = Backbone.View.extend({
+		tagName: "div",
+		className: "toolbar",
 		template: toolbar_tmpl,
-		el: $('#page'),
-		model: UserModel,
+		el: $('.toolbar'),
 		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
 			if (this.model.get("id") > 0) {
-				this.$el.append(this.template);
+				this.show();
+			}
+			else {
+				this.hide();
 			}
 		},
 		show: function() {
-			this.render;
+			this.$el.show();
 		},
 		hide: function() {
-			this.$el.remove();
+			this.$el.hide();
 		},
 		initialize: function() {
-			this.model = new UserModel();
-			this.model.fetch();
+			this.render();
 			this.listenTo(this.model,'change', this.render);
+		},
+		events: {
+			"click .toolbar__tools__logout" : "logout"
+		},
+		logout: function(event) {
+			logout(event);
+			this.model.fetch();
 		}
 	});
-	return ScoreboardView;
+	return ToolbarView;
 })

@@ -21,7 +21,8 @@ public class LoginServlet extends HttpServlet {
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+        response.sendRedirect("/#");
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
@@ -43,8 +44,6 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
         UserProfile user = new UserProfile("",email,password);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         if (service.authUser(user, request.getSession())) {
             response.setStatus(HttpServletResponse.SC_OK);
         }

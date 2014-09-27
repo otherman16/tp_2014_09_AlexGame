@@ -1,48 +1,77 @@
 define([
     // Libs
-    'jquery',
     'backbone',
-    'underscore',
     // Deps
     'main_view',
     'login_view',
     'registration_view',
     'game_view',
     'scoreboard_view',
-], function($, Backbone, _, MainView, LoginView, RegistrationView, GameView, ScoreboardView) {
+    'profile_view',
+    'toolbar_view',
+    'user_model',
+], function(Backbone, MainView, LoginView, RegistrationView, GameView, ScoreboardView, ProfileView, ToolbarView, UserModel) {
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
             'game': 'gameAction',
             'login': 'loginAction',
             'registration': 'registrationAction',
+            'profile' : 'profileAction',
             '': 'mainActions',
-            '*defaults': 'mainActions'
+            // '*defaults': 'mainActions'
         },
-        mainAction: function () {
-            var mainView = new MainView();
-            mainView.show();
+        mainActions: function () {
+            this.hideAll();
+            this.forAll();
+            this.mainView.show();
         },
         gameAction: function () {
-            var gameView = new GameView();
-            gameView.show();
+            this.hideAll();
+            this.forAll();
+            this.gameView.show();
         },
         loginAction: function () {
-            var loginView = new LoginView();
-            loginView.show();
+            this.hideAll();
+            this.forAll();
+            this.loginView.show();
         },
         registrationAction: function () {
-            var registrationView = new RegistrationView();
-            registrationView.show();
+            this.hideAll();
+            this.forAll();
+            this.registrationView.show();
         },
         scoreboardAction: function () {
-            var scoreboardView = new ScoreboardView();
-            scoreboardView.show();
+            this.hideAll();
+            this.forAll();
+            this.scoreboardView.show();
+        },
+        profileAction: function() {
+            this.hideAll();
+            this.forAll();
+            this.profileView.show();
         },
         initialize: function() {
-            var mainView = new MainView();
-            mainView.show();
+            this.userModel = new UserModel();
+            this.mainView = new MainView({model:this.userModel});
+            this.gameView = new GameView({model:this.userModel});
+            this.loginView = new LoginView({model:this.userModel});
+            this.registrationView = new RegistrationView({model:this.userModel});
+            this.scoreboardView = new ScoreboardView({model:this.userModel});
+            this.profileView = new ProfileView({model:this.userModel});
+            this.toolbarView = new ToolbarView({model:this.userModel});
+        },
+        hideAll: function() {
+            this.gameView.hide();
+            this.scoreboardView.hide();
+            this.loginView.hide();
+            this.registrationView.hide();
+            this.profileView.hide();
+            this.mainView.hide();
+        },
+        forAll: function() {
+            this.userModel.fetch();
         }
     });
-    return Router;
+    return new Router();
 })

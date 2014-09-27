@@ -1,7 +1,7 @@
 body {
 	font-family: serif;
 }
-div#page {
+.screen {
 	background-color:#EEEEEE;
 	text-align: center;
 	margin:0;
@@ -9,6 +9,23 @@ div#page {
 	max-width:300px;
 	height:400px;
 	position:relative;
+}
+.screen__main,
+.screen__game,
+.screen__login,
+.screen__registration,
+.screen__scoreboard,
+.screen__game,
+.screen__profile {
+	display:none;
+}
+
+.screen__profile__info {
+	list-style: none;
+	font-size: 16pt;
+	font-weight: bold;
+	color: #555555;
+	text-align: left;
 }
 
 .name-of-game{
@@ -32,7 +49,7 @@ div#page {
 	font-size: 18pt;
 }
 
-.navigation_button{
+.screen__main__button{
 	border:none;
 	background-color:#555555;
 	color:#FFFFFF;
@@ -42,6 +59,13 @@ div#page {
 	margin-bottom:15px;
 	font-size:14pt;
 	padding-top:10px;
+}
+
+.screen__main__button__game,
+.screen__main__button__scoreboard,
+.screen__main__button__login,
+.screen__main__button__registration {
+	display:none;
 }
 
 .back_button{
@@ -104,11 +128,10 @@ input{
 	width:100%;
 	height:20px;
 	background-color:#888888;
-	/*display:none;*/
+	display:none;
 	top:40px;
 }
 .toolbar__tools{
-	display:inline;
 	padding:0;
 	margin:0;
 	list-style: none;

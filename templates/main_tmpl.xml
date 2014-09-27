@@ -1,8 +1,10 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-    <h1 class="name-of-game">Epic Game</h1>
-	<h2 class="header-of-screen">Main Menu</h2>
-	<a href="#scoreboard" class="btn navigation_button">Score Board</a><br></br>
-	<a href="#game" class="btn navigation_button">Start Game</a><br></br>
-	<a href="#login" class="btn navigation_button">Login</a><br></br>
-	<a href="#registration" class="btn navigation_button">Registration</a><br></br>
+
+	    <h1 class="name-of-game">Epic Game</h1>
+		<h2 class="header-of-screen">Main Menu</h2>
+		<a href="#scoreboard" class="btn screen__main__button screen__main__button__scoreboard">Score Board</a>
+		<a href="#game" class="btn screen__main__button screen__main__button__game">Start Game</a>
+		<a href="#login" class="btn screen__main__button screen__main__button__login">Login</a>
+		<a href="#registration" class="btn screen__main__button screen__main__button__registration">Registration</a>
+
 </fest:template>

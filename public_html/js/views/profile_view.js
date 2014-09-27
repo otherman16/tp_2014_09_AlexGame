@@ -3,15 +3,15 @@ define([
 	'jquery',
 	'backbone',
 	// Deps
-	'game_tmpl',
-], function($, Backbone, game_tmpl) {
-	var GameView = Backbone.View.extend({
+	'profile_tmpl',
+], function($, Backbone, profile_tmpl) {
+	var ScoreboardView = Backbone.View.extend({
 		tagName: "div",
-		className: "screen__game",
-		template: game_tmpl,
-		el: $('.screen__game'),
+		className: "screen__profile",
+		template: profile_tmpl,
+		el: $('.screen__profile'),
 		render: function() {
-			this.$el.html(this.template());
+			this.$el.html(this.template(this.model.toJSON()));
 		},
 		show: function() {
 			if( this.model.get("id") > 0 ) {
@@ -29,5 +29,5 @@ define([
 			this.listenTo(this.model,'change', this.render);
 		}
 	});
-	return GameView;
+	return ScoreboardView;
 })

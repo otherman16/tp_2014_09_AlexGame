@@ -11,6 +11,10 @@ public class AccountService {
     private Map<Integer, UserProfile> userList = new HashMap<Integer, UserProfile>();
     private Map<Integer, UserProfile> sessionList = new HashMap<Integer, UserProfile>();
     private Long lastID = 0L;
+    public AccountService() {
+        UserProfile user = new UserProfile("admin","admin","admin");
+        this.addUser(user);
+    }
     // Генерация уникального ID
     private Long getNewId() {
         return ++lastID;
@@ -43,8 +47,9 @@ public class AccountService {
     // Запомнить пользователя в Карту сессий
     private boolean rememberUser(UserProfile user, HttpSession session) {
         if( !this.isAuth(session.toString()) ) {
-            session.setAttribute("userId", user.id);
-            sessionList.put(session.toString().hashCode(), user);
+            UserProfile _user = userList.get(user.email.hashCode());
+            session.setAttribute("userId", _user.id);
+            sessionList.put(session.toString().hashCode(), _user);
             return true;
         }
         else {
@@ -91,5 +96,13 @@ public class AccountService {
         else {
             return false;
         }
+    }
+    // Количество зарегестрированныйх пользователей
+    public Integer numberOfRegisteredUsers() {
+        return userList.size();
+    }
+    // Количество пользователей Online
+    public Integer numberOfAuthUsers() {
+        return sessionList.size();
     }
 }
