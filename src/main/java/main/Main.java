@@ -25,7 +25,6 @@ public class Main {
         System.out.append("Starting at port: ").append(portString).append('\n');
 
         AccountService service = new AccountService();
-        HttpServlet mainServlet = new MainServlet();
         HttpServlet loginServlet = new LoginServlet(service);
         HttpServlet registrationServlet = new RegistrationServlet(service);
         HttpServlet getUserServlet = new GetUserServlet(service);
@@ -33,7 +32,6 @@ public class Main {
         HttpServlet adminServlet = new AdminServlet(service);
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(mainServlet), "/");
         context.addServlet(new ServletHolder(getUserServlet), "/get_user");
         context.addServlet(new ServletHolder(logoutUserServlet), "/logout");
         context.addServlet(new ServletHolder(adminServlet), "/admin");

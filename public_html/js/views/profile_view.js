@@ -4,7 +4,8 @@ define([
 	'backbone',
 	// Deps
 	'profile_tmpl',
-], function($, Backbone, profile_tmpl) {
+	'logout',
+], function($, Backbone, profile_tmpl, logout) {
 	var ScoreboardView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__profile",
@@ -27,6 +28,12 @@ define([
 		initialize: function() {
 			this.render();
 			this.listenTo(this.model,'change', this.render);
+		},
+		events: {
+			"click .screen__toolbar__logout" : "logout"
+		},
+		logout: function(event) {
+			logout(event);
 		}
 	});
 	return ScoreboardView;

@@ -1,8 +1,0 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-
-		<ul class="toolbar__tools">
-			<li><a href="#profile" class="btn toolbar__button toolbar__tools__profile"><fest:value>json.login</fest:value></a></li>
-			<li><a href="/logout" class="btn toolbar__button toolbar__tools__logout">Logout</a></li>
-		</ul>
-
-</fest:template>

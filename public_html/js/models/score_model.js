@@ -6,7 +6,7 @@ define([
 	var ScoreModel = Backbone.Model.extend({
 		defaults: {
 			login: "",
-			score: ""
+			score: 0
 		},
 		urlRoot: "/get_user"
 	});

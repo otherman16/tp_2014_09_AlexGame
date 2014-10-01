@@ -4,8 +4,8 @@ define([
 	'backbone',
 	// Deps
 	'registration_tmpl',
-	'my_ajax',
-], function($, Backbone, registration_tmpl, my_ajax) {
+	'validate',
+], function($, Backbone, registration_tmpl, Validator) {
 	var RegistrationView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__registration",
@@ -13,6 +13,7 @@ define([
 		el: $('.screen__registration'),
 		render: function() {
 			this.$el.html(this.template());
+			Validator.initialize(this.$el.find('form.registration'));
 		},
 		show: function() {
 			if( this.model.get("id") > 0 ) {
@@ -20,20 +21,16 @@ define([
 			}
 			else {
 				this.$el.show();
+				Validator.initialize(this.$el.find('form.registration'));
 			}
 		},
 		hide: function() {
 			this.$el.hide();
+			Validator.removeEvents(this.$el.find('form.registration'));
 		},
 		initialize: function() {
 			this.render();
 			this.listenTo(this.model,'change', this.render);
-		},
-		events: {
-			"submit form.registration" : "submit"
-		},
-		submit: function(event) {
-			my_ajax(event);
 		}
 	});
 	return RegistrationView;

@@ -2,32 +2,28 @@ define([
     // Libs
     'jquery',
     // Deps
-    'alert_tmpl',
-], function($, alert_tmpl){
+    'alert_view',
+], function($, AlertView){
     return function(event){
 
         event.preventDefault();
 
-        var $page = $('#page');
-        var $btn = $('.toolbar__tools__logout');
-
-        $page.find('.alert').remove();
+        var $page = $('.screen');
+        var $btn = $(event.currentTarget);
 
         $.ajax({
             url: $btn.attr('href'),
             type: 'POST',
             beforeSend: function() {
                 $btn.prop('disabled',true);
+                this.alert = new AlertView();
             },
             success: function() {
-                $page.append(alert_tmpl);
-                $page.find('.alert span').text("Success Logout");
-                $page.find('.alert').slideDown().delay(1000).slideUp();
+                this.alert.show("Success Logout");
                 window.location.assign('/#');
             },
             error: function() {
-                $page.append(alert_tmpl);
-                $page.find('.alert span').text("Wrong Logout");
+                this.alert.show("Wrong Logout");
                 $page.find('.alert').slideDown().delay(1000).slideUp();
             },
             complete: function() {

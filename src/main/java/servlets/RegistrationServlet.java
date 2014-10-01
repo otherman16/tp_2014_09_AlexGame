@@ -28,30 +28,21 @@ public class RegistrationServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String jsonStr = "";
-        jsonStr = br.readLine();
-        JSONObject jsonObj = null;
+        String jsonStr = br.readLine();
         try {
-            jsonObj = new JSONObject(jsonStr);
+            JSONObject jsonObj = new JSONObject(jsonStr);
+            String login = jsonObj.getString("login");
+            String email = jsonObj.getString("email");
+            String password = jsonObj.getString("password");
+            UserProfile user = new UserProfile(login,email,password);
+            if (service.registerUser(user, request.getSession())) {
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+            else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-        String login = "";
-        String email = "";
-        String password = "";
-        try {
-            login = jsonObj.getString("login");
-            email = jsonObj.getString("email");
-            password = jsonObj.getString("password");
-        } catch( JSONException e) {
-            e.printStackTrace();
-        }
-        UserProfile user = new UserProfile(login,email,password);
-        if (service.registerUser(user, request.getSession())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-        else {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

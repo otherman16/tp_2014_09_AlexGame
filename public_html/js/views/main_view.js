@@ -3,26 +3,22 @@ define([
 	'jquery',
 	'backbone',
 	// Deps
-	'main_tmpl',
-], function($, Backbone, main_tmpl) {
+	'main_guest_tmpl',
+	'main_user_tmpl',
+	'logout',
+], function($, Backbone, main_guest_tmpl, main_user_tmpl, logout) {
 	var MainView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__main",
-		template: main_tmpl,
+		template_user: main_user_tmpl,
+		template_guest: main_guest_tmpl,
 		el: $('.screen__main'),
 		render: function() {
-			this.$el.html(this.template());
 			if( this.model.get("id") > 0) {
-				this.$el.find('.screen__main__button__game').show();
-				this.$el.find('.screen__main__button__scoreboard').show();
-				this.$el.find('.screen__main__button__login').hide();
-				this.$el.find('.screen__main__button__registration').hide();
+				this.$el.html(this.template_user());
 			}
 			else {
-				this.$el.find('.screen__main__button__game').hide();
-				this.$el.find('.screen__main__button__scoreboard').hide();
-				this.$el.find('.screen__main__button__login').show();
-				this.$el.find('.screen__main__button__registration').show();
+				this.$el.html(this.template_guest());
 			}
 		},
 		show: function() {
@@ -34,6 +30,13 @@ define([
 		initialize: function() {
 			this.render();
 			this.listenTo(this.model,'change', this.render);
+		},
+		events: {
+			"click .screen__toolbar__logout" : "logout"
+		},
+		logout: function(event) {
+			logout(event);
+			this.model.fetch();
 		}
 	});
 	return MainView;

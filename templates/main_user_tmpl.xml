@@ -3,4 +3,7 @@
 			<a href="#profile" class="btn screen__toolbar__profile">Profile</a>
 			<a href="/logout" class="btn screen__toolbar__logout">Logout</a>
 	</div>
+	<h2 class="screen__header">Main Menu</h2>
+	<a href="#scoreboard" class="btn btn-route">Score Board</a><br></br>
+	<a href="#game" class="btn btn-route">Start Game</a>
 </fest:template>

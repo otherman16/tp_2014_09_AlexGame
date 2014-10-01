@@ -1,17 +1,14 @@
 define([
     // Libs
     'jquery',
+    'validate',
     // Deps
-    'alert_tmpl',
-], function($, alert_tmpl){
+    'alert_view',
+], function($, validate, AlertView){
     return function(event){
-
-        event.preventDefault();
 
         var $page = $('.screen');
         var $form = $(event.currentTarget);
-
-        $page.find('.alert').remove();
 
         var data = {};
         $.each($form[0].elements, function(field_count, field){
@@ -21,25 +18,23 @@ define([
 
         $.ajax({
             url: $form.attr('action'),
-            // dataType: "application/x-www-form-urlencoded", - ??? если вернуть, то всегда выполняется error, несмотря на ответ 200 ???
             data: JSON.stringify(data),
             type: $form.attr('method'),
             beforeSend: function() {
-                $page.find('input[type=submit]').prop('disabled',true);
+                $form.find('input[type=submit]').prop('disabled',true);
+                this.alert = new AlertView();
             },
             success: function() {
-                $page.append(alert_tmpl);
-                $page.find('.alert span').text("Success");
-                $page.find('.alert').slideDown().delay(1000).slideUp();
+                this.alert.show('Success');
                 window.location.assign('/#');
+                return true;
             },
             error: function() {
-                $page.append(alert_tmpl);
-                $page.find('.alert span').text("Error");
-                $page.find('.alert').slideDown().delay(1000).slideUp();
+                this.alert.show('Error');
+                return false;
             },
             complete: function() {
-                $page.find('input[type=submit]').prop('disabled',false);
+                $form.find('input[type=submit]').prop('disabled',false);
             }
         })
     };

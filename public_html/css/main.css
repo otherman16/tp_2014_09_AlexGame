@@ -6,8 +6,8 @@ body {
 	text-align: center;
 	margin:0;
 	padding:0;
-	max-width:300px;
-	height:400px;
+	max-width:400px;
+	height:500px;
 	position:relative;
 }
 .screen__main,
@@ -28,7 +28,7 @@ body {
 	text-align: left;
 }
 
-.name-of-game{
+.screen__name{
 	margin:0;
 	padding:0;
 	background-color: #555555;
@@ -36,11 +36,11 @@ body {
 	width:100%;
 	height:40px;
 	color:#FFFFFF;
-	font-size:20pt;
+	font-size:22pt;
 	vertical-align: middle;
 }
 
-.header-of-screen{
+.screen__header{
 	margin:0;
 	padding:0;
 	margin-top: 20px;
@@ -49,7 +49,7 @@ body {
 	font-size: 18pt;
 }
 
-.screen__main__button{
+.btn-route{
 	border:none;
 	background-color:#555555;
 	color:#FFFFFF;
@@ -61,25 +61,6 @@ body {
 	padding-top:10px;
 }
 
-.screen__main__button__game,
-.screen__main__button__scoreboard,
-.screen__main__button__login,
-.screen__main__button__registration {
-	display:none;
-}
-
-.back_button{
-	border:none;
-	background-color:#555555;
-	color:#FFFFFF;
-	width:60px;
-	height:25px;
-	font-size:12pt;
-	position:absolute;
-	bottom:0;
-	left:0;
-	padding-top:5px;
-}
 .btn{
 	display:inline-block;
 	text-decoration: none;
@@ -100,6 +81,17 @@ input{
 	padding-left:10px;
 	font-weight:bold;
 }
+input.wrong{
+	border-color: red;
+}
+input.right{
+	border-color: green;
+}
+
+input:focus{
+	border-color:#1E90FF;
+	box-shadow:0 0 3px #1E90FF;
+}
 
 .reg-login{
 	border:none;
@@ -114,40 +106,59 @@ input{
 .alert{
 	position:absolute;
 	width:100%;
-	height:40px;
+	height:30px;
+	padding-top:10px;
 	top: 0;
 	background-color:#CCCCCC;
-	color:#000000;
-	font-size:10pt;
+	color:#555555;
+	font-size:12pt;
+	font-weight:bold;
 	display:none;
 }
 
-.toolbar{
-	position: absolute;
+.screen__toolbar{
 	margin:0;
 	width:100%;
-	height:20px;
+	height:0;
+	position:absolute;
+	top:0;
+}
+.screen__toolbar__profile,
+.screen__toolbar__logout{
+	position:absolute;
+	width:25%;
+	height:35px;
+	padding-top:5px;
 	background-color:#888888;
-	display:none;
-	top:40px;
-}
-.toolbar__tools{
-	padding:0;
-	margin:0;
-	list-style: none;
-	width:100%;
-	display:block;
-}
-.toolbar__tools li{
-	display:inline;
-}
-.toolbar__button{
 	color:#FFFFFF;
-	font-size: 12px;
+	font-size: 16pt;
 }
-.toolbar__tools__profile{
-	width:80%;
+.screen__toolbar__profile{
+	left:0;
 }
-.toolbar__tools__logout{
-	width:20%;
+.screen__toolbar__logout{
+	right:0;
+}
+
+.screen__scoreboard__table{
+	text-align: left;
+	font-weight: bold;
+	color:#555555;
+	margin:0 auto;
+	padding:0;
+	border-collapse: collapse;
+}
+
+.screen__scoreboard__table td,
+.screen__scoreboard__table th{
+	padding-left:30px;
+}
+
+.screen__scoreboard__table td:first-child,
+.screen__scoreboard__table th:first-child{
+	padding-left:0px;
+}
+
+.screen__scoreboard__table th{
+	border-bottom:1px solid #555555;
 }
