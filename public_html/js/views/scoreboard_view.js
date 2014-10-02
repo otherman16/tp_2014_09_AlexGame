@@ -7,21 +7,22 @@ define([
 	'score_collection',
 	// Tmpl
 	'scoreboard_tmpl',
-], function($, Backbone, logout, ScoreCollection, scoreboard_tmpl) {
+	// Models
+	'user_model'
+], function($, Backbone, logout, ScoreCollection, scoreboard_tmpl, UserModel) {
 	var ScoreboardView = Backbone.View.extend({
-		tagName: "div",
-		className: "screen__scoreboard",
 		template: scoreboard_tmpl,
 		el: $('.screen__scoreboard'),
 		render: function() {
 			this.$el.html(this.template(this.score_collection.toJSON()));
 		},
 		show: function() {
-			if( this.model.get("id") > 0 ) {
+			this.model.fetch();
+			if( this.model.isLogin() ) {
 				this.$el.show();
 			}
-			else {
-				window.location.assign("/#login");
+			else{
+				window.location.hash = "";
 			}
 		},
 		hide: function() {
@@ -40,7 +41,7 @@ define([
 				{"login":"cassandra","score":100},
 				{"login":"kate","score":1}
 			]);
-			this.render();
+			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
 			this.listenTo(this.score_collection,'change', this.render);
 		},
@@ -48,7 +49,7 @@ define([
 			"click .screen__toolbar__logout" : "logout"
 		},
 		logout: function(event) {
-			logout(event);
+			logout(event)
 		}
 	});
 	return ScoreboardView;

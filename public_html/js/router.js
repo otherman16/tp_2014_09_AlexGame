@@ -1,6 +1,6 @@
 define([
     // Libs
-    'backbone',
+    // 'backbone',
     // Views
     'main_view',
     'login_view',
@@ -8,9 +8,8 @@ define([
     'game_view',
     'scoreboard_view',
     'profile_view',
-    // Models
-    'user_model'
-], function(Backbone, MainView, LoginView, RegistrationView, GameView, ScoreboardView, ProfileView, UserModel) {
+], function(MainView, LoginView, RegistrationView, 
+                    GameView, ScoreboardView, ProfileView) {
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
@@ -45,16 +44,14 @@ define([
             this.profileView.show();
         },
         initialize: function() {
-            this.model = new UserModel();
-            this.mainView = new MainView({model: this.model});
-            this.gameView = new GameView({model: this.model});
-            this.loginView = new LoginView({model: this.model});
-            this.registrationView = new RegistrationView({model: this.model});
-            this.scoreboardView = new ScoreboardView({model: this.model});
-            this.profileView = new ProfileView({model: this.model});
+            this.mainView = new MainView();
+            this.gameView = new GameView();
+            this.loginView = new LoginView();
+            this.registrationView = new RegistrationView();
+            this.scoreboardView = new ScoreboardView();
+            this.profileView = new ProfileView();
         },
         hideAll: function() {
-            this.model.fetch();
             this.gameView.hide();
             this.scoreboardView.hide();
             this.loginView.hide();

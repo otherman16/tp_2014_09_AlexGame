@@ -7,8 +7,6 @@ define([
     return function(event){
 
         event.preventDefault();
-
-        var $page = $('.screen');
         var $btn = $(event.currentTarget);
 
         $.ajax({
@@ -20,11 +18,10 @@ define([
             },
             success: function() {
                 this.alert.show("Success Logout");
-                window.location.assign('/#');
+                window.location.hash = '';
             },
             error: function() {
                 this.alert.show("Wrong Logout");
-                $page.find('.alert').slideDown().delay(1000).slideUp();
             },
             complete: function() {
                 $btn.prop('disabled',false);

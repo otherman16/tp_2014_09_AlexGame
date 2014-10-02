@@ -4,32 +4,34 @@ define([
 	'backbone',
 	'validate',
 	// Tmpl
-	'registration_tmpl'
-], function($, Backbone, Validator, registration_tmpl) {
+	'registration_tmpl',
+	// Models
+	'user_model',
+	// Views
+	'alert_view',
+	'jquery.validate'
+], function($, Backbone, validate, registration_tmpl, UserModel, AlertView) {
 	var RegistrationView = Backbone.View.extend({
-		tagName: "div",
-		className: "screen__registration",
 		template: registration_tmpl,
 		el: $('.screen__registration'),
 		render: function() {
 			this.$el.html(this.template());
-			Validator.initialize(this.$el.find('form.registration'));
+			validate($('form'));
 		},
 		show: function() {
-			if( this.model.get("id") > 0 ) {
-				window.location.assign("/#");
-			}
-			else {
+			this.model.fetch();
+			if( !this.model.isLogin() ) {
 				this.$el.show();
-				Validator.initialize(this.$el.find('form.registration'));
+			}
+			else{
+				window.location.hash = "";
 			}
 		},
 		hide: function() {
 			this.$el.hide();
-			Validator.removeEvents(this.$el.find('form.registration'));
 		},
 		initialize: function() {
-			this.render();
+			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
 		}
 	});

@@ -19,15 +19,6 @@ body {
 .screen__profile {
 	display:none;
 }
-
-.screen__profile__info {
-	list-style: none;
-	font-size: 16pt;
-	font-weight: bold;
-	color: #555555;
-	text-align: left;
-}
-
 .screen__name{
 	margin:0;
 	padding:0;
@@ -48,74 +39,6 @@ body {
 	color:#555555;
 	font-size: 18pt;
 }
-
-.btn-route{
-	border:none;
-	background-color:#555555;
-	color:#FFFFFF;
-	width:200px;
-	height:35px;
-	margin:0 auto;
-	margin-bottom:15px;
-	font-size:14pt;
-	padding-top:10px;
-}
-
-.btn{
-	display:inline-block;
-	text-decoration: none;
-}
-.btn:hover{
-	cursor:default;
-}
-
-input{
-	border:1px solid #AAAAAA;
-	border-radius:5px;
-	background-color:#CCCCCC;
-	width:188px;
-	height:30px;
-	font-size:12pt;
-	color:#000000;
-	margin-bottom:10px;
-	padding-left:10px;
-	font-weight:bold;
-}
-input.wrong{
-	border-color: red;
-}
-input.right{
-	border-color: green;
-}
-
-input:focus{
-	border-color:#1E90FF;
-	box-shadow:0 0 3px #1E90FF;
-}
-
-.reg-login{
-	border:none;
-	border-radius: 0;
-	background-color:#555555;
-	color:#FFFFFF;
-	width:200px;
-	height:40px;
-	font-size:12pt;
-}
-
-.alert{
-	position:absolute;
-	width:100%;
-	height:30px;
-	padding-top:10px;
-	top: 0;
-	background-color:#CCCCCC;
-	color:#555555;
-	font-size:12pt;
-	font-weight:bold;
-	display:none;
-}
-
 .screen__toolbar{
 	margin:0;
 	width:100%;
@@ -162,3 +85,86 @@ input:focus{
 .screen__scoreboard__table th{
 	border-bottom:1px solid #555555;
 }
+.screen__profile__info {
+	list-style: none;
+	font-size: 16pt;
+	font-weight: bold;
+	color: #555555;
+	text-align: left;
+}
+
+.btn{
+	display:inline-block;
+	text-decoration: none;
+}
+.btn:hover{
+	cursor:default;
+}
+.btn-route{
+	border:none;
+	background-color:#555555;
+	color:#FFFFFF;
+	width:200px;
+	height:35px;
+	margin:0 auto;
+	margin-bottom:15px;
+	font-size:14pt;
+	padding-top:10px;
+}
+
+input{
+	border:1px solid #AAAAAA;
+	border-radius:5px;
+	background-color:#CCCCCC;
+	width:188px;
+	height:30px;
+	font-size:12pt;
+	color:#000000;
+	margin-bottom:10px;
+	padding-left:10px;
+	font-weight:bold;
+}
+input.invalid{
+	border-color:#B22222;
+	box-shadow:0 0 5px #B22222;
+}
+label.invalid{
+	font-style: italic;
+	color:#B22222;
+}
+input.valid{
+	border-color:#3CB371;
+	box-shadow:0 0 5px #3CB371;
+}
+label.valid{
+	color:#3CB371;
+}
+
+input:focus{
+	border-color:#1E90FF;
+	box-shadow:0 0 5px #1E90FF;
+}
+
+.reg-login{
+	border:none;
+	border-radius: 0;
+	background-color:#555555;
+	color:#FFFFFF;
+	width:200px;
+	height:40px;
+	font-size:12pt;
+}
+
+.alert{
+	position:absolute;
+	width:100%;
+	height:30px;
+	padding-top:10px;
+	top: 0;
+	background-color:#CCCCCC;
+	color:#555555;
+	font-size:12pt;
+	font-weight:bold;
+	display:none;
+}
+

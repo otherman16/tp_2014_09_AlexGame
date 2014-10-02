@@ -4,29 +4,30 @@ define([
 	'backbone',
 	'logout',
 	// Tmpl
-	'game_tmpl'
-], function($, Backbone, logout, game_tmpl) {
+	'game_tmpl',
+	// Models
+	'user_model'
+], function($, Backbone, logout, game_tmpl, UserModel) {
 	var GameView = Backbone.View.extend({
-		tagName: "div",
-		className: "screen__game",
 		template: game_tmpl,
 		el: $('.screen__game'),
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
 		},
 		show: function() {
-			if( this.model.get("id") > 0 ) {
+			this.model.fetch();
+			if( this.model.isLogin() ) {
 				this.$el.show();
 			}
-			else {
-				window.location.assign("/#login");
+			else{
+				window.location.hash = "";
 			}
 		},
 		hide: function() {
 			this.$el.hide();
 		},
 		initialize: function() {
-			this.render();
+			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
 		},
 		events: {

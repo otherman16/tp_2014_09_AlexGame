@@ -4,32 +4,34 @@ define([
 	'backbone',
 	'validate',
 	// Tmpl
-	'login_tmpl'
-], function($, Backbone, Validator, login_tmpl) {
+	'login_tmpl',
+	// Models
+	'user_model',
+	// Views
+	'alert_view',
+	'jquery.validate'
+], function($, Backbone, validate, login_tmpl, UserModel, AlertView) {
 	var LoginView = Backbone.View.extend({
-		tagName: "div",
-		className: "screen__login",
 		template: login_tmpl,
 		el: $('.screen__login'),
 		render: function() {
 			this.$el.html(this.template());
-			Validator.initialize(this.$el.find('form.login'));
+			validate($('form'));
 		},
 		show: function() {
-			if( this.model.get("id") > 0 ) {
-				window.location.assign("/#");
-			}
-			else {
+			this.model.fetch();
+			if( !this.model.isLogin() ) {
 				this.$el.show();
-				Validator.initialize(this.$el.find('form.login'));
+			}
+			else{
+				window.location.hash = "";
 			}
 		},
 		hide: function() {
 			this.$el.hide();
-			Validator.removeEvents(this.$el.find('form.login'));
 		},
 		initialize: function() {
-			this.render();
+			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
 		}
 	});

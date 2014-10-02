@@ -5,9 +5,7 @@ define([
 	'underscore'
 ], function($, Backbone, _) {
 	var AlertView = Backbone.View.extend({
-		tagName: "div",
-		className: "alert",
-		template: _.template("<span><%= message %></span>"),
+		template: _.template("<label><%= message %></label>"),
 		el: $('.alert'),
 		render: function(message) {
 			this.$el.html(this.template({"message":message}));

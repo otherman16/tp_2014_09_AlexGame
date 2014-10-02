@@ -8,6 +8,7 @@ requirejs.config({
         "my_ajax" : "lib/my_ajax",
         "logout" : "lib/logout",
         "validate" : "lib/validate",
+        "jquery.validate" : "lib/jquery.validate",
         // Templates
         "game_tmpl" : "tmpl/game_tmpl",
         "login_tmpl" : "tmpl/login_tmpl",
@@ -37,12 +38,12 @@ requirejs.config({
             deps: ['jquery', 'underscore'],
             exports: 'Backbone'
         },
-        'jquery' : {
-            exports: '$'
-        },
         'underscore' : {
             deps: ['jquery'],
             exports: '_'
+        },
+        'jquery.validate' : {
+            deps: ['jquery'],
         }
     }
 });

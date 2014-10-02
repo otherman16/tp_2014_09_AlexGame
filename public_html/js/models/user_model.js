@@ -4,12 +4,15 @@ define([
 ], function(Backbone) {
 	var UserModel = Backbone.Model.extend({
 		defaults: {
-			id: "",
+			id: 0,
 			login: "",
 			email: "",
-			score: ""
+			score: 0
 		},
-		url: "/get_user"
+		url: "/get_user",
+		isLogin: function() {
+			return (this.id > 0);
+		}
 	});
 	return UserModel;
 })
