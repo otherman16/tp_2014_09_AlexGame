@@ -2,11 +2,12 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	// Deps
-	'scoreboard_tmpl',
 	'logout',
+	// Collections
 	'score_collection',
-], function($, Backbone, scoreboard_tmpl, logout, ScoreCollection) {
+	// Tmpl
+	'scoreboard_tmpl',
+], function($, Backbone, logout, ScoreCollection, scoreboard_tmpl) {
 	var ScoreboardView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__scoreboard",

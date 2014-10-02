@@ -2,10 +2,10 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	// Deps
-	'game_tmpl',
 	'logout',
-], function($, Backbone, game_tmpl, logout) {
+	// Tmpl
+	'game_tmpl'
+], function($, Backbone, logout, game_tmpl) {
 	var GameView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__game",

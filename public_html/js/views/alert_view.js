@@ -2,8 +2,7 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	'underscore',
-	// Deps
+	'underscore'
 ], function($, Backbone, _) {
 	var AlertView = Backbone.View.extend({
 		tagName: "div",

@@ -2,7 +2,7 @@ define([
     // Libs
     'jquery',
     'validate',
-    // Deps
+    // Views
     'alert_view',
 ], function($, validate, AlertView){
     return function(event){

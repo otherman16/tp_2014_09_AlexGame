@@ -1,7 +1,6 @@
 define([
 	// Libs
-	'backbone',
-	// Deps
+	'backbone'
 ], function(Backbone) {
 	var ScoreModel = Backbone.Model.extend({
 		defaults: {

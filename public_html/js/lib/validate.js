@@ -1,10 +1,10 @@
 define([
 	// Libs
 	'jquery',
-	// Deps
-	'alert_view',
 	'my_ajax',
-], function($, AlertView, my_ajax) {
+	// Views
+	'alert_view',
+], function($, my_ajax, AlertView) {
 	var Validator = {
 		initialize: function(form) {
 			this.$el = $(form);
@@ -17,6 +17,10 @@ define([
 				        else {
 				        	$(field).addClass("right");
 				        }
+	            	});
+	            	$(field).on("focusin", function() {
+				        $(field).removeClass("wrong");
+				        $(field).removeClass("right");
 	            	});
 	            }
         	});

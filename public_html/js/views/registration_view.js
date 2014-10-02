@@ -2,10 +2,10 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	// Deps
-	'registration_tmpl',
 	'validate',
-], function($, Backbone, registration_tmpl, Validator) {
+	// Tmpl
+	'registration_tmpl'
+], function($, Backbone, Validator, registration_tmpl) {
 	var RegistrationView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__registration",

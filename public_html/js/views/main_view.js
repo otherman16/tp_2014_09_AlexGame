@@ -2,11 +2,11 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	// Deps
-	'main_guest_tmpl',
-	'main_user_tmpl',
 	'logout',
-], function($, Backbone, main_guest_tmpl, main_user_tmpl, logout) {
+	// Tmpl
+	'main_guest_tmpl',
+	'main_user_tmpl'
+], function($, Backbone, logout, main_guest_tmpl, main_user_tmpl) {
 	var MainView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__main",

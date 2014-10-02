@@ -1,7 +1,6 @@
 define([
 	// Libs
-	'backbone',
-	// Deps
+	'backbone'
 ], function(Backbone) {
 	var UserModel = Backbone.Model.extend({
 		defaults: {

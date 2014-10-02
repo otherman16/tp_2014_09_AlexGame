@@ -1,7 +1,7 @@
 define([
 	// Libs
 	'backbone',
-	// Deps,
+	// Models
 	'score_model',
 ], function(Backbone, ScoreModel) {
 	var ScoreCollection = Backbone.Collection.extend({

@@ -2,10 +2,10 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	// Deps
-	'login_tmpl',
 	'validate',
-], function($, Backbone, login_tmpl, Validator) {
+	// Tmpl
+	'login_tmpl'
+], function($, Backbone, Validator, login_tmpl) {
 	var LoginView = Backbone.View.extend({
 		tagName: "div",
 		className: "screen__login",

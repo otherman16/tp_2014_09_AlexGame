@@ -1,7 +1,7 @@
 define([
     // Libs
     'backbone',
-    // Deps
+    // Views
     'main_view',
     'login_view',
     'registration_view',
@@ -9,7 +9,7 @@ define([
     'scoreboard_view',
     'profile_view',
     // Models
-    'user_model',
+    'user_model'
 ], function(Backbone, MainView, LoginView, RegistrationView, GameView, ScoreboardView, ProfileView, UserModel) {
     var Router = Backbone.Router.extend({
         routes: {
