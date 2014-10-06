@@ -12,7 +12,7 @@ public class AccountService {
     private Map<Integer, UserProfile> sessionList = new HashMap<Integer, UserProfile>();
     private Long lastID = 0L;
     public AccountService() {
-        UserProfile user = new UserProfile("admin","admin@admin.ru,"admin");
+        UserProfile user = new UserProfile("admin","admin@admin.ru","admin");
         this.addUser(user);
     }
     // Генерация уникального ID
