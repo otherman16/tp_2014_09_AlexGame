@@ -24,6 +24,7 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-rewrite:9.1.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-client:9.1.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.18" level="project" />
   </component>
 </module>
 

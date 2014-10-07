@@ -19,8 +19,9 @@ public class GetUserServlet extends HttpServlet {
         this.service = service;
     }
     public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
-        UserProfile user = service.getUserBySession(request.getSession().toString());
+                      HttpServletResponse response) throws ServletException, IOException, NullPointerException {
+//        UserProfile user = service.getUserBySession(request.getSession().toString());
+        UserProfile user = service.getUserBySession_DB(request.getSession());
         if ( user==null ) {
             user = new UserProfile("Guest","","");
         }

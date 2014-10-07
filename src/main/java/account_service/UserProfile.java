@@ -16,4 +16,11 @@ public class UserProfile {
         this.password = password;
         this.score = 0L;
     }
+    public UserProfile(Long id, String login, String email, String password, Long score) {
+        this.id = id;
+        this.login = login;
+        this.email = email;
+        this.password = password;
+        this.score = score;
+    }
 }

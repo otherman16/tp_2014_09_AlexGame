@@ -51,6 +51,12 @@
             <artifactId>json</artifactId>
             <version>20090211</version>
         </dependency>
+        <!-- ORACLE database driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.18</version>
+        </dependency>
     </dependencies>
 
 </project>

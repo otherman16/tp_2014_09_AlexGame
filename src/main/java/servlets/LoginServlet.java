@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 /**
  * Created by Алексей on 23.09.2014.
@@ -33,14 +34,20 @@ public class LoginServlet extends HttpServlet {
             String email = jsonObj.getString("email");
             String password = jsonObj.getString("password");
             UserProfile user = new UserProfile("",email,password);
-            if (service.authUser(user, request.getSession())) {
+//            if (service.authUser(user, request.getSession())) {
+//                response.setStatus(HttpServletResponse.SC_OK);
+//            }
+//            else {
+//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//            }
+            if (service.authUser_DB(user, request.getSession())) {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
             else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

@@ -5,7 +5,8 @@ define([
 	'score_model',
 ], function(Backbone, ScoreModel) {
 	var ScoreCollection = Backbone.Collection.extend({
-		model: ScoreModel
+		model: ScoreModel,
+		url: "/get_scores"
 	})
 	return ScoreCollection;
 })

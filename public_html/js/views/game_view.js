@@ -15,20 +15,19 @@ define([
 			this.$el.html(this.template(this.model.toJSON()));
 		},
 		show: function() {
-			this.model.fetch();
 			if( this.model.isLogin() ) {
-				this.$el.show();
+				this.$el.delay(300).fadeIn(300);
 			}
 			else{
 				window.location.hash = "";
 			}
 		},
 		hide: function() {
-			this.$el.hide();
+			this.$el.fadeOut(300);
 		},
 		initialize: function() {
-			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
+			this.render();
 		},
 		events: {
 			"click .screen__toolbar__logout" : "logout"

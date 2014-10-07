@@ -22,15 +22,14 @@ define([
 			}
 		},
 		show: function() {
-			this.model.fetch();
-			this.$el.show();
+			this.$el.delay(300).fadeIn(300);
 		},
 		hide: function() {
-			this.$el.hide();
+			this.$el.fadeOut(300);
 		},
 		initialize: function() {
-			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
+			this.render();
 		},
 		events: {
 			"click .screen__toolbar__logout" : "logout",

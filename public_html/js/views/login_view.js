@@ -8,31 +8,29 @@ define([
 	// Models
 	'user_model',
 	// Views
-	'alert_view',
 	'jquery.validate'
-], function($, Backbone, validate, login_tmpl, UserModel, AlertView) {
+], function($, Backbone, validate, login_tmpl, UserModel) {
 	var LoginView = Backbone.View.extend({
 		template: login_tmpl,
 		el: $('.screen__login'),
 		render: function() {
 			this.$el.html(this.template());
-			validate($('form'));
 		},
 		show: function() {
-			this.model.fetch();
 			if( !this.model.isLogin() ) {
-				this.$el.show();
+				this.$el.delay(300).fadeIn(300);
+				validate($('form.login'));
 			}
 			else{
 				window.location.hash = "";
 			}
 		},
 		hide: function() {
-			this.$el.hide();
+			this.$el.fadeOut(300);
 		},
 		initialize: function() {
-			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
+			this.render();
 		}
 	});
 	return LoginView;

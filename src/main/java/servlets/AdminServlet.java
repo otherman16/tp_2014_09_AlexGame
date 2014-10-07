@@ -20,7 +20,8 @@ public class AdminServlet extends HttpServlet {
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        UserProfile user = service.getUserBySession(request.getSession().toString());
+//        UserProfile user = service.getUserBySession(request.getSession().toString());
+        UserProfile user = service.getUserBySession_DB(request.getSession());
         if (user != null && user.login.equals("admin")) {
             String timeString = request.getParameter("shutdown");
             if (timeString != null) {
@@ -36,8 +37,8 @@ public class AdminServlet extends HttpServlet {
             } else {
                 response.setContentType("text/html;charset=utf-8");
                 response.getWriter().println("<div>Сервер Epic Game:<br/>Зарегестрированных пользователей: " +
-                        service.numberOfRegisteredUsers() + "<br/>Количество пользователей Online: " +
-                        service.numberOfAuthUsers() + "<br/>" +
+                        service.numberOfRegisteredUsers_DB() + "<br/>Количество пользователей Online: " +
+                        service.numberOfAuthUsers_DB() + "<br/>" +
                         "<form action=\"/admin\" method=\"get\">" +
                         "<label for=\"shutdown\">Задайте время остановки сервера в мс</label>" +
                         "<input id=\"shutdown\" name=\"shutdown\" type=\"text\" value=\"1000\"><br/>" +
