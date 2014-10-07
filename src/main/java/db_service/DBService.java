@@ -26,7 +26,7 @@ public class DBService {
 //            this.createDBAndUser();
             this.doDBConnection();
             this.db_statement = db_connection.createStatement();
-//            this.createUserTable();
+            this.createUserTable();
             this.createSessionListTable();
             System.out.println("Connection to DB was successful!");
         } catch (NullPointerException e) {
@@ -84,9 +84,7 @@ public class DBService {
 // Создать таблицу "user" в базе "alexgame_db"
     private void createUserTable() {
         try {
-            String createTableSQL = "DROP TABLE IF EXISTS user;";
-            db_statement.execute(createTableSQL);
-            createTableSQL = "CREATE TABLE IF NOT EXISTS USER("
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS USER("
                             + "id INT(9) UNSIGNED NOT NULL AUTO_INCREMENT, "
                             + "login VARCHAR(20) NOT NULL DEFAULT \"guest\", "
                             + "email VARCHAR(20) NOT NULL DEFAULT \"guest\", "
