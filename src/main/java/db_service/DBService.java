@@ -79,7 +79,7 @@ public class DBService {
 // Создать таблицу "user" в базе "alexgame_db"
     private void createUserTable() {
         try {
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS USER("
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS user("
                             + "id INT(9) UNSIGNED NOT NULL AUTO_INCREMENT, "
                             + "login VARCHAR(20) NOT NULL DEFAULT \"guest\", "
                             + "email VARCHAR(20) NOT NULL DEFAULT \"guest\", "
@@ -100,7 +100,7 @@ public class DBService {
         try {
             String createTableSQL = "DROP TABLE IF EXISTS session_list;";
             db_statement.execute(createTableSQL);
-            createTableSQL = "CREATE TABLE IF NOT EXISTS SESSION_LIST("
+            createTableSQL = "CREATE TABLE IF NOT EXISTS session_list("
                             + "session_id VARCHAR(30) NOT NULL DEFAULT \"\", "
                             + "user_id INT(9) UNSIGNED NOT NULL DEFAULT 0, "
                             + "PRIMARY KEY HASH(session_id), "
