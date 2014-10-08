@@ -18,8 +18,8 @@ public class AccountService {
     private Map<Integer, UserProfile> sessionList = new HashMap<Integer, UserProfile>();
     private Long lastID = 0L;
     public AccountService() {
-        this.dbService = new DBService("jdbc:mysql://localhost/alexgame_db","alexgame_user","alexgame_user");
-//        this.addUser_DB(new UserProfile(1L,"admin","admin@admin.ru","admin",1000L));
+        this.dbService = new DBService("jdbc:mysql://localhost/g06_alexgame_db","alexgame_user","alexgame_user");
+        this.addUser_DB(new UserProfile(1L,"admin","admin@admin.ru","admin",1000L));
     }
     // Генерация уникального ID
     private Long getNewId() {
@@ -138,10 +138,10 @@ public class AccountService {
     }
     // Запомнить пользователя в Карту сессий
     private boolean rememberUser_DB(UserProfile user, HttpSession session) {
-        if( !this.dbService.hasUserBySessionHashCode(session.toString().hashCode()) ) {
+        if( !this.dbService.hasUserBySessionHashCode(session.getId()) ) {
             UserProfile _user = this.dbService.getUserByEmail(user.email);
             session.setAttribute("userId", _user.id);
-            return this.dbService.addSession(session.toString().hashCode(), _user.id);
+            return this.dbService.addSession(session.getId(), _user.id);
         }
         else {
             return false;
@@ -153,8 +153,8 @@ public class AccountService {
     }
     // Получить профиль пользователя по идентификатору сессии
     public UserProfile getUserBySession_DB(HttpSession session) {
-        if ( this.dbService.hasUserBySessionHashCode(session.toString().hashCode()) ) {
-            return this.dbService.getUserBySessionHashCode(session.toString().hashCode());
+        if ( this.dbService.hasUserBySessionHashCode(session.getId()) ) {
+            return this.dbService.getUserBySessionHashCode(session.getId());
         }
         else {
             return null;
@@ -166,7 +166,7 @@ public class AccountService {
     }
     // Logout пользователя
     public boolean logoutUser_DB(HttpSession session) {
-        if (this.dbService.hasUserBySessionHashCode(session.toString().hashCode()) && this.dbService.removeSessionFromSessionList(session.toString().hashCode())) {
+        if (this.dbService.hasUserBySessionHashCode(session.getId()) && this.dbService.removeSessionFromSessionList(session.getId())) {
             session.invalidate();
             return true;
         }

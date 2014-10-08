@@ -23,7 +23,6 @@ public class DBService {
         this.db_password = db_password;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-//            this.createDBAndUser();
             this.doDBConnection();
             this.db_statement = db_connection.createStatement();
             this.createUserTable();
@@ -53,19 +52,15 @@ public class DBService {
         try {
             root_db_connection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "root");
             Statement db_statement = root_db_connection.createStatement();
-            String sqlStatement = "DROP DATABASE IF EXISTS alexgame_db;";
+            String sqlStatement = "DROP DATABASE IF EXISTS g06_alexgame_db;";
             db_statement.execute(sqlStatement);
-            System.out.println(sqlStatement + " was successful");
-            sqlStatement = "DROP USER 'alexgame_user'@'localhost';";
+            sqlStatement = "DROP USER 'alexgame_user'@'127.0.0.1';";
             db_statement.execute(sqlStatement);
-            System.out.println(sqlStatement + " was successful");
-            sqlStatement = "CREATE DATABASE IF NOT EXISTS alexgame_db CHARACTER SET utf8;";
+            sqlStatement = "CREATE DATABASE IF NOT EXISTS g06_alexgame_db CHARACTER SET utf8;";
             db_statement.execute(sqlStatement);
-            System.out.println(sqlStatement + " was successful");
-            sqlStatement = "CREATE USER 'alexgame_user'@'localhost' IDENTIFIED BY 'alexgame_user';";
+            sqlStatement = "CREATE USER 'alexgame_user'@'127.0.0.1' IDENTIFIED BY 'alexgame_user';";
             db_statement.execute(sqlStatement);
-            System.out.println(sqlStatement + " was successful");
-            sqlStatement = "GRANT ALL ON alexgame_db.* TO 'alexgame_user'@'localhost';";
+            sqlStatement = "GRANT ALL ON g06_alexgame_db.* TO 'alexgame_user'@'127.0.0.1';";
             db_statement.execute(sqlStatement);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -90,8 +85,9 @@ public class DBService {
                             + "email VARCHAR(20) NOT NULL DEFAULT \"guest\", "
                             + "password VARCHAR(20) NOT NULL DEFAULT \"guest\", "
                             + "score INT(6) UNSIGNED NOT NULL DEFAULT 0, "
-                            + "PRIMARY KEY (id) "
-                            + ")";
+                            + "PRIMARY KEY (id), "
+                            + "KEY (email)"
+                            + ");";
             db_statement.execute(createTableSQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -105,10 +101,13 @@ public class DBService {
             String createTableSQL = "DROP TABLE IF EXISTS session_list;";
             db_statement.execute(createTableSQL);
             createTableSQL = "CREATE TABLE IF NOT EXISTS SESSION_LIST("
-                            + "session_hashCode INT(20) NOT NULL DEFAULT 0, "
+                            + "session_id VARCHAR(30) NOT NULL DEFAULT \"\", "
                             + "user_id INT(9) UNSIGNED NOT NULL DEFAULT 0, "
-                            + "PRIMARY KEY (session_hashCode) "
-                            + ")";
+                            + "PRIMARY KEY HASH(session_id), "
+                            + "FOREIGN KEY (user_id) REFERENCES user(id) "
+                            + "ON UPDATE CASCADE "
+                            + "ON DELETE CASCADE "
+                            + ") ENGINE=MEMORY;";
             db_statement.execute(createTableSQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -131,8 +130,8 @@ public class DBService {
         }
     }
 // Добавить запись в таблице "session_list"
-    public boolean addSession(Integer session_hashCode, Long user_id) {
-        String sqlStatement = "INSERT INTO session_list (session_hashCode,user_id) VALUES (" + session_hashCode + "," + user_id + ");";
+    public boolean addSession(String session_id, Long user_id) {
+        String sqlStatement = "INSERT INTO session_list (session_id,user_id) VALUES (\"" + session_id + "\"," + user_id + ");";
         try {
             db_statement.execute(sqlStatement);
             return true;
@@ -163,9 +162,9 @@ public class DBService {
         }
     }
 // Проверить наличие сессии по session_hashCode в таблице "session_list"
-    public boolean hasUserBySessionHashCode(Integer findSession_hashCode) {
+    public boolean hasUserBySessionHashCode(String findSession_id) {
         try {
-            String sqlStatement = "SELECT COUNT(*) as count FROM session_list WHERE session_hashCode = " + findSession_hashCode + ";";
+            String sqlStatement = "SELECT COUNT(*) as count FROM session_list WHERE session_id = \"" + findSession_id + "\";";
             ResultSet resultSet = db_statement.executeQuery(sqlStatement);
             Boolean count = false;
             while (resultSet.next()) {
@@ -207,11 +206,11 @@ public class DBService {
         }
     }
 // Получить профиль пользователя по session_hashCode из таблицы "session_list"
-    public UserProfile getUserBySessionHashCode(Integer findSession_hashCode) {
+    public UserProfile getUserBySessionHashCode(String findSession_id) {
         try {
             String sqlStatement = "SELECT user.id, user.login, user.email, user.password, user.score FROM user " +
                                     "JOIN session_list ON user.id = session_list.user_id " +
-                                    "WHERE session_list.session_hashCode = " + findSession_hashCode + ";";
+                                    "WHERE session_list.session_id = \"" + findSession_id + "\";";
             ResultSet resultSet = db_statement.executeQuery(sqlStatement);
             Long id = 0l;
             String login = "Guest";
@@ -235,10 +234,10 @@ public class DBService {
         }
     }
 // Удалить запись из таблицы "session_list" по session_hashCode
-    public boolean removeSessionFromSessionList(Integer session_hashCode) {
+    public boolean removeSessionFromSessionList(String session_id) {
         try {
             String sqlStatement = "DELETE FROM session_list " +
-                                    "WHERE session_hashCode = " + session_hashCode + ";";
+                                    "WHERE session_id = \"" + session_id + "\";";
             db_statement.execute(sqlStatement);
             return true;
         } catch (SQLException e) {
