@@ -23,7 +23,13 @@ public class LogoutServlet extends HttpServlet {
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        if (service.logoutUser(request.getSession())) {
+//        if (service.logoutUser(request.getSession())) {
+//            response.setStatus(HttpServletResponse.SC_OK);
+//        }
+//        else {
+//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//        }
+        if (service.logoutUser_DB(request.getSession())) {
             response.setStatus(HttpServletResponse.SC_OK);
         }
         else {

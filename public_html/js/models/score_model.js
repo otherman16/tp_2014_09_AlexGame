@@ -6,8 +6,7 @@ define([
 		defaults: {
 			login: "",
 			score: 0
-		},
-		urlRoot: "/get_user"
+		}
 	});
 	return ScoreModel;
 })

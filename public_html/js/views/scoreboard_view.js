@@ -17,16 +17,16 @@ define([
 			this.$el.html(this.template(this.score_collection.toJSON()));
 		},
 		show: function() {
-			this.model.fetch();
+			// this.score_collection.fetch();  // ????? два запроса сразу и поэтому виснет???
 			if( this.model.isLogin() ) {
-				this.$el.show();
+				this.$el.delay(300).fadeIn(300);
 			}
 			else{
 				window.location.hash = "";
 			}
 		},
 		hide: function() {
-			this.$el.hide();
+			this.$el.fadeOut(300);
 		},
 		initialize: function() {
 			this.score_collection = new ScoreCollection([
@@ -41,9 +41,9 @@ define([
 				{"login":"cassandra","score":100},
 				{"login":"kate","score":1}
 			]);
-			this.model = new UserModel();
 			this.listenTo(this.model,'change', this.render);
 			this.listenTo(this.score_collection,'change', this.render);
+			this.render();
 		},
 		events: {
 			"click .screen__toolbar__logout" : "logout"

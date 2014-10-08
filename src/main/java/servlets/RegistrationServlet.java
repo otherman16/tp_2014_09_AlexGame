@@ -35,14 +35,20 @@ public class RegistrationServlet extends HttpServlet {
             String email = jsonObj.getString("email");
             String password = jsonObj.getString("password");
             UserProfile user = new UserProfile(login,email,password);
-            if (service.registerUser(user, request.getSession())) {
+//            if (service.registerUser(user, request.getSession())) {
+//                response.setStatus(HttpServletResponse.SC_OK);
+//            }
+//            else {
+//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//            }
+            if (service.registerUser_DB(user, request.getSession())) {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
             else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
