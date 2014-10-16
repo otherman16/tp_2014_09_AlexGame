@@ -3,4 +3,8 @@
 			<a href="#profile" class="btn screen__toolbar__profile">Profile</a>
 			<a href="/logout" class="btn screen__toolbar__logout">Logout</a>
 	</div>
+    <div class ="screen__canvas">
+        <canvas id="myCanvas" width="400" height="500">
+            Your browser does not support the HTML5 canvas tag.</canvas>
+    </div>
 </fest:template>

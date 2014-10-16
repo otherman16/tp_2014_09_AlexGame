@@ -11,29 +11,36 @@ public class AccountServiceAnotherTest extends TestCase {
     // mock - для того, чтобы имитировать сессию.
     HttpSession httpSession = Mockito.mock(HttpSession.class);
 
-    @Test
-    public void testNumberOfRegisterUserOk() throws Exception {
-        Integer numberOfRegisteredUsers = service.numberOfRegisteredUsers();
-        UserProfile user = new UserProfile("lexa", "lexa@lexa.ru", "lexa");
-        service.registerUser(user, httpSession);
-        numberOfRegisteredUsers++;
-        Assert.assertEquals("opps", numberOfRegisteredUsers, service.numberOfRegisteredUsers());
+    String login = "test";
+    String email = "test@test.ru";
+    String pass = "test";
+    UserProfile user = new UserProfile(login, email, pass);
+
+    @Before
+    public void setUp () {
+        service.deleteUser_DB(email);
     }
 
-    @Test
-    public void testNumberOfRegisterUserFail() throws Exception {
-        Integer numberOfRegisteredUsers = service.numberOfRegisteredUsers();
-        UserProfile user = new UserProfile("lexa", "lexa@lexa.ru", "lexa");
-        service.registerUser(user, httpSession);
-        Assert.assertNotEquals("opps", numberOfRegisteredUsers, service.numberOfRegisteredUsers());
+    @After
+    public void tearDown() throws Exception {
+        boolean result;
+        try {
+            if (service.deleteUser_DB(email)) {
+                result = true;
+            }
+            else
+                result = false;
+        } catch (Exception e) {
+            result = false;
+        }
+        Assert.assertTrue("delete user Error", result);
     }
 
     @Test
     public void testRegisterUserOk() throws Exception {
         boolean result;
-        UserProfile user = new UserProfile("lexa", "lexa@lexa.ru", "lexa");
         try {
-            if ( service.registerUser(user, httpSession) ) {
+            if ( service.registerUser_DB(user, httpSession) ) {
                 result = true;
             }
             else
@@ -47,9 +54,9 @@ public class AccountServiceAnotherTest extends TestCase {
     @Test
     public void testRegisterUserFail() throws Exception {
         boolean result;
-        UserProfile user = new UserProfile("lexa", "lexa@lexa.ru", "lexa");
         try {
-            if ( !service.registerUser(user, httpSession) ) {
+            service.registerUser_DB(user, httpSession);
+            if ( service.registerUser_DB(user, httpSession) ) {
                 result = false;
             }
             else

@@ -167,6 +167,7 @@ public class DBService {
             String sqlStatement = "SELECT COUNT(*) as count FROM session_list WHERE session_id = \"" + findSession_id + "\";";
             ResultSet resultSet = db_statement.executeQuery(sqlStatement);
             Boolean count = false;
+            // что здесь в resulSet. Зачем while?
             while (resultSet.next()) {
                 count = resultSet.getBoolean("count");
             }
@@ -248,6 +249,23 @@ public class DBService {
             return false;
         }
     }
+
+// Удалить пользователя из user по email. Нужно для тестов.
+    public boolean deleteUserFromUser(String email) {
+        try {
+            String sqlStatement = "DELETE FROM user " +
+                    "WHERE email = \"" + email+ "\";";
+            db_statement.execute(sqlStatement);
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
 // Получить количество записей в таблице "user"
     public Integer getCountUser() {
         try {

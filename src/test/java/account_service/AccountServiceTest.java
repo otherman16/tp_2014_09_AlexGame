@@ -17,6 +17,6 @@ public class AccountServiceTest {
     @Test
     public void testIntialRegisterUser() throws Exception {
         Assert.assertEquals("Fail to initialzie admin. One admin expected in numberOfRegisterUser",
-                1, (int)service.numberOfRegisteredUsers());
+                1, (int)service.numberOfRegisteredUsers_DB());
     }
 }

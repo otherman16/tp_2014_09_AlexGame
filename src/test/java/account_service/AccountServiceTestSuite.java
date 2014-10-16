@@ -11,6 +11,6 @@ import org.junit.runners.Suite;
 @RunWith(Categories.class)
 //Categories — попытка организовать тесты в категории(группы).
 //@Categories.IncludeCategory(AccountService.class)
-@Suite.SuiteClasses( { AccountServiceAnotherTest.class, AccountServiceTest.class })
+@Suite.SuiteClasses( { AccountServiceAnotherTest.class, AccountServiceAuthTest.class })
 public class AccountServiceTestSuite {
 }

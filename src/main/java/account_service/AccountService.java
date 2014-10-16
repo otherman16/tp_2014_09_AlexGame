@@ -21,6 +21,7 @@ public class AccountService {
         this.dbService = new DBService("jdbc:mysql://localhost/g06_alexgame_db","alexgame_user","alexgame_user");
         this.addUser_DB(new UserProfile(1L,"admin","admin@admin.ru","admin",1000L));
     }
+    /*
     // Генерация уникального ID
     private Long getNewId() {
         return ++lastID;
@@ -111,6 +112,7 @@ public class AccountService {
     public Integer numberOfAuthUsers() {
         return sessionList.size();
     }
+    */
     //
     //
     //
@@ -184,5 +186,10 @@ public class AccountService {
     // Получить TOP 10
     public ArrayList<UserProfile> getTop10() {
         return this.dbService.getTop10();
+    }
+
+    // удалить пользователя по email
+    public boolean deleteUser_DB(String email) {
+        return this.dbService.deleteUserFromUser(email);
     }
 }
