@@ -23,4 +23,32 @@ public class UserProfile {
         this.password = password;
         this.score = score;
     }
+    public String getLogin() {
+        return login;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public Long getScore() {
+        return score;
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public void setScore(Long score) {
+        this.score = score;
+    }
 }

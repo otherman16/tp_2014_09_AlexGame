@@ -125,13 +125,13 @@ public class AccountService {
 
     // Добавление нового пользователя в базу
     private boolean addUser_DB(UserProfile user) {
-        return !this.dbService.hasUserByEmail(user.email) && this.dbService.addUser(user);
+        return !this.dbService.hasUserByEmail(user.getEmail()) && this.dbService.addUser(user);
     }
     // Проверка корректности введенных пользователем данных
     private boolean isCorUserData_DB(UserProfile user) {
-        if (this.dbService.hasUserByEmail(user.email)) {
-            UserProfile _user = this.dbService.getUserByEmail(user.email);
-            return user.password.equals(_user.password);
+        if (this.dbService.hasUserByEmail(user.getEmail())) {
+            UserProfile _user = this.dbService.getUserByEmail(user.getEmail());
+            return user.getPassword().equals(_user.getPassword());
         }
         else {
             return false;
@@ -140,9 +140,9 @@ public class AccountService {
     // Запомнить пользователя в Карту сессий
     private boolean rememberUser_DB(UserProfile user, HttpSession session) {
         if( !this.dbService.hasUserBySessionHashCode(session.getId()) ) {
-            UserProfile _user = this.dbService.getUserByEmail(user.email);
-            session.setAttribute("userId", _user.id);
-            return this.dbService.addSession(session.getId(), _user.id);
+            UserProfile _user = this.dbService.getUserByEmail(user.getEmail());
+            session.setAttribute("userId", _user.getId());
+            return this.dbService.addSession(session.getId(), _user.getId());
         }
         else {
             return false;
