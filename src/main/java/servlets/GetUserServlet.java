@@ -13,7 +13,7 @@ import org.json.*;
 /**
  * Created by Алексей on 23.09.2014.
  */
-public class GetUserServlet extends HttpServlet {
+public class GetUserServlet extends HttpServlet implements Frontend {
     private AccountService service;
     public GetUserServlet(AccountService service) {
         this.service = service;
@@ -25,8 +25,7 @@ public class GetUserServlet extends HttpServlet {
         if ( user==null ) {
             user = new UserProfile("Guest","","");
         }
-        String[] jsnKeys = {"id","email","login","score"};
-        JSONObject jsnObj = new JSONObject(user, jsnKeys);
+        JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
         response.getWriter().println(jsnObj.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }

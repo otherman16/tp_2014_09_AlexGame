@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 
 /**
  * Created by Алексей on 23.09.2014.
  */
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet implements Frontend {
     private AccountService service;
     public LoginServlet(AccountService service) {
         this.service = service;
@@ -41,6 +40,7 @@ public class LoginServlet extends HttpServlet {
 //                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 //            }
             if (service.authUser_DB(user, request.getSession())) {
+                System.out.append("OK");
                 response.setStatus(HttpServletResponse.SC_OK);
             }
             else {

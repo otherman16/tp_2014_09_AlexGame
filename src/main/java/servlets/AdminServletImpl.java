@@ -1,21 +1,20 @@
 package servlets;
 
-import account_service.AccountService;
+import account_service.*;
 import account_service.UserProfile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
  * Created by Алексей on 23.09.2014.
  */
-public class AdminServlet extends HttpServlet {
+public class AdminServletImpl extends HttpServlet implements Frontend {
     private AccountService service;
-    public AdminServlet(AccountService service) {
+    public AdminServletImpl(AccountService service) {
         this.service = service;
     }
     public void doGet(HttpServletRequest request,

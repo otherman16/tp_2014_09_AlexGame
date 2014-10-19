@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by Алексей on 25.09.2014.
  */
-public class LogoutServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet implements Frontend {
     private AccountService service;
     public LogoutServlet(AccountService service) {
         this.service = service;

@@ -4,11 +4,11 @@ package account_service;
  * Created by Алексей on 23.09.2014.
  */
 public class UserProfile {
-    public Long id;
-    public String login;
-    public String email;
-    public String password;
-    public Long score;
+    private Long id;
+    private String login;
+    private String email;
+    private String password;
+    private Long score;
     public UserProfile(String login, String email, String password) {
         this.id = 0L;
         this.login = login;
@@ -23,6 +23,7 @@ public class UserProfile {
         this.password = password;
         this.score = score;
     }
+
     public String getLogin() {
         return login;
     }

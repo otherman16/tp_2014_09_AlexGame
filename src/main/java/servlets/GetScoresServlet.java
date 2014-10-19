@@ -1,6 +1,6 @@
 package servlets;
 
-import account_service.AccountService;
+import account_service.*;
 import account_service.UserProfile;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Алексей on 02.10.2014.
  */
-public class GetScoresServlet extends HttpServlet {
+public class GetScoresServlet extends HttpServlet implements Frontend {
     private AccountService service;
 
     public GetScoresServlet(AccountService service) {

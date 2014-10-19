@@ -22,7 +22,9 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.1.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-rewrite:9.1.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-client:9.1.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.2.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.2.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20140107" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-android-driver:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:2.4.0" level="project" />

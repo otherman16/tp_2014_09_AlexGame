@@ -9,13 +9,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.*;
 
 /**
  * Created by Алексей on 23.09.2014.
  */
-public class RegistrationServlet extends HttpServlet {
+public class RegistrationServlet extends HttpServlet implements Frontend {
     private AccountService service;
     public RegistrationServlet(AccountService service) {
         this.service = service;

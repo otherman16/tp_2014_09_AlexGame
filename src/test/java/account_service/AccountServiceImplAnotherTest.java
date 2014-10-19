@@ -5,9 +5,9 @@ import org.junit.*;
 import org.mockito.Mockito;
 import javax.servlet.http.HttpSession;
 
-public class AccountServiceAnotherTest extends TestCase {
+public class AccountServiceImplAnotherTest extends TestCase {
 
-    AccountService service = new AccountService();
+    AccountServiceImpl service = new AccountServiceImpl();
     // mock - для того, чтобы имитировать сессию.
     HttpSession httpSession = Mockito.mock(HttpSession.class);
 

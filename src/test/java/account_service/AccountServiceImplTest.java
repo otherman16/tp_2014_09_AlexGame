@@ -3,14 +3,10 @@ package account_service;
 //import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
 
-import static org.junit.Assert.*;
+public class AccountServiceImplTest {
 
-public class AccountServiceTest {
-
-    AccountService service = new AccountService();
+    AccountServiceImpl service = new AccountServiceImpl();
 
 
     //@Category(AccountService.class)

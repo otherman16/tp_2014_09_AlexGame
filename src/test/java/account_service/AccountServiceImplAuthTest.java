@@ -1,8 +1,6 @@
 package account_service;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -11,9 +9,9 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by aleksei on 16.10.14.
  */
-public class AccountServiceAuthTest {
+public class AccountServiceImplAuthTest {
 
-    AccountService service = new AccountService();
+    AccountServiceImpl service = new AccountServiceImpl();
 
     HttpSession httpSession = Mockito.mock(HttpSession.class);
     String login = "admin";

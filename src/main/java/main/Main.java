@@ -2,7 +2,6 @@ package main;
 
 import servlets.*;
 import account_service.*;
-import db_service.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -12,12 +11,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.http.HttpServlet;
 import sax.ReadXMLFileSAX;
 
+
 /**
  * Created by Алексей on 23.09.2014.
  */
 /*
     задание к РК2
-        соккеты, интерфейсы, тесты, fps, privare;
+        соккеты,  тесты, fps;
+            интерфейсы,
 */
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -36,13 +37,13 @@ public class Main {
         int port = Integer.valueOf(portString);
         System.out.append("Starting at port: ").append(portString).append('\n');
 
-        AccountService service = new AccountService();
+        AccountService service = new AccountServiceImpl();
 
         HttpServlet loginServlet = new LoginServlet(service);
         HttpServlet registrationServlet = new RegistrationServlet(service);
         HttpServlet getUserServlet = new GetUserServlet(service);
         HttpServlet logoutUserServlet = new LogoutServlet(service);
-        HttpServlet adminServlet = new AdminServlet(service);
+        HttpServlet adminServlet = new AdminServletImpl(service);
         HttpServlet getScoreServlet = new GetScoresServlet(service);
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
