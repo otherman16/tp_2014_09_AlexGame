@@ -117,7 +117,7 @@ public class DBService {
     }
 // Добавить запись в таблице "user"
     public boolean addUser(UserProfile user) {
-        String sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.login + "\",\"" + user.email + "\",\"" + user.password + "\"," + user.score + ");";
+        String sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
         try {
             db_statement.execute(sqlStatement);
             return true;

@@ -5,6 +5,8 @@ requirejs.config({
         "jquery" : "lib/jquery",
         "backbone" : "lib/backbone",
         "underscore" : "lib/underscore",
+        "kinetic" : "lib/kinetic",
+        "backbone.kineticview.js" : "lib/backbone.kineticview.js",
         "my_ajax" : "lib/my_ajax",
         "logout" : "lib/logout",
         "validate" : "lib/validate",
@@ -30,8 +32,15 @@ requirejs.config({
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",
+        "vertex_model" : "models/vertex_model",
         // Collections
         "score_collection" : "collections/score_collection",
+        "vertex_collection" : "collections/vertex_collection",
+        // Game_mechanics
+        "vertex_controller" : "mechanics/vertex_controller",
+        "vertex_view" : "mechanics/vertex_view",
+        "vertex_app" : "mechanics/vertex_app",
+        "kinetic_example" : "mechanics/kinetic_example",
     },
     shim: {
         'backbone' : {

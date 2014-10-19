@@ -22,7 +22,7 @@ public class AdminServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
 //        UserProfile user = service.getUserBySession(request.getSession().toString());
         UserProfile user = service.getUserBySession_DB(request.getSession());
-        if (user != null && user.login.equals("admin")) {
+        if (user != null && user.getLogin().equals("admin")) {
             String timeString = request.getParameter("shutdown");
             if (timeString != null) {
                 int timeMS = Integer.valueOf(timeString);

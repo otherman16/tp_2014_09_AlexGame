@@ -10,8 +10,9 @@ define([
     'profile_view',
     // Model
     'user_model',
+    'vertex_app',
 ], function(Backbone, MainView, LoginView, RegistrationView, 
-                    GameView, ScoreboardView, ProfileView, UserModel) {
+                    GameView, ScoreboardView, ProfileView, UserModel, VertexApp) {
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
@@ -32,6 +33,7 @@ define([
             this.hideAll("gameAction");
             if (!this.gameView) {
                 this.gameView = new GameView({model:this.model});
+                //this.VertexApp = new VertexApp({model:this.model});
             }
             this.gameView.show();
         },

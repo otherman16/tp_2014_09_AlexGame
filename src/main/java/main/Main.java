@@ -10,18 +10,29 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.http.HttpServlet;
+import sax.ReadXMLFileSAX;
 
 /**
  * Created by Алексей on 23.09.2014.
  */
+/*
+    задание к РК2
+        соккеты, интерфейсы, тесты, fps, privare;
+*/
 public class Main {
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.out.append("Use port as the first argument");
-            System.exit(1);
-        }
 
-        String portString = args[0];
+        // здесь нужно отработать исключения
+        SerializationObject P_startServer = (SerializationObject) ReadXMLFileSAX.readXML("P_startServer.xml");
+        /*if (P_startServer == null) {
+            System.out.append("Read xml Error");
+            if (args.length != 1) {
+                System.out.append("Use port as the first argument");
+                System.exit(1);
+            }
+        }*/
+
+        String portString = P_startServer.getName();
         int port = Integer.valueOf(portString);
         System.out.append("Starting at port: ").append(portString).append('\n');
 
