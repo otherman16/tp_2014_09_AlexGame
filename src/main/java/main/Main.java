@@ -1,7 +1,8 @@
 package main;
 
-import servlets.*;
-import account_service.*;
+import backend.AccountServiceImpl;
+import base.AccountService;
+import frontend.*;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -43,8 +44,9 @@ public class Main {
         HttpServlet registrationServlet = new RegistrationServlet(service);
         HttpServlet getUserServlet = new GetUserServlet(service);
         HttpServlet logoutUserServlet = new LogoutServlet(service);
-        HttpServlet adminServlet = new AdminServletImpl(service);
+        HttpServlet adminServlet = new AdminServlet(service);
         HttpServlet getScoreServlet = new GetScoresServlet(service);
+
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(getScoreServlet), "/get_scores");

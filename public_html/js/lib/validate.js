@@ -1,11 +1,10 @@
 define([
 	// Libs
 	'jquery',
-	'my_ajax',
 	// Views
 	'alert_view',
 	'jquery.validate'
-], function($, my_ajax, AlertView) {
+], function($, AlertView) {
 	return function(form) {
 		$(form).validate({
 			rules: {

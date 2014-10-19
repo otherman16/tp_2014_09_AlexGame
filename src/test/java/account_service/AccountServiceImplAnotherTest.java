@@ -1,5 +1,7 @@
 package account_service;
 
+import backend.AccountServiceImpl;
+import base.UserProfile;
 import junit.framework.TestCase;
 import org.junit.*;
 import org.mockito.Mockito;
@@ -18,14 +20,14 @@ public class AccountServiceImplAnotherTest extends TestCase {
 
     @Before
     public void setUp () {
-        service.deleteUser_DB(email);
+        service.deleteUser(email);
     }
 
     @After
     public void tearDown() throws Exception {
         boolean result;
         try {
-            if (service.deleteUser_DB(email)) {
+            if (service.deleteUser(email)) {
                 result = true;
             }
             else
@@ -40,7 +42,7 @@ public class AccountServiceImplAnotherTest extends TestCase {
     public void testRegisterUserOk() throws Exception {
         boolean result;
         try {
-            if ( service.registerUser_DB(user, httpSession) ) {
+            if ( service.registerUser(user, httpSession) ) {
                 result = true;
             }
             else
@@ -55,8 +57,8 @@ public class AccountServiceImplAnotherTest extends TestCase {
     public void testRegisterUserFail() throws Exception {
         boolean result;
         try {
-            service.registerUser_DB(user, httpSession);
-            if ( service.registerUser_DB(user, httpSession) ) {
+            service.registerUser(user, httpSession);
+            if ( service.registerUser(user, httpSession) ) {
                 result = false;
             }
             else

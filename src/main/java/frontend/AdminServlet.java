@@ -1,7 +1,7 @@
-package servlets;
+package frontend;
 
-import account_service.*;
-import account_service.UserProfile;
+import base.UserProfile;
+import base.AccountService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,15 +12,14 @@ import java.io.IOException;
 /**
  * Created by Алексей on 23.09.2014.
  */
-public class AdminServletImpl extends HttpServlet implements Frontend {
+public class AdminServlet extends HttpServlet {
     private AccountService service;
-    public AdminServletImpl(AccountService service) {
+    public AdminServlet(AccountService service) {
         this.service = service;
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-//        UserProfile user = service.getUserBySession(request.getSession().toString());
-        UserProfile user = service.getUserBySession_DB(request.getSession());
+        UserProfile user = service.getUserBySession(request.getSession());
         if (user != null && user.getLogin().equals("admin")) {
             String timeString = request.getParameter("shutdown");
             if (timeString != null) {
@@ -36,8 +35,8 @@ public class AdminServletImpl extends HttpServlet implements Frontend {
             } else {
                 response.setContentType("text/html;charset=utf-8");
                 response.getWriter().println("<div>Сервер Epic Game:<br/>Зарегестрированных пользователей: " +
-                        service.numberOfRegisteredUsers_DB() + "<br/>Количество пользователей Online: " +
-                        service.numberOfAuthUsers_DB() + "<br/>" +
+                        service.numberOfRegisteredUsers() + "<br/>Количество пользователей Online: " +
+                        service.numberOfAuthUsers() + "<br/>" +
                         "<form action=\"/admin\" method=\"get\">" +
                         "<label for=\"shutdown\">Задайте время остановки сервера в мс</label>" +
                         "<input id=\"shutdown\" name=\"shutdown\" type=\"text\" value=\"1000\"><br/>" +

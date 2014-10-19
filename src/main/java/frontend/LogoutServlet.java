@@ -1,6 +1,7 @@
-package servlets;
+package frontend;
 
-import account_service.AccountService;
+import base.AccountService;
+import base.Frontend;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,13 +24,7 @@ public class LogoutServlet extends HttpServlet implements Frontend {
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-//        if (service.logoutUser(request.getSession())) {
-//            response.setStatus(HttpServletResponse.SC_OK);
-//        }
-//        else {
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//        }
-        if (service.logoutUser_DB(request.getSession())) {
+        if (service.logoutUser(request.getSession())) {
             response.setStatus(HttpServletResponse.SC_OK);
         }
         else {

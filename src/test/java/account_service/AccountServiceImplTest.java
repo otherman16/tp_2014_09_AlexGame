@@ -1,6 +1,7 @@
 package account_service;
 
 //import junit.framework.TestCase;
+import backend.AccountServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,6 +14,6 @@ public class AccountServiceImplTest {
     @Test
     public void testIntialRegisterUser() throws Exception {
         Assert.assertEquals("Fail to initialzie admin. One admin expected in numberOfRegisterUser",
-                1, (int)service.numberOfRegisteredUsers_DB());
+                1, (int)service.numberOfRegisteredUsers());
     }
 }

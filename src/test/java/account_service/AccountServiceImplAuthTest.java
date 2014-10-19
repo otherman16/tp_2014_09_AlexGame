@@ -1,5 +1,7 @@
 package account_service;
 
+import backend.AccountServiceImpl;
+import base.UserProfile;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -24,9 +26,9 @@ public class AccountServiceImplAuthTest {
     public void testAuthUserOk() throws Exception {
         boolean result;
         try {
-            //service.registerUser_DB(user, httpSession);
-            //service.logoutUser_DB(httpSession);
-            if ( service.authUser_DB(user, httpSession) ) {
+            //service.registerUser(user, httpSession);
+            //service.logoutUser(httpSession);
+            if ( service.authUser(user, httpSession) ) {
                 result = true;
             }
             else

@@ -1,7 +1,8 @@
-package servlets;
+package frontend;
 
-import account_service.*;
-import account_service.UserProfile;
+import base.Frontend;
+import base.UserProfile;
+import base.AccountService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

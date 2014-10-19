@@ -1,4 +1,4 @@
-package servlets;
+package frontend;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import account_service.AccountService;
-import account_service.UserProfile;
+import base.AccountService;
+import base.Frontend;
+import base.UserProfile;
 import org.json.*;
 
 /**
@@ -20,8 +21,7 @@ public class GetUserServlet extends HttpServlet implements Frontend {
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException, NullPointerException {
-//        UserProfile user = service.getUserBySession(request.getSession().toString());
-        UserProfile user = service.getUserBySession_DB(request.getSession());
+        UserProfile user = service.getUserBySession(request.getSession());
         if ( user==null ) {
             user = new UserProfile("Guest","","");
         }

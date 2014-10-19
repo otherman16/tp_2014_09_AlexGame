@@ -1,6 +1,5 @@
-package servlets;
+package frontend;
 
-import account_service.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +8,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import base.AccountService;
+import base.Frontend;
+import base.UserProfile;
 import org.json.*;
 
 /**
@@ -34,13 +36,7 @@ public class RegistrationServlet extends HttpServlet implements Frontend {
             String email = jsonObj.getString("email");
             String password = jsonObj.getString("password");
             UserProfile user = new UserProfile(login,email,password);
-//            if (service.registerUser(user, request.getSession())) {
-//                response.setStatus(HttpServletResponse.SC_OK);
-//            }
-//            else {
-//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            }
-            if (service.registerUser_DB(user, request.getSession())) {
+            if (service.registerUser(user, request.getSession())) {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
             else {

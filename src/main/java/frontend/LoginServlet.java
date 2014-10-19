@@ -1,6 +1,8 @@
-package servlets;
+package frontend;
 
-import account_service.*;
+import base.AccountService;
+import base.Frontend;
+import base.UserProfile;
 import org.json.JSONException;
 import org.json.JSONObject;
 import javax.servlet.ServletException;
@@ -33,13 +35,7 @@ public class LoginServlet extends HttpServlet implements Frontend {
             String email = jsonObj.getString("email");
             String password = jsonObj.getString("password");
             UserProfile user = new UserProfile("",email,password);
-//            if (service.authUser(user, request.getSession())) {
-//                response.setStatus(HttpServletResponse.SC_OK);
-//            }
-//            else {
-//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            }
-            if (service.authUser_DB(user, request.getSession())) {
+            if (service.authUser(user, request.getSession())) {
                 System.out.append("OK");
                 response.setStatus(HttpServletResponse.SC_OK);
             }
