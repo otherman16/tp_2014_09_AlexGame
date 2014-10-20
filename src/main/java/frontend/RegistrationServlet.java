@@ -9,14 +9,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import base.AccountService;
-import base.Frontend;
 import base.UserProfile;
 import org.json.*;
 
-/**
- * Created by Алексей on 23.09.2014.
- */
-public class RegistrationServlet extends HttpServlet implements Frontend {
+public class RegistrationServlet extends HttpServlet {
     private AccountService service;
     public RegistrationServlet(AccountService service) {
         this.service = service;

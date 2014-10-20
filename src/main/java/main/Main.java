@@ -12,10 +12,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.http.HttpServlet;
 import sax.ReadXMLFileSAX;
 
-
-/**
- * Created by Алексей on 23.09.2014.
- */
 /*
     задание к РК2
         соккеты,  тесты, fps;

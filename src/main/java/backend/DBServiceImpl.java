@@ -6,9 +6,6 @@ import base.UserProfile;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Created by Алексей on 05.10.2014.
- */
 public class DBServiceImpl implements DBService{
     private String db_url;
     private String db_user;
@@ -37,7 +34,7 @@ public class DBServiceImpl implements DBService{
             System.out.println(e.getMessage());
         }
     }
-// Произвести соединение с MySQL базой
+
     private void doDBConnection() {
         try {
             db_connection = DriverManager.getConnection(this.db_url, this.db_user, this.db_password);
@@ -47,7 +44,7 @@ public class DBServiceImpl implements DBService{
             System.out.println(e.getMessage());
         }
     }
-// Создать базу alexgame_db и пользователя ALEXGAME_USER
+
     private void createDBAndUser() {
         Connection root_db_connection = null;
         try {
@@ -77,7 +74,7 @@ public class DBServiceImpl implements DBService{
             }
         }
     }
-// Создать таблицу "user" в базе "alexgame_db"
+
     private void createUserTable() {
         try {
             String createTableSQL = "CREATE TABLE IF NOT EXISTS user("
@@ -96,7 +93,7 @@ public class DBServiceImpl implements DBService{
             System.out.println(e.getMessage());
         }
     }
-// Создать таблицу "sessionlist" в базе "alexgame_db"
+
     private void createSessionListTable() {
         try {
             String createTableSQL = "DROP TABLE IF EXISTS session_list;";
@@ -116,7 +113,7 @@ public class DBServiceImpl implements DBService{
             System.out.println(e.getMessage());
         }
     }
-// Добавить запись в таблице "user"
+
     public boolean addUser(UserProfile user) {
         String sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
         try {
@@ -130,7 +127,7 @@ public class DBServiceImpl implements DBService{
             return false;
         }
     }
-// Добавить запись в таблице "session_list"
+
     public boolean addSession(String session_id, Long user_id) {
         String sqlStatement = "INSERT INTO session_list (session_id,user_id) VALUES (\"" + session_id + "\"," + user_id + ");";
         try {
@@ -144,7 +141,7 @@ public class DBServiceImpl implements DBService{
             return false;
         }
     }
-// Проверить наличие профиля пользователя по email в таблице "user"
+
     public boolean hasUserByEmail(String findEmail) {
         try {
             String sqlStatement = "SELECT COUNT(*) as count FROM user WHERE email = \"" + findEmail + "\";";
@@ -162,7 +159,7 @@ public class DBServiceImpl implements DBService{
             return false;
         }
     }
-// Проверить наличие сессии по session_hashCode в таблице "session_list"
+
     public boolean hasUserBySessionHashCode(String findSession_id) {
         try {
             String sqlStatement = "SELECT COUNT(*) as count FROM session_list WHERE session_id = \"" + findSession_id + "\";";
@@ -180,7 +177,7 @@ public class DBServiceImpl implements DBService{
             return false;
         }
     }
-// Получить профиль пользователя по email из таблицы "user"
+
     public UserProfile getUserByEmail(String findEmail) {
         try {
             String sqlStatement = "SELECT * FROM user WHERE email = \"" + findEmail + "\";";
@@ -206,7 +203,7 @@ public class DBServiceImpl implements DBService{
             return null;
         }
     }
-// Получить профиль пользователя по session_hashCode из таблицы "session_list"
+
     public UserProfile getUserBySessionHashCode(String findSession_id) {
         try {
             String sqlStatement = "SELECT user.id, user.login, user.email, user.password, user.score FROM user " +
@@ -234,7 +231,7 @@ public class DBServiceImpl implements DBService{
             return null;
         }
     }
-// Удалить запись из таблицы "session_list" по session_hashCode
+
     public boolean removeSessionFromSessionList(String session_id) {
         try {
             String sqlStatement = "DELETE FROM session_list " +
@@ -249,7 +246,7 @@ public class DBServiceImpl implements DBService{
             return false;
         }
     }
-// Получить количество записей в таблице "user"
+
     public Integer getCountUser() {
         try {
             String sqlStatement = "SELECT COUNT(*) as count FROM user;";
@@ -267,7 +264,7 @@ public class DBServiceImpl implements DBService{
             return 0;
         }
     }
-// Получить количество записей в таблице "session_list"
+
     public Integer getCountSessionList() {
         try {
             String sqlStatement = "SELECT COUNT(*) as count FROM session_list;";
@@ -285,7 +282,7 @@ public class DBServiceImpl implements DBService{
             return 0;
         }
     }
-// Получить TOP 10
+
     public ArrayList<UserProfile> getTop10() {
         try {
             String sqlStatement = "SELECT * FROM user " +
@@ -311,9 +308,6 @@ public class DBServiceImpl implements DBService{
         }
     }
 
-
-
-    // Удалить пользователя из user по email. Нужно для тестов.
     public boolean deleteUserFromUser(String email) {
         try {
             String sqlStatement = "DELETE FROM user " +

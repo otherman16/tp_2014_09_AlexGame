@@ -1,6 +1,5 @@
 package frontend;
 
-import base.Frontend;
 import base.UserProfile;
 import base.AccountService;
 import org.json.JSONArray;
@@ -13,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Алексей on 02.10.2014.
- */
-public class GetScoresServlet extends HttpServlet implements Frontend {
+public class GetScoresServlet extends HttpServlet {
     private AccountService service;
 
     public GetScoresServlet(AccountService service) {

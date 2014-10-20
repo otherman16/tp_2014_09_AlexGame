@@ -7,14 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import base.AccountService;
-import base.Frontend;
 import base.UserProfile;
 import org.json.*;
 
-/**
- * Created by Алексей on 23.09.2014.
- */
-public class GetUserServlet extends HttpServlet implements Frontend {
+public class GetUserServlet extends HttpServlet {
     private AccountService service;
     public GetUserServlet(AccountService service) {
         this.service = service;

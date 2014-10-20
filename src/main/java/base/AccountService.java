@@ -3,9 +3,6 @@ package base;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
-/**
- * Created by aleksei on 19.10.14.
- */
  public interface AccountService {
 
     public boolean authUser(UserProfile user, HttpSession session);

@@ -1,7 +1,6 @@
 package frontend;
 
 import base.AccountService;
-import base.Frontend;
 import base.UserProfile;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,10 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- * Created by Алексей on 23.09.2014.
- */
-public class LoginServlet extends HttpServlet implements Frontend {
+public class LoginServlet extends HttpServlet {
     private AccountService service;
     public LoginServlet(AccountService service) {
         this.service = service;

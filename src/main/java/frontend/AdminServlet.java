@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Алексей on 23.09.2014.
- */
 public class AdminServlet extends HttpServlet {
     private AccountService service;
     public AdminServlet(AccountService service) {
