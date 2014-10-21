@@ -33,6 +33,10 @@ public class RegistrationServlet extends HttpServlet {
             String password = jsonObj.getString("password");
             UserProfile user = new UserProfile(login,email,password);
             if (service.registerUser(user, request.getSession())) {
+                user = service.getUserBySession(request.getSession());
+                JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
+                response.getWriter().print(jsnObj.toString());
+                response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_OK);
             }
             else {

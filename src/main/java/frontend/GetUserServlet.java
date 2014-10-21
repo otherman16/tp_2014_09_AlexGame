@@ -23,6 +23,7 @@ public class GetUserServlet extends HttpServlet {
         }
         JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
         response.getWriter().println(jsnObj.toString());
+        response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
     }
     public void doPost(HttpServletRequest request,

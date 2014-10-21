@@ -1,8 +1,4 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-	<div class="screen__toolbar">
-			<a href="#profile" class="btn screen__toolbar__profile">Profile</a>
-			<a href="/logout" class="btn screen__toolbar__logout">Logout</a>
-	</div>
 	<h2 class="screen__header">Score Board</h2>
 	<table class="screen__scoreboard__table">
 		<tr>

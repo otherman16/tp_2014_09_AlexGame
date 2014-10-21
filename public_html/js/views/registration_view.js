@@ -18,15 +18,16 @@ define([
 		},
 		show: function() {
 			if( !this.model.isLogin() ) {
-				this.$el.delay(300).fadeIn(300);
-				validate($('form.registration'));
+				this.trigger("showView",[ this ]);
+				this.$el.delay(200).fadeIn(200);
+				validate($('form.registration'),this.model);
 			}
 			else{
 				window.location.hash = "";
 			}
 		},
 		hide: function() {
-			this.$el.fadeOut(300);
+			this.$el.fadeOut(200);
 		},
 		initialize: function() {
 			this.listenTo(this.model,'change', this.render);

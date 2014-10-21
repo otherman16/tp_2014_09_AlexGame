@@ -2,13 +2,12 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	'logout',
 	// Tmpl
 	'main_guest_tmpl',
 	'main_user_tmpl',
 	// Models
 	'user_model'
-], function($, Backbone, logout, main_guest_tmpl, main_user_tmpl, UserModel) {
+], function($, Backbone, main_guest_tmpl, main_user_tmpl, UserModel) {
 	var MainView = Backbone.View.extend({
 		template_user: main_user_tmpl,
 		template_guest: main_guest_tmpl,
@@ -22,21 +21,15 @@ define([
 			}
 		},
 		show: function() {
-			this.$el.delay(300).fadeIn(300);
+			this.trigger("showView",[ this ]);
+			this.$el.delay(200).fadeIn(200);
 		},
 		hide: function() {
-			this.$el.fadeOut(300);
+			this.$el.fadeOut(200);
 		},
 		initialize: function() {
 			this.listenTo(this.model,'change', this.render);
 			this.render();
-		},
-		events: {
-			"click .screen__toolbar__logout" : "logout",
-		},
-		logout: function(event) {
-			logout(event);
-			this.model.fetch();
 		}
 	});
 	return MainView;

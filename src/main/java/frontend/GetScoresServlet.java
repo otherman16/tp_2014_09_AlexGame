@@ -29,9 +29,8 @@ public class GetScoresServlet extends HttpServlet {
         String[] jsnKeys = {"login","score"};
         JSONArray jsnArray = new JSONArray();
         for (UserProfile user : scores) {
-            jsnArray.put(new JSONObject(user, jsnKeys));
+            jsnArray.put(new JSONObject().put("login", user.getLogin()).put("score", user.getScore()));
         }
-        System.out.println(jsnArray.toString());
         response.getWriter().println(jsnArray.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }

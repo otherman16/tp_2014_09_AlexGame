@@ -8,11 +8,13 @@ define([
     'game_view',
     'scoreboard_view',
     'profile_view',
+    'view_manager',
+    "toolbar_view",
     // Model
     'user_model',
     'vertex_app',
 ], function(Backbone, MainView, LoginView, RegistrationView, 
-                    GameView, ScoreboardView, ProfileView, UserModel, VertexApp) {
+                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, UserModel, VertexApp) {
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
@@ -23,73 +25,52 @@ define([
             '': 'mainAction',
         },
         mainAction: function () {
-            this.hideAll("mainAction");
             if (!this.mainView) {
                 this.mainView = new MainView({model:this.model});
+                this.viewManager.addView(this.mainView)
             }
             this.mainView.show();
         },
         gameAction: function () {
-            this.hideAll("gameAction");
             if (!this.gameView) {
                 this.gameView = new GameView({model:this.model});
+                this.viewManager.addView(this.gameView)
                 //this.VertexApp = new VertexApp({model:this.model});
             }
             this.gameView.show();
         },
         loginAction: function () {
-            this.hideAll("loginAction");
             if (!this.loginView) {
                 this.loginView = new LoginView({model:this.model});
+                this.viewManager.addView(this.loginView)
             }
             this.loginView.show();
         },
         registrationAction: function () {
-            this.hideAll("registrationAction");
             if (!this.registrationView) {
                 this.registrationView = new RegistrationView({model:this.model});
+                this.viewManager.addView(this.registrationView)
             }
             this.registrationView.show();
         },
         scoreboardAction: function () {
-            this.hideAll("scoreboardAction");
             if (!this.scoreboardView) {
                 this.scoreboardView = new ScoreboardView({model:this.model});
+                this.viewManager.addView(this.scoreboardView)
             }
             this.scoreboardView.show();
         },
         profileAction: function() {
-            this.hideAll("profileAction");
             if (!this.profileView) {
                 this.profileView = new ProfileView({model:this.model});
+                this.viewManager.addView(this.profileView)
             }
             this.profileView.show();
         },
         initialize: function() {
+            this.viewManager = new ViewManager();
             this.model = new UserModel();
-            this.on("route", function() {
-                this.model.fetch();
-            });
-        },
-        hideAll: function(route) {
-            if (this.gameView && route != "gameAction") {
-                this.gameView.hide();
-            }
-            if (this.scoreboardView && route != "scoreboardAction") {
-                this.scoreboardView.hide();
-            }
-            if (this.loginView && route != "loginAction") {
-                this.loginView.hide();
-            }
-            if (this.registrationView && route != "registrationAction") {
-                this.registrationView.hide();
-            }
-            if (this.profileView && route != "profileAction") {
-                this.profileView.hide();
-            }
-            if (this.mainView && route != "mainAction") {
-                this.mainView.hide();
-            }
+            this.toolbarView = new ToolbarView({model:this.model});
         }
     });
     return new Router();

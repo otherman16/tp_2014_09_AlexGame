@@ -19,6 +19,8 @@ requirejs.config({
         "registration_tmpl" : "tmpl/registration_tmpl",
         "scoreboard_tmpl" : "tmpl/scoreboard_tmpl",
         "profile_tmpl" : "tmpl/profile_tmpl",
+        "toolbar_user_tmpl" : "tmpl/toolbar_user_tmpl",
+        "toolbar_guest_tmpl" : "tmpl/toolbar_guest_tmpl",
         // Router
         "router" : "router",
         // Views
@@ -29,6 +31,8 @@ requirejs.config({
         "registration_view" : "views/registration_view",
         "profile_view" : "views/profile_view",
         "alert_view" : "views/alert_view",
+        "view_manager" : "views/view_manager",
+        "toolbar_view" : "views/toolbar_view",
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",

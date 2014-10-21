@@ -5,7 +5,7 @@ define([
 	'alert_view',
 	'jquery.validate'
 ], function($, AlertView) {
-	return function(form) {
+	return function(form,model) {
 		$(form).validate({
 			rules: {
 				login: {
@@ -35,7 +35,7 @@ define([
 			errorClass: "invalid",
 			wrapper: "div",
 			errorElement: "label",
-			submitHandler: function(form) {
+			submitHandler: function() {
 				var data = {};
 		        $.each($(form)[0].elements, function(field_count, field){
 		            data[$(field).attr("name")] = $(field).val();
@@ -49,7 +49,8 @@ define([
 		                $(form).find('input[type=submit]').prop('disabled',true);
 		                this.alert = new AlertView();
 		            },
-		            success: function() {
+		            success: function(response) {
+		            	model.set({"id":response["id"],"email":response["email"],"score":response["score"],"login":response["login"]})
 		                this.alert.show('Success');
 		                window.location.hash = "";
 		            },

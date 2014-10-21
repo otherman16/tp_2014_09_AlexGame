@@ -2,12 +2,11 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	'logout',
 	// Deps
 	'profile_tmpl',
 	// Models
 	'user_model',
-], function($, Backbone, logout, profile_tmpl, UserModel) {
+], function($, Backbone, profile_tmpl, UserModel) {
 	var ScoreboardView = Backbone.View.extend({
 		template: profile_tmpl,
 		el: $('.screen__profile'),
@@ -16,14 +15,15 @@ define([
 		},
 		show: function() {
 			if( this.model.isLogin() ) {
-				this.$el.delay(300).fadeIn(300);
+				this.trigger("showView",[ this ]);
+				this.$el.delay(200).fadeIn(200);
 			}
 			else{
 				window.location.hash = "";
 			}
 		},
 		hide: function() {
-			this.$el.fadeOut(300);
+			this.$el.fadeOut(200);
 		},
 		initialize: function() {
 			this.listenTo(this.model,'change', this.render);
@@ -31,9 +31,6 @@ define([
 		},
 		events: {
 			"click .screen__toolbar__logout" : "logout"
-		},
-		logout: function(event) {
-			logout(event);
 		}
 	});
 	return ScoreboardView;

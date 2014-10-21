@@ -2,14 +2,13 @@ define([
 	// Libs
 	'jquery',
 	'backbone',
-	'logout',
 	// Tmpl
 	'game_tmpl',
 	// Models
 	'user_model',
 	'vertex_app',
 	'vertex_controller'
-], function($, Backbone, logout, game_tmpl, UserModel, VertexApp, VertexController) {
+], function($, Backbone, game_tmpl, UserModel, VertexApp, VertexController) {
 
 	var GameView = Backbone.View.extend({
 	    //vertexApp : VertexApp,
@@ -23,7 +22,8 @@ define([
 		},
 		show: function() {
 			if( this.model.isLogin() ) {
-				this.$el.delay(300).fadeIn(300);
+				this.trigger("showView",[ this ]);
+				this.$el.delay(200).fadeIn(200);
 			}
 			else{
 				window.location.hash = "";
@@ -31,17 +31,11 @@ define([
 			this.show_game();
 		},
 		hide: function() {
-			this.$el.fadeOut(300);
+			this.$el.fadeOut(200);
 		},
 		initialize: function() {
 			this.listenTo(this.model,'change', this.render);
 			this.render();
-		},
-		events: {
-			"click .screen__toolbar__logout" : "logout",
-		},
-		logout: function(event) {
-			logout(event);
 		}
 	});
 	return GameView;

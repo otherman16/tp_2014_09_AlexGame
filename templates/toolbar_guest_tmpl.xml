@@ -1,0 +1,5 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+	<div class="screen__toolbar">
+		<a href="/#" class="btn screen__name">AlexGame</a>
+	</div>
+</fest:template>
