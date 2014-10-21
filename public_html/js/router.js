@@ -22,7 +22,7 @@ define([
             'login': 'loginAction',
             'registration': 'registrationAction',
             'profile' : 'profileAction',
-            '': 'mainAction',
+            '': 'mainAction'
         },
         mainAction: function () {
             if (!this.mainView) {

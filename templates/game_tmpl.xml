@@ -1,6 +1,25 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class ="screen__canvas">
-        <canvas id="myCanvas" width="400" height="500">
+        <canvas id="myCanvas" width="400" height="250">
             Your browser does not support the HTML5 canvas tag.</canvas>
+    </div>
+    <div id="hello">
+        <p>Hello, <fest:value>json.login</fest:value>!</p>
+    </div>
+
+    <div id="wait">
+        <p>Prepare yourself. Wait for enemy!</p>
+    </div>
+
+    <div id="gameplay" style="display: none">
+        <div id="score">
+            <p><span id="myName"><fest:value>json.login</fest:value></span>: <span id="myScore">0</span></p>
+
+            <p><span id="enemyName"></span>: <span id="enemyScore">0</span></p>
+        </div>
+    </div>
+
+    <div id="gameOver" style="display: none">
+        <p>Game over! You are <span id="win"></span><br>Please, wait 15 seconds</br></p>
     </div>
 </fest:template>

@@ -2,7 +2,10 @@ package main;
 
 import backend.AccountServiceImpl;
 import base.AccountService;
+import base.GameMechanics;
+import base.WebSocketService;
 import frontend.*;
+import mechanics.GameMechanicsImpl;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -20,21 +23,18 @@ import sax.ReadXMLFileSAX;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        // здесь нужно отработать исключения
         SerializationObject P_startServer = (SerializationObject) ReadXMLFileSAX.readXML("P_startServer.xml");
-        /*if (P_startServer == null) {
+        if (P_startServer == null) {
             System.out.append("Read xml Error");
-            if (args.length != 1) {
-                System.out.append("Use port as the first argument");
-                System.exit(1);
-            }
-        }*/
+        }
 
         String portString = P_startServer.getName();
         int port = Integer.valueOf(portString);
         System.out.append("Starting at port: ").append(portString).append('\n');
 
         AccountService service = new AccountServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl();
+        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
         HttpServlet loginServlet = new LoginServlet(service);
         HttpServlet registrationServlet = new RegistrationServlet(service);
@@ -42,6 +42,7 @@ public class Main {
         HttpServlet logoutUserServlet = new LogoutServlet(service);
         HttpServlet adminServlet = new AdminServlet(service);
         HttpServlet getScoreServlet = new GetScoresServlet(service);
+        HttpServlet webSocketGameServlet = new WebSocketGameServlet(service, gameMechanics, webSocketService);
 
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -51,6 +52,7 @@ public class Main {
         context.addServlet(new ServletHolder(adminServlet), "/admin");
         context.addServlet(new ServletHolder(loginServlet), "/login");
         context.addServlet(new ServletHolder(registrationServlet), "/registration");
+        context.addServlet(new ServletHolder(webSocketGameServlet), "/gameSocket");
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
         resource_handler.setResourceBase("public_html");
@@ -60,6 +62,7 @@ public class Main {
         server.setHandler(handlers);
 
         server.start();
+        gameMechanics.run();
         server.join();
     }
 }

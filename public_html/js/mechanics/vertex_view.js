@@ -6,9 +6,6 @@ define([
 ], function($, Backbone, models){
 	var VertexView = Backbone.View.extend({
 
-        renderVertex: function() {
-        },
-
 		render: function() {
             this.canvas = document.getElementById("myCanvas");
             this.c = this.canvas.getContext('2d');
@@ -17,27 +14,31 @@ define([
             this.c.beginPath();
             var prev = models.last();
             this.c.moveTo(prev.get('x'), prev.get('y'));
+            // Рисуем линии между вершинами
             models.each(function(vertex){
-                this.canvas = document.getElementById("myCanvas");
-                this.c = this.canvas.getContext('2d');
-                this.c.lineTo(vertex.get('x'), vertex.get('y'));
+                var canvas = document.getElementById("myCanvas");
+                var c = canvas.getContext('2d');
+                c.lineTo(vertex.get('x'), vertex.get('y'));
             });
             this.c.closePath();
             this.c.fillStyle = 'gray';
             this.c.fill();
             this.c.stroke();
-            // надо о отдельную функцию renderVartex();
+            // Отрисовываем каждую вершину
             models.each(function(vertex){
-                this.canvas = document.getElementById("myCanvas");
-                this.c = this.canvas.getContext('2d');
+                var canvas = document.getElementById("myCanvas");
+                var c = canvas.getContext('2d');
                 var x = vertex.get('x'),
                     y = vertex.get('y'),
                     radius = vertex.radius;
-                this.c.beginPath();
-                this.c.arc(x, y, radius, 0, 2 * Math.PI);
-                this.c.closePath();
-                this.c.fillStyle = 'black';
-                this.c.fill();
+                c.beginPath();
+                c.arc(x, y, radius, 0, 2 * Math.PI);
+                c.closePath();
+                if ( vertex.get('who') == "i" )
+                    c.fillStyle = 'black';
+                else
+                    c.fillStyle = 'red';
+                c.fill();
                 console.log(this);
             });
 
@@ -47,47 +48,7 @@ define([
 		     models.on('add', this.render);
              models.on('remove', this.render);
              models.on('change', this.render);
-		},
+		}
 	});
 	return VertexView;
 })
-
-/*define([
-    'vertex_collection'
-], function(model){
-
-
-  function render(){
-    this.canvas = document.getElementById("myCanvas");
-        console.log(this.canvas);
-    this.c = this.canvas.getContext('2d');
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    c.beginPath();
-    var prev = model.last();
-    c.moveTo(prev.get('x'), prev.get('y'));
-    model.each(function(vertex){
-      c.lineTo(vertex.get('x'), vertex.get('y'));
-    });
-    c.closePath();
-    c.fillStyle = 'gray';
-    c.fill();
-    c.stroke();
-    model.each(renderVertex);
-  }
-
-  function renderVertex(vertex){
-    var x = vertex.get('x'),
-        y = vertex.get('y'),
-        radius = vertex.radius;
-    c.beginPath();
-    c.arc(x, y, radius, 0, 2 * Math.PI);
-    c.closePath();
-    c.fillStyle = 'black';
-    c.fill();
-  }
-
-  model.on('add', render);
-  model.on('remove', render);
-  model.on('change', render);
-});
-*/

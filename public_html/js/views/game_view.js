@@ -7,11 +7,9 @@ define([
 	// Models
 	'user_model',
 	'vertex_app',
-	'vertex_controller'
-], function($, Backbone, game_tmpl, UserModel, VertexApp, VertexController) {
+], function($, Backbone, game_tmpl, UserModel, VertexApp ) {
 
 	var GameView = Backbone.View.extend({
-	    //vertexApp : VertexApp,
 		template: game_tmpl,
 		el: $('.screen__game'),
 		render: function() {
@@ -24,11 +22,11 @@ define([
 			if( this.model.isLogin() ) {
 				this.trigger("showView",[ this ]);
 				this.$el.delay(200).fadeIn(200);
+                this.show_game();
 			}
 			else{
 				window.location.hash = "";
 			}
-			this.show_game();
 		},
 		hide: function() {
 			this.$el.fadeOut(200);
