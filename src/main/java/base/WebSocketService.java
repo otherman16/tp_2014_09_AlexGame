@@ -1,6 +1,6 @@
 package base;
 
-import frontend.GameWebSocket;
+import websocket.GameWebSocket;
 
 /**
  * Created by aleksei on 20.10.14.

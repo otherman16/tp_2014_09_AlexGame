@@ -1,14 +1,13 @@
-package sax;
+package resourse;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import reflection.ReflectionHelper;
 
-public class SaxHandler extends DefaultHandler {
+public class SaxEmptyHandler extends DefaultHandler {
     private static String CLASSNAME = "class";
-    private String element = null;
-    private Object object = null;
+
+    private boolean inElement = false;
 
     public void startDocument() throws SAXException {
         System.out.println("Start document");
@@ -19,29 +18,25 @@ public class SaxHandler extends DefaultHandler {
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if(!qName.equals(CLASSNAME)){
-            element = qName;
-        }
-        else{
-            String className = attributes.getValue(0);
-            System.out.println("Class name: " + className);
-            object = ReflectionHelper.createIntance(className);
-        }
+        System.out.println("Start element: " + qName);
+        if(qName != CLASSNAME)
+            inElement = true;
+        else
+            System.out.println("Class name: " + attributes.getValue(0));
+
     }
 
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        element = null;
+        System.out.println("End element: " + qName);
+        inElement = false;
     }
 
     public void characters(char ch[], int start, int length) throws SAXException {
-        if(element != null){
-            String value = new String(ch, start, length);
-            System.out.println(element + " = " + value);
-            ReflectionHelper.setFieldValue(object, element, value);
-        }
+        if(inElement)
+            System.out.println("Process : " + new String(ch, start, length));
     }
 
     public Object getObject(){
-        return object;
+        return null;
     }
 }

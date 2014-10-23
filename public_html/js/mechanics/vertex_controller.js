@@ -8,16 +8,22 @@ define([
         // без этого элемента не работает
         el: $('.screen__game'),
         initSocket : function() {
+            var wscl = this.ws; // чтоб вызвать this.ws.close(); в строчке 39
             this.ws.onopen = function (event) {
+                document.getElementById("gameOver").style.display = "none";
+                document.getElementById("wait").style.display = "block";
                 alert("Open Socket - ready for Game");
             }
             this.ws.onmessage = function (event) {
                 //alert("Message");
                 var data = JSON.parse(event.data);
                 console.log(data);
-                if(data.status == "start"){
+                if(data.status == "start") {
+                    document.getElementById("gameOver").style.display = "none";
                     document.getElementById("wait").style.display = "none";
                     document.getElementById("gameplay").style.display = "block";
+                    document.getElementById("enemyScore").innerHTML = "0";
+                    document.getElementById("myScore").innerHTML = "0";
                     document.getElementById("enemyName").innerHTML = data.enemyName;
                 }
                 if(data.status == "finish"){
@@ -33,7 +39,8 @@ define([
                     // очистить экран
                     this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     // !!!
-                    //ws.close();
+                    // закрыть соккет
+                    wscl.close();
                     //this.ws.call(VertexController).close();
                     //this.ws = null;
                     // очищаем коллекцию вершин

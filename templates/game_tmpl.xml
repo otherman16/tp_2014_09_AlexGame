@@ -20,6 +20,6 @@
     </div>
 
     <div id="gameOver" style="display: none">
-        <p>Game over! You are <span id="win"></span><br>Please, wait 15 seconds</br></p>
+        <p>Game over! You are <span id="win"></span></p>
     </div>
 </fest:template>

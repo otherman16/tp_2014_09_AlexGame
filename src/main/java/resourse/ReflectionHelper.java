@@ -1,4 +1,4 @@
-package reflection;
+package resourse;
 
 import java.lang.reflect.Field;
 

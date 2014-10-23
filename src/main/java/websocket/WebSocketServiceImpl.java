@@ -1,9 +1,8 @@
-package frontend;
+package websocket;
 
 
 import base.GameUser;
 import base.WebSocketService;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 
 import java.util.HashMap;
 import java.util.Map;

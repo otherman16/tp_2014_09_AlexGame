@@ -1,4 +1,4 @@
-package frontend;
+package websocket;
 
 import base.GameMechanics;
 import base.GameUser;
