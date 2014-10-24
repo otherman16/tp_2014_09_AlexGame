@@ -10,7 +10,7 @@ public class GameUser {
     private int enemyScore = 0;
 
     public GameUser(String myName) {
-        System.out.append("GameUser\n");
+        //System.out.append("GameUser\n");
         this.myName = myName;
     }
 

@@ -11,7 +11,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     private Map<String, GameWebSocket> userSockets = new HashMap<>();
 
     public void addUser(GameWebSocket user) {
-        System.out.append("\nAdd user ").append(user.getMyName()).append(" ").append(user.toString()).append(" in userSocket\n");
+        //System.out.append("\nAdd user ").append(user.getMyName()).append(" ").append(user.toString()).append(" in userSocket\n");
         userSockets.put(user.getMyName(), user);
     }
 

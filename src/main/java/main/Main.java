@@ -17,11 +17,6 @@ import resourse.ReadXMLFileSAX;
 import resourse.SerializationObject;
 import websocket.WebSocketServiceImpl;
 
-/*
-    задание к РК2
-        соккеты,  тесты, fps;
-            интерфейсы,
-*/
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -30,9 +25,8 @@ public class Main {
             System.out.append("Read xml Error");
         }
 
-        String portString = P_startServer.getName();
-        int port = Integer.valueOf(portString);
-        System.out.append("Starting at port: ").append(portString).append('\n');
+        Integer port = P_startServer.getPort();
+        System.out.append("Starting at port: ").append(port.toString()).append('\n');
 
         AccountService service = new AccountServiceImpl();
         WebSocketService webSocketService = new WebSocketServiceImpl();

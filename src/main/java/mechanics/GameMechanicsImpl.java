@@ -52,7 +52,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     @Override
     public void run() {
-        System.out.append("Run\n");
+        //System.out.append("Run\n");
         while (true) {
             gmStep();
             TimeHelper.sleep(STEP_TIME);
@@ -63,7 +63,7 @@ public class GameMechanicsImpl implements GameMechanics {
         for (GameSession session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 //System.out.append( (session.getSessionTime())).append("\n");
-                System.out.append("Time over\n");
+                //System.out.append("Time over\n");
                 session.closeGameSession();
                 boolean firstWin = session.isFirstWin();
                 webSocketService.notifyGameOver(session.getFirst(), firstWin);

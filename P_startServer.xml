@@ -1,4 +1,5 @@
 <class type='resourse.SerializationObject'>
-	<name>8080</name>
-	<age>23</age>
+    <name>StartPort</name>
+	<port>8080</port>
+	<!--<age>23</age>-->
 </class>

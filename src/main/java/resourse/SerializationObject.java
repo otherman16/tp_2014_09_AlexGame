@@ -5,24 +5,24 @@ import java.io.Serializable;
 public class SerializationObject implements Serializable {
     private static final long serialVersionUID = -3895203507200457732L;
     private String name;
-    private int age;
+    private int port;
 
     public SerializationObject() {
-        this.name = "Nobody";
-        this.age = 0;
+        this.name = "Nothing";
+        this.port = 0;
     }
 
-    public SerializationObject(String name, int age) {
-        this.setAge(age);
+    public SerializationObject(String name, int port) {
+        this.setPort(port);
         this.setName(name);
     }
 
-    public int getAge() {
-        return age;
+    public int getPort() {
+        return port;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPort(int port) {
+        this.port = port;
     }
 
     public String getName() {
@@ -34,6 +34,6 @@ public class SerializationObject implements Serializable {
     }
 
     public String toString() {
-        return "Name: " + name + " age: " + age;
+        return "Name: " + name + " port: " + port;
     }
 }

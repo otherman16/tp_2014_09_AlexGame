@@ -39,7 +39,7 @@ define([
                 else
                     c.fillStyle = 'red';
                 c.fill();
-                console.log(this);
+                //console.log(this);
             });
 
           },

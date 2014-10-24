@@ -28,8 +28,8 @@ public class CustomWebSocketCreator implements WebSocketCreator {
         HttpSession sessionId = req.getHttpServletRequest().getSession();
         // по сессии получаем email пользователя
         String name = authService.getUserBySession(sessionId).getLogin();
-        System.out.append("createWebSocket\n");
-        System.out.append(name);
+        //System.out.append("createWebSocket\n");
+        //System.out.append(name);
         return new GameWebSocket(name, gameMechanics, webSocketService);
     }
 }

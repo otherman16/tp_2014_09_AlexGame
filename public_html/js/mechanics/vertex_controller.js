@@ -12,12 +12,12 @@ define([
             this.ws.onopen = function (event) {
                 document.getElementById("gameOver").style.display = "none";
                 document.getElementById("wait").style.display = "block";
-                alert("Open Socket - ready for Game");
+                //alert("Open Socket - ready for Game");
             }
             this.ws.onmessage = function (event) {
                 //alert("Message");
                 var data = JSON.parse(event.data);
-                console.log(data);
+                //console.log(data);
                 if(data.status == "start") {
                     document.getElementById("gameOver").style.display = "none";
                     document.getElementById("wait").style.display = "none";
@@ -72,8 +72,8 @@ define([
             this.send_message = function(e) {
                 // я не знаю почему, но надо 45 - чтоб были координаты те, куда кликаешь.
                 var data = JSON.stringify({x: e.pageX, y: e.pageY - 45});
-                console.log("send message" + e.pageX + " " + e.pageY + "\n");
-                console.log(data + "\n");
+                //console.log("send message" + e.pageX + " " + e.pageY + "\n");
+                //console.log(data + "\n");
                 this.ws.send(data);
             }
             this.canvas = document.getElementById("myCanvas");
@@ -81,7 +81,7 @@ define([
                 this.ws = new WebSocket("ws://localhost:8080/gameSocket");
             }
             var self = this;
-            console.log("self" + this);
+            //console.log("self" + this);
             this.canvas.addEventListener('mousedown', function(e){
                 // console.log(this); // this - это окно canvas
                 // рисуем вершину у себя

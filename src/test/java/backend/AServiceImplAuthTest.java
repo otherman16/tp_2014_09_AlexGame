@@ -2,19 +2,15 @@ package backend;
 
 import base.UserProfile;
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.mockito.Mockito;
-import org.springframework.mock.web.MockHttpSession;
 
 import javax.servlet.http.HttpSession;
 
 public class AServiceImplAuthTest extends TestCase {
 
     AccountServiceImpl service = new AccountServiceImpl();
-    //HttpSession httpSession = new MockHttpSession();
     HttpSession httpSession = Mockito.mock(HttpSession.class);
 
     String logoutLogin = "logout";
@@ -29,24 +25,28 @@ public class AServiceImplAuthTest extends TestCase {
 
     String wrongPass = "wrong";
     String wrongEmail = "wrong@wrong.ru";
-    String wrongLogin = "wrong";
     UserProfile userWrongEmail = new UserProfile(authLogin, wrongEmail, authPass);
     UserProfile userWrongPass = new UserProfile(authLogin, authEmail, wrongPass);
-    UserProfile userDelete = new UserProfile(wrongLogin, wrongEmail, wrongPass);
+
+    @BeforeClass
+    public void setUp () {
+        service.logoutUser(httpSession);
+        service.deleteUser(logoutEmail);
+    }
 
     public void testAuthUserOk() throws Exception {
         boolean result;
         service.logoutUser(httpSession);
         try {
-            //httpSession.setAttribute();
             if ( service.authUser(authUser, httpSession) ) {
                 result = true;
-                service.logoutUser(httpSession);
             }
             else
                 result = false;
         } catch (Exception e) {
             result = false;
+        } finally {
+            service.logoutUser(httpSession);
         }
         Assert.assertTrue("auth Error", result);
     }
@@ -61,13 +61,14 @@ public class AServiceImplAuthTest extends TestCase {
                 result = false;
         } catch (Exception e) {
             result = false;
+        } finally {
+            service.logoutUser(httpSession);
         }
         Assert.assertFalse("auth Error", result);
     }
 
     public void testAuthUserPassFail() throws Exception {
         boolean result;
-        service.logoutUser(httpSession);
         try {
             if ( service.authUser(userWrongPass, httpSession) ) {
                 result = true;
@@ -76,13 +77,32 @@ public class AServiceImplAuthTest extends TestCase {
                 result = false;
         } catch (Exception e) {
             result = false;
+        } finally {
+            service.logoutUser(httpSession);
         }
         Assert.assertFalse("auth Error", result);
     }
 
-    public void testLogoutUser() throws Exception {
+    public void testLogoutUserOK() throws Exception {
         boolean result;
+        service.registerUser(logoutUser, httpSession);
         service.authUser(logoutUser, httpSession);
+        try {
+            if ( service.logoutUser(httpSession) ) {
+                result = true;
+            }
+            else
+                result = false;
+        } catch (Exception e) {
+            result = false;
+        } finally {
+            service.deleteUser(logoutEmail);
+        }
+        Assert.assertTrue("Logout Error", result);
+    }
+
+    public void testLogoutUserFail() throws Exception {
+        boolean result;
         try {
             if ( service.logoutUser(httpSession) ) {
                 result = true;
@@ -102,12 +122,13 @@ public class AServiceImplAuthTest extends TestCase {
             service.authUser(authUser, httpSession);
             if ( service.numberOfAuthUsers() == curNum + 1 ) {
                 result = true;
-                service.logoutUser(httpSession);
             }
             else
                 result = false;
         } catch (Exception e) {
             result = false;
+        } finally {
+            service.logoutUser(httpSession);
         }
         Assert.assertTrue("NumberOfAuth Error", result);
     }
@@ -125,6 +146,8 @@ public class AServiceImplAuthTest extends TestCase {
             service.logoutUser(httpSession);
         } catch (Exception e) {
             result = false;
+        } finally {
+            service.logoutUser(httpSession);
         }
         Assert.assertFalse("NumberOfAuth Error", result);
     }

@@ -9,7 +9,6 @@ public class ReadXMLFileSAX {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
 
-            //SaxHandler handler = new SaxHandler();
             SaxHandler handler = new SaxHandler();
             saxParser.parse(xmlFile, handler);
 
@@ -19,8 +18,5 @@ public class ReadXMLFileSAX {
             e.printStackTrace();
         }
         return null;
-
     }
-
-
 }

@@ -18,14 +18,14 @@ public class GameWebSocket {
     private WebSocketService webSocketService;
 
     public GameWebSocket(String myName, GameMechanics gameMechanics, WebSocketService webSocketService) {
-        System.out.append("in GameWebSock\n");
+        //System.out.append("in GameWebSock\n");
         this.myName = myName;
         this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
     }
 
     public String getMyName() {
-        System.out.append("getMyname").append(myName).append("\n");
+        //System.out.append("getMyname").append(myName).append("\n");
         return myName;
     }
 
@@ -34,7 +34,7 @@ public class GameWebSocket {
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "start");
             jsonStart.put("enemyName", user.getEnemyName());
-            System.out.append("Start_game\n");
+            //System.out.append("Start_game\n");
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -43,7 +43,7 @@ public class GameWebSocket {
 
     public void gameOver(GameUser user, boolean win) {
         try {
-            System.out.append("Game_over\n");
+            //System.out.append("Game_over\n");
             JSONObject jsonStart = new JSONObject();
             jsonStart.put("status", "finish");
             jsonStart.put("win", win);
@@ -55,14 +55,14 @@ public class GameWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(String data)  {
-        System.out.append("onMessage\n" + data + "\n");
+        //System.out.append("onMessage\n" + data + "\n");
         gameMechanics.stepAction(myName, data);
     }
 
     // если убрать аннотацию, то не работает.
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        System.out.append("onOpen\n");
+        //System.out.append("onOpen\n");
         setSession(session);
         webSocketService.addUser(this);
         gameMechanics.addUser(myName);
@@ -73,7 +73,7 @@ public class GameWebSocket {
         jsonStart.put("status", "increment");
         jsonStart.put("name", myName);
         jsonStart.put("score", user.getMyScore());
-        System.out.append("setMyScore\n");
+        //System.out.append("setMyScore\n");
         try {
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class GameWebSocket {
         jsonStart.put("status", "increment");
         jsonStart.put("name", user.getEnemyName());
         jsonStart.put("score", user.getEnemyScore());
-        System.out.append("SetEnemyScore\n");
+        //System.out.append("SetEnemyScore\n");
         try {
             session.getRemote().sendString(jsonStart.toJSONString());
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class GameWebSocket {
         jsonStart.put("name", user.getEnemyName());
         jsonStart.put("x", x); // устанавливаем x и y координаты точки хода соперника.
         jsonStart.put("y", y);
-        System.out.append("SetEnemyAction\n");
+        //System.out.append("SetEnemyAction\n");
         // отправляем их сопернику.
         try {
             session.getRemote().sendString(jsonStart.toJSONString());
@@ -114,17 +114,17 @@ public class GameWebSocket {
     }
 
     public Session getSession() {
-        System.out.append("getSession\n");
+        //System.out.append("getSession\n");
         return session;
     }
 
     public void setSession(Session session) {
-        System.out.append("setSession\n");
+        //System.out.append("setSession\n");
         this.session = session;
     }
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        System.out.append("Close websocket\n");
+        //System.out.append("Close websocket\n");
     }
 }
