@@ -12,7 +12,7 @@ define([
 		},
 		show: function(message) {
 			this.render(message);
-			this.$el.slideDown().delay(2000).slideUp();
+			this.$el.slideDown().delay(4000).slideUp();
 		}
 	})
 	return AlertView;

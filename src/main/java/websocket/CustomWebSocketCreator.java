@@ -1,12 +1,9 @@
 package websocket;
 
-import base.AccountService;
-import base.GameMechanics;
-import base.WebSocketService;
+import base.*;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
-import websocket.GameWebSocket;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,10 +23,15 @@ public class CustomWebSocketCreator implements WebSocketCreator {
     @Override
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
         HttpSession sessionId = req.getHttpServletRequest().getSession();
-        // по сессии получаем email пользователя
-        String name = authService.getUserBySession(sessionId).getLogin();
-        //System.out.append("createWebSocket\n");
-        //System.out.append(name);
+        AccountServiceResponse response = authService.getUserBySession(sessionId);
+        UserProfile user;
+        if (!response.getStatus()) {
+            user = new UserProfile("Guest","","");
+        }
+        else {
+            user = (UserProfile)response.getResponse();
+        }
+        String name = user.getEmail();
         return new GameWebSocket(name, gameMechanics, webSocketService);
     }
 }

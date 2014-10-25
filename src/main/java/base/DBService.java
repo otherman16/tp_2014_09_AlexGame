@@ -4,26 +4,26 @@ import java.util.ArrayList;
 
 public interface DBService {
 
-    public boolean addUser(UserProfile user);
+    public void addUser(UserProfile user) throws Exception;
 
-    public boolean addSession(String session_id, Long user_id);
+    public void addSession(String session_id, Long user_id) throws Exception;
 
-    public boolean hasUserByEmail(String findEmail);
+    public boolean hasUserByEmail(String findEmail) throws Exception;
 
-    public boolean hasUserBySessionHashCode(String findSession_id);
+    public boolean hasUserBySessionId(String findSession_id) throws Exception;
 
-    public UserProfile getUserByEmail(String findEmail);
+    public UserProfile getUserByEmail(String findEmail) throws Exception;
 
-    public UserProfile getUserBySessionHashCode(String findSession_id);
+    public UserProfile getUserBySessionId(String findSession_id) throws Exception;
 
-    public boolean removeSessionFromSessionList(String session_id);
+    public void removeSessionFromSessionList(String session_id) throws Exception;
 
-    public Integer getCountUser();
+    public int getCountUser() throws Exception;
 
-    public Integer getCountSessionList();
+    public int getCountSessionList() throws Exception;
 
-    public ArrayList<UserProfile> getTop10();
+    public ArrayList<UserProfile> getTop10() throws Exception;
 
-    public boolean deleteUserFromUser(String email);
+    public void deleteUserFromUser(String email) throws Exception;
 
 }

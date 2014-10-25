@@ -1,8 +1,5 @@
 package base;
 
-/**
- * Created by aleksei on 20.10.14.
- */
 public class GameUser {
     private final String myName;
     private String enemyName;

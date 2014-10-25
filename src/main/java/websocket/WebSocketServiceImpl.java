@@ -1,38 +1,39 @@
 package websocket;
 
-
 import base.GameUser;
 import base.WebSocketService;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class WebSocketServiceImpl implements WebSocketService {
-    private Map<String, GameWebSocket> userSockets = new HashMap<>();
+    private HashMap<String, GameWebSocket> socketList = new HashMap<>();
 
-    public void addUser(GameWebSocket user) {
-        //System.out.append("\nAdd user ").append(user.getMyName()).append(" ").append(user.toString()).append(" in userSocket\n");
-        userSockets.put(user.getMyName(), user);
+    public void addSocket(GameWebSocket socket) {
+        socketList.put(socket.getMyName(), socket);
+    }
+
+    public void deleteSocket(GameWebSocket socket) {
+        socketList.remove(socket.getMyName());
     }
 
     public void notifyMyNewScore(GameUser user) {
-        userSockets.get(user.getMyName()).setMyScore(user);
+        socketList.get(user.getMyName()).setMyScore(user);
     }
 
     public void notifyEnemyNewScore(GameUser user) {
-        userSockets.get(user.getMyName()).setEnemyScore(user);
+        socketList.get(user.getMyName()).setEnemyScore(user);
     }
 
     public void notifyStepAction(GameUser user, String data) {
-        userSockets.get(user.getMyName()).setMyAction(user, data);
+        socketList.get(user.getMyName()).setMyAction(user, data);
     }
 
     public void notifyStartGame(GameUser user) {
-        GameWebSocket gameWebSocket = userSockets.get(user.getMyName());
+        GameWebSocket gameWebSocket = socketList.get(user.getMyName());
         gameWebSocket.startGame(user);
     }
 
     public void notifyGameOver(GameUser user, boolean win) {
-        userSockets.get(user.getMyName()).gameOver(user, win);
+        socketList.get(user.getMyName()).gameOver(user, win);
     }
 }

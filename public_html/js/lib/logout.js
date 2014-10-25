@@ -16,12 +16,12 @@ define([
                 $btn.prop('disabled',true);
                 this.alert = new AlertView();
             },
-            success: function() {
-                this.alert.show("Success Logout");
+            success: function(response) {
+                this.alert.show(response["message"]);
                 window.location.hash = '';
             },
-            error: function() {
-                this.alert.show("Wrong Logout");
+            error: function(response) {
+                this.alert.show(response.responseJSON["message"]);
             },
             complete: function() {
                 $btn.prop('disabled',false);

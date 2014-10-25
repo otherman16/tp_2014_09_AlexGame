@@ -6,9 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by aleksei on 20.10.14.
- */
 public class GameSession {
     private final long startTime;
     private final GameUser first;

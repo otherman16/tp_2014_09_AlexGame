@@ -1,5 +1,6 @@
 package frontend;
 
+import base.AccountServiceResponse;
 import base.UserProfile;
 import base.AccountService;
 import org.json.JSONArray;
@@ -21,17 +22,21 @@ public class GetScoresServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<UserProfile> scores = service.getTop10();
-        if ( scores==null ) {
+        AccountServiceResponse resp = service.getTop10();
+        if ( !resp.getStatus() ) {
+            JSONObject jsnObj = new JSONObject().put("message", "Internal server error");
+            response.getWriter().print(jsnObj.toString());
+            response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
-        String[] jsnKeys = {"login","score"};
+        ArrayList<UserProfile> scores = (ArrayList<UserProfile>)resp.getResponse();
         JSONArray jsnArray = new JSONArray();
         for (UserProfile user : scores) {
             jsnArray.put(new JSONObject().put("login", user.getLogin()).put("score", user.getScore()));
         }
         response.getWriter().println(jsnArray.toString());
+        response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
     }
     public void doPost(HttpServletRequest request,

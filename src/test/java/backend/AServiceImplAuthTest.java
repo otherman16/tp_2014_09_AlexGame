@@ -2,153 +2,117 @@ package backend;
 
 import base.UserProfile;
 import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.mockito.Mockito;
 
 import javax.servlet.http.HttpSession;
 
 public class AServiceImplAuthTest extends TestCase {
 
-    AccountServiceImpl service = new AccountServiceImpl();
-    HttpSession httpSession = Mockito.mock(HttpSession.class);
+    private AccountServiceImpl service = new AccountServiceImpl();
+    private HttpSession httpSession = Mockito.mock(HttpSession.class);
 
-    String logoutLogin = "logout";
-    String logoutEmail = "logout@logout.ru";
-    String logoutPass = "logout";
-    UserProfile logoutUser = new UserProfile(logoutLogin, logoutEmail, logoutPass);
-
-    String authLogin = "admin";
-    String authEmail = "admin@admin.ru";
-    String authPass = "admin";
-    UserProfile authUser = new UserProfile(authLogin, authEmail, authPass);
-
-    String wrongPass = "wrong";
-    String wrongEmail = "wrong@wrong.ru";
-    UserProfile userWrongEmail = new UserProfile(authLogin, wrongEmail, authPass);
-    UserProfile userWrongPass = new UserProfile(authLogin, authEmail, wrongPass);
-
-    @BeforeClass
+    @Before
     public void setUp () {
-        service.logoutUser(httpSession);
-        service.deleteUser(logoutEmail);
+        service.logoutUser(this.httpSession);
+    }
+
+    @After
+    public void tearDown () {
+        service.logoutUser(this.httpSession);
+    }
+
+    private UserProfile getLogoutUser() {
+        String logoutLogin = "logout";
+        String logoutEmail = "logout@logout.ru";
+        String logoutPass = "logout";
+        return new UserProfile(logoutLogin, logoutEmail, logoutPass);
+    }
+
+    private UserProfile getAuthUser() {
+        String authLogin = "admin";
+        String authEmail = "admin@admin.ru";
+        String authPass = "admin";
+        return new UserProfile(authLogin, authEmail, authPass);
+    }
+
+    private UserProfile getUserWrongEmail () {
+        String authLogin = "admin";
+        String authPass = "admin";
+        String wrongEmail = "wrong@wrong.ru";
+        return new UserProfile(authLogin, wrongEmail, authPass);
+    }
+
+    private UserProfile getUserWrongPass () {
+        String authLogin = "admin";
+        String authEmail = "admin@admin.ru";
+        String wrongPass = "wrong";
+        return new UserProfile(authLogin, authEmail, wrongPass);
     }
 
     public void testAuthUserOk() throws Exception {
-        boolean result;
-        service.logoutUser(httpSession);
         try {
-            if ( service.authUser(authUser, httpSession) ) {
-                result = true;
-            }
-            else
-                result = false;
+            Assert.assertTrue("auth Error", service.authUser(this.getAuthUser(), httpSession).getStatus());
         } catch (Exception e) {
-            result = false;
-        } finally {
-            service.logoutUser(httpSession);
+            Assert.fail("exception in testAuthUserOk:\n" + e.getMessage());
         }
-        Assert.assertTrue("auth Error", result);
     }
 
     public void testAuthUserLoginFail() throws Exception {
-        boolean result;
         try {
-            if ( service.authUser(userWrongEmail, httpSession) ) {
-                result = true;
-            }
-            else
-                result = false;
+            Assert.assertFalse("auth Error", service.authUser(this.getUserWrongEmail(), httpSession).getStatus());
         } catch (Exception e) {
-            result = false;
-        } finally {
-            service.logoutUser(httpSession);
+            Assert.fail("exception in testAuthUserLoginFail\n" + e.getMessage());
         }
-        Assert.assertFalse("auth Error", result);
     }
 
     public void testAuthUserPassFail() throws Exception {
-        boolean result;
         try {
-            if ( service.authUser(userWrongPass, httpSession) ) {
-                result = true;
-            }
-            else
-                result = false;
+            Assert.assertFalse("auth Error", service.authUser(this.getUserWrongPass(), httpSession).getStatus());
         } catch (Exception e) {
-            result = false;
-        } finally {
-            service.logoutUser(httpSession);
+            Assert.fail("exception in testAuthUserPassFail\n" + e.getMessage());
         }
-        Assert.assertFalse("auth Error", result);
     }
 
     public void testLogoutUserOK() throws Exception {
-        boolean result;
-        service.registerUser(logoutUser, httpSession);
-        service.authUser(logoutUser, httpSession);
+        service.registerUser(this.getLogoutUser(), httpSession);
+        service.authUser(this.getLogoutUser(), httpSession);
         try {
-            if ( service.logoutUser(httpSession) ) {
-                result = true;
-            }
-            else
-                result = false;
+            Assert.assertTrue("Logout Error", service.logoutUser(httpSession).getStatus());
         } catch (Exception e) {
-            result = false;
+            Assert.fail("exception in testLogoutUserOK()\n" + e.getMessage());
         } finally {
-            service.deleteUser(logoutEmail);
+            service.deleteUser(this.getLogoutUser().getEmail());
         }
-        Assert.assertTrue("Logout Error", result);
     }
 
     public void testLogoutUserFail() throws Exception {
-        boolean result;
         try {
-            if ( service.logoutUser(httpSession) ) {
-                result = true;
-            }
-            else
-                result = false;
+            Assert.assertFalse("Logout Error", service.logoutUser(httpSession).getStatus());
         } catch (Exception e) {
-            result = false;
+            Assert.fail("exception in testLogoutUserFail\n" + e.getMessage());
         }
-        Assert.assertFalse("Logout Error", result);
     }
 
     public void testNumberOfAuthUserOK() throws Exception {
-        boolean result;
-        int curNum = service.numberOfAuthUsers();
+        int curNum = (Integer)service.numberOfAuthUsers().getResponse();
         try {
-            service.authUser(authUser, httpSession);
-            if ( service.numberOfAuthUsers() == curNum + 1 ) {
-                result = true;
-            }
-            else
-                result = false;
+            service.authUser(this.getAuthUser(), httpSession);
+            Assert.assertTrue("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() == curNum + 1);
         } catch (Exception e) {
-            result = false;
-        } finally {
-            service.logoutUser(httpSession);
+            Assert.fail("exception in testNumberOfAuthUserOK\n" + e.getMessage());
         }
-        Assert.assertTrue("NumberOfAuth Error", result);
     }
 
     public void testNumberOfAuthUserFail() throws Exception {
-        boolean result;
-        int curNum = service.numberOfAuthUsers();
+        int curNum = (Integer)service.numberOfAuthUsers().getResponse();
         try {
-            service.authUser(authUser, httpSession);
-            if ( service.numberOfAuthUsers() != curNum + 1 ) {
-                result = true;
-            }
-            else
-                result = false;
-            service.logoutUser(httpSession);
+            service.authUser(this.getAuthUser(), httpSession);
+            Assert.assertFalse("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() != curNum + 1);
         } catch (Exception e) {
-            result = false;
-        } finally {
-            service.logoutUser(httpSession);
+            Assert.fail("exception in testNumberOfAuthUserFail\n" + e.getMessage());
         }
-        Assert.assertFalse("NumberOfAuth Error", result);
     }
 }

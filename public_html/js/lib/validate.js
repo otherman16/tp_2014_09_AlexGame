@@ -54,8 +54,8 @@ define([
 		                this.alert.show('Success');
 		                window.location.hash = "";
 		            },
-		            error: function() {
-		                this.alert.show('Error');
+		            error: function(response) {
+		                this.alert.show(response.responseJSON["message"]);
 		            },
 		            complete: function() {
 		                $(form).find('input[type=submit]').prop('disabled',false);

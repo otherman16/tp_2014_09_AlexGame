@@ -1,6 +1,8 @@
 package frontend;
 
 import base.AccountService;
+import base.AccountServiceResponse;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,12 +17,16 @@ public class LogoutServlet extends HttpServlet {
     }
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
         response.sendRedirect("/#");
+        response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        if (service.logoutUser(request.getSession())) {
+        AccountServiceResponse resp = service.logoutUser(request.getSession());
+        JSONObject jsnObj = new JSONObject().put("message", resp.getResponse());
+        response.getWriter().print(jsnObj.toString());
+        response.setContentType("application/json");
+        if (resp.getStatus()) {
             response.setStatus(HttpServletResponse.SC_OK);
         }
         else {

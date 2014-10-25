@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import base.AccountService;
+import base.AccountServiceResponse;
 import base.UserProfile;
 import org.json.*;
 
@@ -16,10 +17,14 @@ public class GetUserServlet extends HttpServlet {
         this.service = service;
     }
     public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException, NullPointerException {
-        UserProfile user = service.getUserBySession(request.getSession());
-        if ( user==null ) {
+                      HttpServletResponse response) throws ServletException, IOException {
+        AccountServiceResponse resp = service.getUserBySession(request.getSession());
+        UserProfile user;
+        if (!resp.getStatus()) {
             user = new UserProfile("Guest","","");
+        }
+        else {
+            user = (UserProfile)resp.getResponse();
         }
         JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
         response.getWriter().println(jsnObj.toString());

@@ -2,12 +2,11 @@ package base;
 
 import websocket.GameWebSocket;
 
-/**
- * Created by aleksei on 20.10.14.
- */
 public interface WebSocketService {
 
-    public void addUser(GameWebSocket user);
+    public void addSocket(GameWebSocket socket);
+
+    public void deleteSocket(GameWebSocket socket);
 
     public void notifyMyNewScore(GameUser user);
 

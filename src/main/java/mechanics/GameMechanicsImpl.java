@@ -28,12 +28,12 @@ public class GameMechanicsImpl implements GameMechanics {
         this.webSocketService = webSocketService;
     }
 
-    public void addUser(String user) {
+    public void addSocket(String socketName) {
         if (waiter != null) {
-            starGame(user);
+            starGame(socketName);
             waiter = null;
         } else {
-            waiter = user;
+            waiter = socketName;
         }
     }
 
@@ -52,7 +52,6 @@ public class GameMechanicsImpl implements GameMechanics {
 
     @Override
     public void run() {
-        //System.out.append("Run\n");
         while (true) {
             gmStep();
             TimeHelper.sleep(STEP_TIME);
@@ -62,8 +61,6 @@ public class GameMechanicsImpl implements GameMechanics {
     private void gmStep() {
         for (GameSession session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
-                //System.out.append( (session.getSessionTime())).append("\n");
-                //System.out.append("Time over\n");
                 session.closeGameSession();
                 boolean firstWin = session.isFirstWin();
                 webSocketService.notifyGameOver(session.getFirst(), firstWin);
