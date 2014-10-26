@@ -5,7 +5,7 @@ package base;
  */
 public interface GameMechanics {
 
-    public void addSocket(String socketName);
+    public void addUser(String userEmail);
 
     public void stepAction(String userName, String data);
 

@@ -3,6 +3,7 @@ package backend;
 import base.AccountService;
 import base.UserProfile;
 import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Assert;
 import org.mockito.Mockito;
@@ -30,6 +31,12 @@ public class AServiceImplRegisterTest extends TestCase {
 
     @Before
     public void setUp() {
+        service.deleteUser(this.getRegUser().getEmail());
+        service.deleteUser(this.getOkUser().getEmail());
+    }
+
+    @After
+    public void tearDown () {
         service.deleteUser(this.getRegUser().getEmail());
         service.deleteUser(this.getOkUser().getEmail());
     }

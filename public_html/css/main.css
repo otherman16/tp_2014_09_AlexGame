@@ -1,14 +1,23 @@
 body {
 	font-family: serif;
+	padding:0;
+	margin:0;
 }
+/*Screen*/
 .screen {
 	background-color:#EEEEEE;
 	text-align: center;
-	margin:0;
+	margin:0 auto;
 	padding:0;
-	max-width:400px;
-	height:500px;
+	max-width:100%;
+	height:600px;
 	position:relative;
+}
+.screen__header{
+	margin:20px 0;
+	padding:0;
+	color:#555555;
+	font-size: 18pt;
 }
 .screen__main,
 .screen__game,
@@ -16,10 +25,18 @@ body {
 .screen__registration,
 .screen__scoreboard,
 .screen__game,
-.screen__profile {
+.screen__profile,
+.screen__canvas {
 	display:none;
 }
-.screen__name{
+/*Toolbar*/
+.screen__toolbar{
+	margin:0;
+	width:100%;
+	height:40px;
+	position:relative;
+}
+.screen__toolbar__name{
 	margin:0;
 	padding:0;
 	background-color: #555555;
@@ -29,21 +46,6 @@ body {
 	color:#FFFFFF;
 	font-size:22pt;
 	vertical-align: middle;
-}
-
-.screen__header{
-	margin:0;
-	padding:0;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	color:#555555;
-	font-size: 18pt;
-}
-.screen__toolbar{
-	margin:0;
-	width:100%;
-	height:40px;
-	position:relative;
 }
 .screen__toolbar__profile,
 .screen__toolbar__logout{
@@ -61,7 +63,7 @@ body {
 .screen__toolbar__logout{
 	right:0;
 }
-
+/*Scoreboard*/
 .screen__scoreboard__table{
 	text-align: left;
 	font-weight: bold;
@@ -70,20 +72,18 @@ body {
 	padding:0;
 	border-collapse: collapse;
 }
-
 .screen__scoreboard__table td,
 .screen__scoreboard__table th{
 	padding-left:30px;
 }
-
 .screen__scoreboard__table td:first-child,
 .screen__scoreboard__table th:first-child{
 	padding-left:0px;
 }
-
 .screen__scoreboard__table th{
 	border-bottom:1px solid #555555;
 }
+/*Profile*/
 .screen__profile__info {
 	list-style: none;
 	font-size: 16pt;
@@ -91,7 +91,7 @@ body {
 	color: #555555;
 	text-align: left;
 }
-
+/*A=Button*/
 .btn{
 	display:inline-block;
 	text-decoration: none;
@@ -99,7 +99,8 @@ body {
 .btn:hover{
 	cursor:default;
 }
-.btn-route{
+/*Main*/
+.screen__main__btn{
 	border:none;
 	background-color:#555555;
 	color:#FFFFFF;
@@ -110,8 +111,9 @@ body {
 	font-size:14pt;
 	padding-top:10px;
 }
-
-input{
+/*Forms*/
+.screen__login__form__input,
+.screen__registration__form__input{
 	border:1px solid #AAAAAA;
 	border-radius:5px;
 	background-color:#CCCCCC;
@@ -123,7 +125,8 @@ input{
 	padding-left:10px;
 	font-weight:bold;
 }
-input.invalid{
+.screen__login__form__input.invalid,
+.screen__registration__form__input.invalid{
 	border-color:#B22222;
 	box-shadow:0 0 5px #B22222;
 }
@@ -131,20 +134,22 @@ label.invalid{
 	font-style: italic;
 	color:#B22222;
 }
-input.valid{
+.screen__login__form__input.valid,
+.screen__registration__form__input.valid{
 	border-color:#3CB371;
 	box-shadow:0 0 5px #3CB371;
 }
 label.valid{
 	color:#3CB371;
 }
-
-input:focus{
+.screen__login__form__input:focus,
+.screen__registration__form__input:focus{
 	border-color:#1E90FF;
 	box-shadow:0 0 5px #1E90FF;
 }
 
-.reg-login{
+.screen__login__form__btn,
+.screen__registration__form__btn{
 	border:none;
 	border-radius: 0;
 	background-color:#555555;
@@ -154,7 +159,7 @@ input:focus{
 	font-size:12pt;
 }
 
-.alert{
+.screen__alert{
 	position:absolute;
 	width:100%;
 	height:30px;

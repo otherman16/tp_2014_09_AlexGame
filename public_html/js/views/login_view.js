@@ -7,8 +7,6 @@ define([
 	'login_tmpl',
 	// Models
 	'user_model',
-	// Views
-	'jquery.validate'
 ], function($, Backbone, validate, login_tmpl, UserModel) {
 	var LoginView = Backbone.View.extend({
 		template: login_tmpl,
@@ -20,7 +18,7 @@ define([
 			if( !this.model.isLogin() ) {
 				this.trigger("showView",[ this ]);
 				this.$el.delay(200).fadeIn(200);
-				validate($('form.login'),this.model);
+				validate($('.screen__login__form'),this.model);
 			}
 			else{
 				window.location.hash = "";

@@ -4,6 +4,10 @@ import websocket.GameWebSocket;
 
 public interface WebSocketService {
 
+    public GameWebSocket getExisting(String socketName);
+
+    public boolean exists(String socketName);
+
     public void addSocket(GameWebSocket socket);
 
     public void deleteSocket(GameWebSocket socket);

@@ -32,6 +32,11 @@ public class CustomWebSocketCreator implements WebSocketCreator {
             user = (UserProfile)response.getResponse();
         }
         String name = user.getEmail();
-        return new GameWebSocket(name, gameMechanics, webSocketService);
+        if (!webSocketService.exists(name)) {
+            return new GameWebSocket(name, gameMechanics, webSocketService);
+        }
+        else {
+            return webSocketService.getExisting(name);
+        }
     }
 }

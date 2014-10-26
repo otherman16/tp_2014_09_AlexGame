@@ -12,13 +12,13 @@ import org.json.JSONObject;
 
 @WebSocket
 public class GameWebSocket {
-    private String myName;
+    private String name;
     private Session session;
     private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
 
-    public GameWebSocket(String myName, GameMechanics gameMechanics, WebSocketService webSocketService) {
-        this.myName = myName;
+    public GameWebSocket(String name, GameMechanics gameMechanics, WebSocketService webSocketService) {
+        this.name = name;
         this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
     }
@@ -27,7 +27,7 @@ public class GameWebSocket {
     public void onOpen(Session session) {
         setSession(session);
         webSocketService.addSocket(this);
-        gameMechanics.addSocket(myName);
+        gameMechanics.addUser(name);
     }
 
     @OnWebSocketClose
@@ -37,11 +37,11 @@ public class GameWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(String data)  {
-        gameMechanics.stepAction(myName, data);
+        gameMechanics.stepAction(name, data);
     }
 
     public String getMyName() {
-        return myName;
+        return name;
     }
 
     public Session getSession() {
@@ -77,7 +77,7 @@ public class GameWebSocket {
     public void setMyScore(GameUser user) {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("status", "increment");
-        jsonObj.put("name", myName);
+        jsonObj.put("name", name);
         jsonObj.put("score", user.getMyScore());
         try {
             session.getRemote().sendString(jsonObj.toString());

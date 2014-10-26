@@ -1,7 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-	<div class="screen__toolbar">
-		<a href="/#" class="btn screen__name">AlexGame</a>
-		<a href="#profile" class="btn screen__toolbar__profile">Profile</a>
-		<a href="/logout" class="btn screen__toolbar__logout">Logout</a>
-	</div>
+	<a href="/#" class="btn screen__toolbar__name">AlexGame</a>
+	<a href="#profile" class="btn screen__toolbar__profile">Profile</a>
+	<a href="/logout" class="btn screen__toolbar__logout">Logout</a>
 </fest:template>

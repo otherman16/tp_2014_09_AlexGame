@@ -55,6 +55,11 @@ define([
 		                window.location.hash = "";
 		            },
 		            error: function(response) {
+		            	$.each($(form)[0].elements, function(field_count, field){
+				            if(($(field).attr("name") == "password") || ($(field).attr("name") == "email")) {
+				            	$(field).val('');
+				            }
+				        });
 		                this.alert.show(response.responseJSON["message"]);
 		            },
 		            complete: function() {

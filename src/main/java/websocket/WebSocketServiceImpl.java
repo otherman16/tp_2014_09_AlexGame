@@ -8,6 +8,19 @@ import java.util.HashMap;
 public class WebSocketServiceImpl implements WebSocketService {
     private HashMap<String, GameWebSocket> socketList = new HashMap<>();
 
+    public GameWebSocket getExisting(String socketName) {
+        if (exists(socketName)) {
+            return socketList.get(socketName);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public boolean exists(String socketName) {
+        return socketList.containsKey(socketName);
+    }
+
     public void addSocket(GameWebSocket socket) {
         socketList.put(socket.getMyName(), socket);
     }

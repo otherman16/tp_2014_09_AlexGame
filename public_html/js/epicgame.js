@@ -33,6 +33,7 @@ requirejs.config({
         "alert_view" : "views/alert_view",
         "view_manager" : "views/view_manager",
         "toolbar_view" : "views/toolbar_view",
+        "canvas_view" : "views/canvas_view",
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",

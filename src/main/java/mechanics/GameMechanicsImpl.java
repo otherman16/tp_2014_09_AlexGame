@@ -18,7 +18,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private WebSocketService webSocketService;
 
-    private Map<String, GameSession> nameToGame = new HashMap<>();
+    private Map<String, GameSession> gameSessionList = new HashMap<>();
 
     private Set<GameSession> allSessions = new HashSet<>();
 
@@ -28,8 +28,8 @@ public class GameMechanicsImpl implements GameMechanics {
         this.webSocketService = webSocketService;
     }
 
-    public void addSocket(String socketName) {
-        if (waiter != null) {
+    public void addUser(String socketName) {
+        if (waiter != null && !socketName.equals(waiter)) {
             starGame(socketName);
             waiter = null;
         } else {
@@ -38,7 +38,7 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     public void stepAction (String userName, String data) {
-        GameSession myGameSession = nameToGame.get(userName);
+        GameSession myGameSession = gameSessionList.get(userName);
         GameUser myUser = myGameSession.getSelf(userName);
         myUser.incrementMyScore();
         GameUser enemyUser = myGameSession.getEnemy(userName);
@@ -73,8 +73,8 @@ public class GameMechanicsImpl implements GameMechanics {
         String second = waiter;
         GameSession gameSession = new GameSession(first, second);
         allSessions.add(gameSession);
-        nameToGame.put(first, gameSession);
-        nameToGame.put(second, gameSession);
+        gameSessionList.put(first, gameSession);
+        gameSessionList.put(second, gameSession);
 
         webSocketService.notifyStartGame(gameSession.getSelf(first));
         webSocketService.notifyStartGame(gameSession.getSelf(second));

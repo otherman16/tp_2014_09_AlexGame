@@ -9,12 +9,14 @@ define([
     'scoreboard_view',
     'profile_view',
     'view_manager',
-    "toolbar_view",
+    'toolbar_view',
+    'canvas_view',
     // Model
     'user_model',
     'vertex_app',
 ], function(Backbone, MainView, LoginView, RegistrationView, 
-                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, UserModel, VertexApp) {
+                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, CanvasView, 
+                    UserModel, VertexApp) {
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
@@ -22,6 +24,7 @@ define([
             'login': 'loginAction',
             'registration': 'registrationAction',
             'profile' : 'profileAction',
+            'canvas' : 'canvasAction',
             '': 'mainAction'
         },
         mainAction: function () {
@@ -66,6 +69,13 @@ define([
                 this.viewManager.addView(this.profileView)
             }
             this.profileView.show();
+        },
+        canvasAction: function() {
+            if (!this.canvasView) {
+                this.canvasView = new CanvasView();
+                this.viewManager.addView(this.canvasView)
+            }
+            this.canvasView.show();
         },
         initialize: function() {
             this.viewManager = new ViewManager();

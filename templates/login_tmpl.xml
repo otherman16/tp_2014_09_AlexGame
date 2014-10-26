@@ -1,8 +1,8 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <h2 class="screen__header">Login</h2>
-	<form method="post" action="/login" class="login">
-		<input type="text" name="email" id="email" placeholder="Email"></input><br></br>
-		<input type="password" name="password" id="password" placeholder="Password"></input><br></br>
-		<input type="submit" value="Login" class="reg-login"></input><br></br>
+	<form method="post" action="/login" class="screen__login__form">
+		<input type="text" name="email" id="email" placeholder="Email" class="screen__login__form__input"></input><br></br>
+		<input type="password" name="password" id="password" placeholder="Password" class="screen__login__form__input"></input><br></br>
+		<input type="submit" value="Login" class="screen__login__form__btn"></input><br></br>
 	</form>
 </fest:template>
