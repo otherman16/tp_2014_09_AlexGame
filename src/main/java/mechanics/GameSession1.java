@@ -6,32 +6,32 @@ import java.util.Date;
 
 public class GameSession1 {
     private final long startTime;
-    private final Gamer gamer1;
-    private final Gamer gamer2;
+    private final String gamer1Email;
+    private final String gamer2Email;
     private boolean isActive;
 
-    public GameSession1(String gamerEmail1, String gamerEmail2) {
+    public GameSession1(String gamer1Email, String gamer2Email) {
         startTime = new Date().getTime();
-        this.gamer1 = new Gamer(gamerEmail1);
-        this.gamer2 = new Gamer(gamerEmail2);
+        this.gamer1Email = gamer1Email;
+        this.gamer2Email = gamer2Email;
         isActive = true;
     }
 
-    public Gamer getGamer(String gamerEmail) {
-        if (gamer1.getEmail().equals(gamerEmail)) {
-            return gamer1;
+    public String getGamer(String gamerEmail) {
+        if (gamer1Email.equals(gamerEmail)) {
+            return gamer1Email;
         }
         else {
-            return gamer2;
+            return gamer2Email;
         }
     }
 
-    public Gamer getGamerEnemy(String gamerEmail) {
-        if (gamer1.getEmail().equals(gamerEmail)) {
-            return gamer2;
+    public String getGamerEnemy(String gamerEmail) {
+        if (gamer1Email.equals(gamerEmail)) {
+            return gamer2Email;
         }
         else {
-            return gamer1;
+            return gamer1Email;
         }
     }
 
@@ -41,12 +41,12 @@ public class GameSession1 {
         return new Date().getTime() - startTime;
     }
 
-    public Gamer getGamer1() {
-        return gamer1;
+    public String getGamer1() {
+        return gamer1Email;
     }
 
-    public Gamer getGamer2() {
-        return gamer2;
+    public String getGamer2() {
+        return gamer2Email;
     }
 
     public void closeGameSession() {

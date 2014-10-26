@@ -2,6 +2,7 @@ package websocket;
 
 import base.GameMechanics;
 import base.GameUser;
+import base.Gamer;
 import base.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -12,13 +13,15 @@ import org.json.JSONObject;
 
 @WebSocket
 public class GameWebSocket {
-    private String name;
+    private String gamerEmail;
+    private Gamer gamer;
     private Session session;
     private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
 
-    public GameWebSocket(String name, GameMechanics gameMechanics, WebSocketService webSocketService) {
-        this.name = name;
+    public GameWebSocket(String gamerEmail, GameMechanics gameMechanics, WebSocketService webSocketService) {
+        this.gamerEmail = gamerEmail;
+        this.gamer = new Gamer(gamerEmail);
         this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
     }
@@ -27,7 +30,7 @@ public class GameWebSocket {
     public void onOpen(Session session) {
         setSession(session);
         webSocketService.addSocket(this);
-        gameMechanics.addUser(name);
+        gameMechanics.addUser(gamerEmail);
     }
 
     @OnWebSocketClose
@@ -37,11 +40,11 @@ public class GameWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(String data)  {
-        gameMechanics.stepAction(name, data);
+        gameMechanics.stepAction(gamerEmail, data);
     }
 
     public String getMyName() {
-        return name;
+        return gamerEmail;
     }
 
     public Session getSession() {
@@ -52,18 +55,22 @@ public class GameWebSocket {
         this.session = session;
     }
 
-    public void startGame(GameUser user) {
+    public Gamer getGamer() {
+        return gamer;
+    }
+
+    public void startGame(Gamer gamerEnemy) {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("status", "start");
-            jsonObj.put("enemyName", user.getEnemyName());
+            jsonObj.put("enemyEmail", gamerEnemy.getEmail());
             session.getRemote().sendString(jsonObj.toString());
         } catch (Exception e) {
             System.out.print(e.toString());
         }
     }
 
-    public void gameOver(GameUser user, boolean win) {
+    public void gameOver(boolean win) {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("status", "finish");
@@ -74,11 +81,11 @@ public class GameWebSocket {
         }
     }
 
-    public void setMyScore(GameUser user) {
+    public void setMyScore() {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("status", "increment");
-        jsonObj.put("name", name);
-        jsonObj.put("score", user.getMyScore());
+        jsonObj.put("myEmail", gamer.getEmail());
+        jsonObj.put("myScore", gamer.getScore());
         try {
             session.getRemote().sendString(jsonObj.toString());
         } catch (Exception e) {
@@ -86,11 +93,11 @@ public class GameWebSocket {
         }
     }
 
-    public void setEnemyScore(GameUser user) {
+    public void setEnemyScore(Gamer gamerEnemy) {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("status", "increment");
-        jsonObj.put("name", user.getEnemyName());
-        jsonObj.put("score", user.getEnemyScore());
+        jsonObj.put("enemyEmail", gamerEnemy.getEmail());
+        jsonObj.put("enemyScore", gamerEnemy.getScore());
         try {
             session.getRemote().sendString(jsonObj.toString());
         } catch (Exception e) {
@@ -98,14 +105,14 @@ public class GameWebSocket {
         }
     }
 
-    public void setMyAction(GameUser user, String data) {
+    public void setMyAction(String gamerEnemyEmail, String data) {
         JSONObject jsonObj = new JSONObject(data);
         try {
             int x = jsonObj.getInt("x");
             int y = jsonObj.getInt("y");
             JSONObject jsonObj1 = new JSONObject();
             jsonObj1.put("status", "step");
-            jsonObj1.put("name", user.getEnemyName());
+            jsonObj1.put("enemyEmail", gamerEnemyEmail);
             jsonObj1.put("x", x);
             jsonObj1.put("y", y);
             session.getRemote().sendString(jsonObj1.toString());

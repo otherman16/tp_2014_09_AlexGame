@@ -42,17 +42,12 @@ public class GameMechanicsImpl1 implements GameMechanics {
         allSessions.add(newGameSession);
         gameSessionList.put(first, newGameSession);
         gameSessionList.put(second, newGameSession);
-
-        webSocketService.notifyStartGame(newGameSession.getGamer(first));
-        webSocketService.notifyStartGame(newGameSession.getGamer(second));
+        webSocketService.notifyStartGame(first, second);
+        webSocketService.notifyStartGame(second, first);
     }
 
     public void stepAction (String gamerEmail, String data) {
         GameSession1 myGameSession = gameSessionList.get(gamerEmail);
-        Gamer gamer = myGameSession.getGamer(gamerEmail);
-        gamer.incrementScore();
-        Gamer gamerEnemy = myGameSession.getGamerEnemy(gamerEmail);
-        gamerEnemy.incrementScore();
         // совершаем действие - отрисовываем на экране соперника действие, совершенное первым лицом
         webSocketService.notifyStepAction(gamerEnemy, data);
 
@@ -72,8 +67,8 @@ public class GameMechanicsImpl1 implements GameMechanics {
         for (GameSession1 session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 session.closeGameSession();
-                webSocketService.notifyGameOver(session.getGamer1(), session.getGamer1().getScore() > session.getGamer2().getScore());
-                webSocketService.notifyGameOver(session.getGamer2(), session.getGamer2().getScore() > session.getGamer1().getScore());
+                webSocketService.notifyGameOver(session.getGamer1());
+                webSocketService.notifyGameOver(session.getGamer2());
             }
         }
     }
