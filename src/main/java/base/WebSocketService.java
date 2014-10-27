@@ -10,7 +10,7 @@ public interface WebSocketService {
 
     public void addSocket(GameWebSocket socket);
 
-    public void deleteSocket(GameWebSocket socket);
+    public void deleteSocket(String socketName);
 
     public void notifyStartGame(String gamerEmail, String gamerEnemyEmail);
 

@@ -18,15 +18,15 @@ define([
                 //alert("Message");
                 var data = JSON.parse(event.data);
                 //console.log(data);
-                if(data.status == "start") {
+                if(data.code == "start_game") {
                     document.getElementById("gameOver").style.display = "none";
                     document.getElementById("wait").style.display = "none";
                     document.getElementById("gameplay").style.display = "block";
                     document.getElementById("enemyScore").innerHTML = "0";
                     document.getElementById("myScore").innerHTML = "0";
-                    document.getElementById("enemyName").innerHTML = data.enemyName;
+                    document.getElementById("enemyName").innerHTML = data.enemyEmail;
                 }
-                if(data.status == "finish"){
+                if(data.code == "game_over"){
                     document.getElementById("gameOver").style.display = "block";
                     document.getElementById("gameplay").style.display = "none";
                     if(data.win)
@@ -46,15 +46,13 @@ define([
                     // очищаем коллекцию вершин
                     models.reset();
                 }
-                if(data.status == "increment" && data.name == document.getElementById("myName").innerHTML){
-                    console.log(data.name);
+                if(data.code == "set_my_new_score") {
                     document.getElementById("myScore").innerHTML = data.score;
                 }
-                if(data.status == "increment" && data.name == document.getElementById("enemyName").innerHTML){
-                    console.log(data.name);
+                if(data.code == "set_enemy_new_score") {
                     document.getElementById("enemyScore").innerHTML = data.score;
                 }
-                if(data.status == "step" && data.name == document.getElementById("enemyName").innerHTML){
+                if(data.status == "enemy_step"){
                     models.add(new Vertex({
                         x: data.x,
                         y: data.y,

@@ -31,7 +31,7 @@ public class GameWebSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        webSocketService.deleteSocket(this);
+        //webSocketService.deleteSocket(this);
     }
 
     @OnWebSocketMessage
@@ -58,7 +58,7 @@ public class GameWebSocket {
         this.session = session;
     }
 
-    public void sendRequest(JSONObject jsonRequest) {
+    public void sendResponse(JSONObject jsonRequest) {
         try {
             session.getRemote().sendString(jsonRequest.toString());
         } catch (Exception e) {

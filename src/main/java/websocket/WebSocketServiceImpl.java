@@ -26,15 +26,15 @@ public class WebSocketServiceImpl implements WebSocketService {
         socketList.put(socket.getMyName(), socket);
     }
 
-    public void deleteSocket(GameWebSocket socket) {
-        socketList.remove(socket.getMyName());
+    public void deleteSocket(String socketName) {
+        socketList.remove(socketName);
     }
 
     public void notifyStartGame(String gamerEmail, String gamerEnemyEmail) {
         try {
             JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("code", "start_game").put("enemy", gamerEnemyEmail);
-            socketList.get(gamerEmail).sendRequest(jsonResponse);
+            jsonResponse.put("code", "start_game").put("enemyEmail", gamerEnemyEmail);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyStartGame: " + e.getMessage());
         }
@@ -44,7 +44,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "set_my_new_score").put("score", myNewScore);
-            socketList.get(gamerEmail).sendRequest(jsonResponse);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyMyNewScore: " + e.getMessage());
         }
@@ -54,7 +54,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "set_enemy_new_score").put("score", enemyNewScore);
-            socketList.get(gamerEmail).sendRequest(jsonResponse);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyNewScore: " + e.getMessage());
         }
@@ -64,7 +64,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "enemy_step").put("x", x).put("y", y);
-            socketList.get(gamerEmail).sendRequest(jsonResponse);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyStep: " + e.getMessage());
         }
@@ -74,7 +74,8 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "game_over").put("win", win);
-            socketList.get(gamerEmail).sendRequest(jsonResponse);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            deleteSocket(gamerEmail);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyGameOver: " + e.getMessage());
         }
