@@ -1,7 +1,7 @@
 package mechanics;
 
 import base.GameMechanics;
-import base.GameUser;
+import base.Gamer;
 import base.WebSocketService;
 import utils.TimeHelper;
 
@@ -28,28 +28,6 @@ public class GameMechanicsImpl implements GameMechanics {
         this.webSocketService = webSocketService;
     }
 
-    public void addUser(String socketName) {
-        if (waiter != null && !socketName.equals(waiter)) {
-            starGame(socketName);
-            waiter = null;
-        } else {
-            waiter = socketName;
-        }
-    }
-
-    public void stepAction (String userName, String data) {
-        GameSession myGameSession = gameSessionList.get(userName);
-        GameUser myUser = myGameSession.getSelf(userName);
-        myUser.incrementMyScore();
-        GameUser enemyUser = myGameSession.getEnemy(userName);
-        enemyUser.incrementEnemyScore();
-        // совершаем действие - отрисовываем на экране соперника действие, совершенное первым лицом
-        webSocketService.notifyStepAction(enemyUser, data);
-
-        webSocketService.notifyMyNewScore(myUser);
-        webSocketService.notifyEnemyNewScore(enemyUser);
-    }
-
     @Override
     public void run() {
         while (true) {
@@ -63,8 +41,8 @@ public class GameMechanicsImpl implements GameMechanics {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 session.closeGameSession();
                 boolean firstWin = session.isFirstWin();
-                webSocketService.notifyGameOver(session.getFirst(), firstWin);
-                webSocketService.notifyGameOver(session.getSecond(), !firstWin);
+                webSocketService.notifyGameOver(session.getFirst().getEmail(), firstWin);
+                webSocketService.notifyGameOver(session.getSecond().getEmail(), !firstWin);
             }
         }
     }
@@ -76,7 +54,25 @@ public class GameMechanicsImpl implements GameMechanics {
         gameSessionList.put(first, gameSession);
         gameSessionList.put(second, gameSession);
 
-        webSocketService.notifyStartGame(gameSession.getSelf(first));
-        webSocketService.notifyStartGame(gameSession.getSelf(second));
+        webSocketService.notifyStartGame(first, second);
+        webSocketService.notifyStartGame(second, first);
+    }
+
+    public void addGamer(String gamerEmail) {
+        if (waiter != null && !gamerEmail.equals(waiter)) {
+            starGame(gamerEmail);
+            waiter = null;
+        } else {
+            waiter = gamerEmail;
+        }
+    }
+
+    public void enemyStepAction(String gamerEnemyEmail, int x, int y) {
+        GameSession myGameSession = gameSessionList.get(gamerEnemyEmail);
+        Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
+        Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
+        myEnemy.incrementScore();
+        webSocketService.notifyEnemyStep(me.getEmail(), x, y);
+        webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
     }
 }

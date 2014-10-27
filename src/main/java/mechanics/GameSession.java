@@ -1,58 +1,53 @@
 package mechanics;
 
-import base.GameUser;
-
+import base.Gamer;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameSession {
     private final long startTime;
-    private final GameUser first;
-    private final GameUser second;
+    private final Gamer first;
+    private final Gamer second;
     private boolean isActive;
 
-    private Map<String, GameUser> users = new HashMap<>();
-
-    public GameSession(String user1, String user2) {
+    public GameSession(String gamer1Email, String gamer2Email) {
         startTime = new Date().getTime();
-        GameUser gameUser1 = new GameUser(user1);
-        gameUser1.setEnemyName(user2);
-
-        GameUser gameUser2 = new GameUser(user2);
-        gameUser2.setEnemyName(user1);
-
-        users.put(user1, gameUser1);
-        users.put(user2, gameUser2);
-
-        this.first = gameUser1;
-        this.second = gameUser2;
-        this.isActive = true;
+        this.first = new Gamer(gamer1Email);
+        this.second = new Gamer(gamer2Email);
+        isActive = true;
     }
 
-    public GameUser getEnemy(String user) {
-        String enemyName = users.get(user).getEnemyName();
-        return users.get(enemyName);
+    public Gamer getGamer(String gamerEmail) {
+        if (first.getEmail().equals(gamerEmail)) {
+            return first;
+        }
+        else {
+            return second;
+        }
     }
 
-    public GameUser getSelf(String user) {
-        return users.get(user);
+    public Gamer getGamerEnemy(String gamerEnemyEmail) {
+        if (first.getEmail().equals(gamerEnemyEmail)) {
+            return second;
+        }
+        else {
+            return first;
+        }
+    }
+
+    public boolean isFirstWin() {
+        return first.getScore() > second.getScore();
+    }
+
+    public Gamer getFirst() {
+        return first;
+    }
+
+    public Gamer getSecond() {
+        return second;
     }
 
     public long getSessionTime(){
         return new Date().getTime() - startTime;
-    }
-
-    public GameUser getFirst() {
-        return first;
-    }
-
-    public GameUser getSecond() {
-        return second;
-    }
-
-    public  boolean isFirstWin(){
-        return first.getMyScore() > second.getMyScore();
     }
 
     public boolean isActive() { return isActive; }

@@ -5,9 +5,9 @@ package base;
  */
 public interface GameMechanics {
 
-    public void addUser(String userEmail);
+    public void addGamer(String gamerEmail);
 
-    public void stepAction(String userName, String data);
+    public void enemyStepAction(String gamerEnemyEmail, int x, int y);
 
     public void run();
 }

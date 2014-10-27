@@ -12,13 +12,13 @@ public interface WebSocketService {
 
     public void deleteSocket(GameWebSocket socket);
 
-    public void notifyMyNewScore(String gamerEmail);
-
-    public void notifyEnemyNewScore(String gamerEmail, String gamerEnemyEmail);
-
-    public void notifyStepAction(String gamerEmail, String data);
-
     public void notifyStartGame(String gamerEmail, String gamerEnemyEmail);
 
-    public void notifyGameOver(String gamerEmail, String gamerEnemyEmail);
+    public void notifyMyNewScore(String gamerEmail, int myNewScore);
+
+    public void notifyEnemyNewScore(String gamerEmail, int enemyNewScore);
+
+    public void notifyEnemyStep(String gamerEmail, int x, int y);
+
+    public void notifyGameOver(String gamerEmail, boolean win);
 }
