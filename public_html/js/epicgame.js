@@ -7,7 +7,6 @@ requirejs.config({
         "underscore" : "lib/underscore",
         "kinetic" : "lib/kinetic",
         "backbone.kineticview.js" : "lib/backbone.kineticview.js",
-        "my_ajax" : "lib/my_ajax",
         "logout" : "lib/logout",
         "validate" : "lib/validate",
         "jquery.validate" : "lib/jquery.validate",
@@ -48,6 +47,9 @@ requirejs.config({
         "kinetic_example" : "mechanics/kinetic_example",
     },
     shim: {
+        'jquery': {
+            exports: '$'
+        },
         'backbone' : {
             deps: ['jquery', 'underscore'],
             exports: 'Backbone'

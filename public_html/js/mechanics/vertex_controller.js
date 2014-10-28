@@ -61,7 +61,7 @@ define([
                 }
             }
             this.ws.onclose = function (event) {
-                alert("close Socket - game Over");
+                //alert("close Socket - game Over");
                 window.location.hash = "";
             }
         },
