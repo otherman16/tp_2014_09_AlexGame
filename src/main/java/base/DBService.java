@@ -8,9 +8,9 @@ public interface DBService {
 
     public void addSession(String session_id, Long user_id) throws Exception;
 
-    public boolean hasUserByEmail(String findEmail) throws Exception;
+    public Boolean hasUserByEmail(String findEmail) throws Exception;
 
-    public boolean hasUserBySessionId(String findSession_id) throws Exception;
+    public Boolean hasUserBySessionId(String findSession_id) throws Exception;
 
     public UserProfile getUserByEmail(String findEmail) throws Exception;
 
@@ -18,9 +18,9 @@ public interface DBService {
 
     public void removeSessionFromSessionList(String session_id) throws Exception;
 
-    public int getCountUser() throws Exception;
+    public Integer getCountUser() throws Exception;
 
-    public int getCountSessionList() throws Exception;
+    public Integer getCountSessionList() throws Exception;
 
     public ArrayList<UserProfile> getTop10() throws Exception;
 
