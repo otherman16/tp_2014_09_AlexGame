@@ -11,7 +11,7 @@ public class AccountServiceImpl implements AccountService {
     private DBService dbService;
 
     public AccountServiceImpl() {
-        dbService = new DBServiceImpl("jdbc:mysql://localhost/g06_alexgame_db","alexgame_user","alexgame_user");
+        dbService = new DBServiceImpl("localhost","3306","g06_alexgame_db","alexgame_user","alexgame_user");
         UserProfile admin = new UserProfile(1L, "admin", "admin@admin.ru", "admin", 1000L);
         try {
             if (!dbService.hasUserByEmail(admin.getEmail())) {

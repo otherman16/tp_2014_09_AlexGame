@@ -15,8 +15,6 @@ public class DBServiceImpl implements DBService{
 
     private Connection db_connection;
 
-    private DBExecutor db_executor;
-
     public DBServiceImpl(String db_host, String db_port, String db_name, String db_user, String db_password) {
         StringBuilder url = new StringBuilder();
         url.
@@ -31,7 +29,6 @@ public class DBServiceImpl implements DBService{
             db_connection = DriverManager.getConnection(url.toString());
             this.createUserTable();
             this.createSessionListTable();
-            db_executor = new DBExecutor();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -85,12 +82,12 @@ public class DBServiceImpl implements DBService{
                                 + "PRIMARY KEY (id), "
                                 + "KEY (email)"
                                 + ");";
-        db_executor.execUpdate(db_connection, createTableSQL);
+        DBExecutor.execUpdate(db_connection, createTableSQL);
     }
 
     private void createSessionListTable() throws Exception {
         String createTableSQL = "DROP TABLE IF EXISTS session_list;";
-        db_executor.execUpdate(db_connection, createTableSQL);
+        DBExecutor.execUpdate(db_connection, createTableSQL);
         createTableSQL = "CREATE TABLE IF NOT EXISTS session_list("
                         + "session_id VARCHAR(30) NOT NULL DEFAULT \"\", "
                         + "user_id INT(9) UNSIGNED NOT NULL DEFAULT 0, "
@@ -99,22 +96,22 @@ public class DBServiceImpl implements DBService{
                         + "ON UPDATE CASCADE "
                         + "ON DELETE CASCADE "
                         + ") ENGINE=MEMORY;";
-        db_executor.execUpdate(db_connection, createTableSQL);
+        DBExecutor.execUpdate(db_connection, createTableSQL);
     }
 
     public void addUser(UserProfile user) throws Exception {
         String sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
-        db_executor.execUpdate(db_connection, sqlStatement);
+        DBExecutor.execUpdate(db_connection, sqlStatement);
     }
 
     public void addSession(String session_id, Long user_id) throws Exception {
         String sqlStatement = "INSERT INTO session_list (session_id,user_id) VALUES (\"" + session_id + "\"," + user_id + ");";
-        db_executor.execUpdate(db_connection, sqlStatement);
+        DBExecutor.execUpdate(db_connection, sqlStatement);
     }
 
     public Boolean hasUserByEmail(String findEmail) throws Exception {
         String sqlStatement = "SELECT COUNT(*) as count FROM user WHERE email = \"" + findEmail + "\";";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<Boolean>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<Boolean>() {
             @Override
             public Boolean handle(ResultSet result) throws Exception{
                 int count = 0;
@@ -128,7 +125,7 @@ public class DBServiceImpl implements DBService{
 
     public Boolean hasUserBySessionId(String findSession_id) throws Exception {
         String sqlStatement = "SELECT COUNT(*) as count FROM session_list WHERE session_id = \"" + findSession_id + "\";";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<Boolean>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<Boolean>() {
             @Override
             public Boolean handle(ResultSet result) throws Exception{
                 int count = 0;
@@ -142,7 +139,7 @@ public class DBServiceImpl implements DBService{
 
     public UserProfile getUserByEmail(String findEmail) throws Exception {
         String sqlStatement = "SELECT * FROM user WHERE email = \"" + findEmail + "\";";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<UserProfile>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<UserProfile>() {
             @Override
             public UserProfile handle(ResultSet result) throws Exception {
                 Long id = 0L;
@@ -166,7 +163,7 @@ public class DBServiceImpl implements DBService{
         String sqlStatement = "SELECT user.id, user.login, user.email, user.password, user.score FROM user " +
                                 "JOIN session_list ON user.id = session_list.user_id " +
                                 "WHERE session_list.session_id = \"" + findSession_id + "\";";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<UserProfile>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<UserProfile>() {
             @Override
             public UserProfile handle(ResultSet result) throws Exception {
                 Long id = 0l;
@@ -189,12 +186,12 @@ public class DBServiceImpl implements DBService{
     public void removeSessionFromSessionList(String session_id) throws Exception {
         String sqlStatement = "DELETE FROM session_list " +
                                 "WHERE session_id = \"" + session_id + "\";";
-        db_executor.execUpdate(db_connection, sqlStatement);
+        DBExecutor.execUpdate(db_connection, sqlStatement);
     }
 
     public Integer getCountUser() throws Exception {
         String sqlStatement = "SELECT COUNT(*) as count FROM user;";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<Integer>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<Integer>() {
             @Override
             public Integer handle(ResultSet result) throws Exception {
                 int count = 0;
@@ -208,7 +205,7 @@ public class DBServiceImpl implements DBService{
 
     public Integer getCountSessionList() throws Exception {
         String sqlStatement = "SELECT COUNT(*) as count FROM session_list;";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<Integer>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<Integer>() {
             @Override
             public Integer handle(ResultSet result) throws Exception {
                 int count = 0;
@@ -224,7 +221,7 @@ public class DBServiceImpl implements DBService{
         String sqlStatement = "SELECT * FROM user " +
                                 "ORDER BY -score " +
                                 "LIMIT 10;";
-        return db_executor.execQuery(db_connection, sqlStatement, new ResultHandler<ArrayList<UserProfile>>() {
+        return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<ArrayList<UserProfile>>() {
             @Override
             public ArrayList<UserProfile> handle(ResultSet result) throws Exception {
                 ArrayList<UserProfile> users = new ArrayList<>();
@@ -244,6 +241,6 @@ public class DBServiceImpl implements DBService{
     public void deleteUserFromUser(String email) throws Exception {
         String sqlStatement = "DELETE FROM user " +
                 "WHERE email = \"" + email+ "\";";
-        db_executor.execUpdate(db_connection, sqlStatement);
+        DBExecutor.execUpdate(db_connection, sqlStatement);
     }
 }
