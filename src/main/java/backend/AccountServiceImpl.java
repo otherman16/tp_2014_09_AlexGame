@@ -4,17 +4,19 @@ import base.AccountServiceResponse;
 import base.DBService;
 import base.UserProfile;
 import base.AccountService;
+import database.DBServiceImpl;
 
 import javax.servlet.http.HttpSession;
 
 public class AccountServiceImpl implements AccountService {
+
     private DBService dbService;
 
     public AccountServiceImpl() {
-        dbService = new DBServiceImpl("localhost","3306","g06_alexgame_db","alexgame_user","alexgame_user");
-        UserProfile admin = new UserProfile(1L, "admin", "admin@admin.ru", "admin", 1000L);
         try {
-            if (!dbService.hasUserByEmail(admin.getEmail())) {
+            dbService = new DBServiceImpl("localhost","3306","g06_alexgame_db","alexgame_user","alexgame_user");
+            UserProfile admin = new UserProfile(1L, "admin", "admin@admin.ru", "admin", 1000L);
+            if (!dbService.isUserExistsByEmail(admin.getEmail())) {
                 dbService.addUser(admin);
             }
         } catch (Exception e) {
@@ -24,10 +26,10 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceResponse authUser(UserProfile user, HttpSession session) {
         try{
-            if (dbService.hasUserBySessionId(session.getId())) {
+            if (dbService.isSessionExistsBySessionId(session.getId())) {
                 return new AccountServiceResponse<>(false, "User is already authenticated");
             }
-            if(!dbService.hasUserByEmail(user.getEmail())) {
+            if(!dbService.isUserExistsByEmail(user.getEmail())) {
                 return new AccountServiceResponse<>(false,"Wrong email");
             }
             UserProfile _user = dbService.getUserByEmail(user.getEmail());
@@ -44,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceResponse getUserBySession(HttpSession session) {
         try {
-            if (!dbService.hasUserBySessionId(session.getId())) {
+            if (!dbService.isSessionExistsBySessionId(session.getId())) {
                 return new AccountServiceResponse<>(false, "You are not authenticated");
             }
             return new AccountServiceResponse<>(true, dbService.getUserBySessionId(session.getId()));
@@ -56,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceResponse registerUser(UserProfile user, HttpSession session) {
         try {
-            if (dbService.hasUserByEmail(user.getEmail())) {
+            if (dbService.isUserExistsByEmail(user.getEmail())) {
                 return new AccountServiceResponse<>(false, "User with those email already exists");
             }
             dbService.addUser(user);
@@ -69,10 +71,10 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceResponse logoutUser(HttpSession session) {
         try {
-            if (!dbService.hasUserBySessionId(session.getId())) {
+            if (!dbService.isSessionExistsBySessionId(session.getId())) {
                 return new AccountServiceResponse<>(false, "You are not authenticated");
             }
-            dbService.removeSessionFromSessionList(session.getId());
+            dbService.deleteSession(session.getId());
             return new AccountServiceResponse<>(true,"Success");
         } catch (Exception e) {
             System.out.println("Exception in AccountService.logoutUser: " + e.getMessage());
@@ -109,10 +111,10 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceResponse deleteUser(String email) {
         try {
-            if(!dbService.hasUserByEmail(email)) {
+            if(!dbService.isUserExistsByEmail(email)) {
                 return new AccountServiceResponse<>(false,"User with those email does not exists");
             }
-            dbService.deleteUserFromUser(email);
+            dbService.deleteUser(email);
             return new AccountServiceResponse<>(true,"Success");
         } catch (Exception e) {
             System.out.println("Exception in AccountService.deleteUser: " + e.getMessage());

@@ -14,13 +14,13 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.http.HttpServlet;
 import resourse.ReadXMLFileSAX;
-import resourse.SerializationObject;
+import resourse.StartPort;
 import websocket.WebSocketServiceImpl;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        SerializationObject P_startServer = (SerializationObject) ReadXMLFileSAX.readXML("P_startServer.xml");
+        StartPort P_startServer = (StartPort) ReadXMLFileSAX.readXML("./data/startPort.xml");
         if (P_startServer == null) {
             System.out.append("Read xml Error");
         }

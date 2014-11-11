@@ -1,6 +1,5 @@
 package mechanics;
 
-import base.Gamer;
 import java.util.Date;
 
 public class GameSession {

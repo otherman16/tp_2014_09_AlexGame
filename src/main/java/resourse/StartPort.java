@@ -2,17 +2,17 @@ package resourse;
 
 import java.io.Serializable;
 
-public class SerializationObject implements Serializable {
+public class StartPort implements Serializable {
     private static final long serialVersionUID = -3895203507200457732L;
     private String name;
     private int port;
 
-    public SerializationObject() {
+    public StartPort() {
         this.name = "Nothing";
         this.port = 0;
     }
 
-    public SerializationObject(String name, int port) {
+    public StartPort(String name, int port) {
         this.setPort(port);
         this.setName(name);
     }

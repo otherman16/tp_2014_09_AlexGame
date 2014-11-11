@@ -32,5 +32,5 @@ public class GetUserServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
     public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException { response.setStatus(HttpServletResponse.SC_FORBIDDEN); }
+                       HttpServletResponse response) throws ServletException, IOException { response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED); }
 }

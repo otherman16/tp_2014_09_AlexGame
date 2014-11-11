@@ -1,0 +1,4 @@
+<class type='resourse.StartPort'>
+    <name>StartPort</name>
+	<port>8096</port>
+</class>

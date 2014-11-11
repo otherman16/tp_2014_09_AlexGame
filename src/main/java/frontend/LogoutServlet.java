@@ -18,7 +18,7 @@ public class LogoutServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("/#");
-        response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+        response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {

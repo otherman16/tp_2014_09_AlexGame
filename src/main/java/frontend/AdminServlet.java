@@ -35,8 +35,8 @@ public class AdminServlet extends HttpServlet {
                 } else {
                     response.setContentType("text/html;charset=utf-8");
                     response.getWriter().println("<div>Сервер Epic Game:<br/>Зарегестрированных пользователей: " +
-                            service.numberOfRegisteredUsers() + "<br/>Количество пользователей Online: " +
-                            service.numberOfAuthUsers() + "<br/>" +
+                            service.numberOfRegisteredUsers().getResponse() + "<br/>Количество пользователей Online: " +
+                            service.numberOfAuthUsers().getResponse() + "<br/>" +
                             "<form action=\"/admin\" method=\"get\">" +
                             "<label for=\"shutdown\">Задайте время остановки сервера в мс</label>" +
                             "<input id=\"shutdown\" name=\"shutdown\" type=\"text\" value=\"1000\"><br/>" +
@@ -56,6 +56,6 @@ public class AdminServlet extends HttpServlet {
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
 }

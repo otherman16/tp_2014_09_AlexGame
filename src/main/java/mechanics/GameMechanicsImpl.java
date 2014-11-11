@@ -1,7 +1,6 @@
 package mechanics;
 
 import base.GameMechanics;
-import base.Gamer;
 import base.WebSocketService;
 import utils.TimeHelper;
 

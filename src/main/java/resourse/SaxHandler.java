@@ -3,7 +3,6 @@ package resourse;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import resourse.ReflectionHelper;
 
 public class SaxHandler extends DefaultHandler {
     private static String CLASSNAME = "class";
@@ -26,7 +25,7 @@ public class SaxHandler extends DefaultHandler {
         else{
             String className = attributes.getValue(0);
             //System.out.println("Class name: " + className);
-            object = ReflectionHelper.createIntance(className);
+            object = ReflectionHelper.createInstance(className);
         }
     }
 

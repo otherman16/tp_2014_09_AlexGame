@@ -4,12 +4,14 @@ public class UserDataSet {
     private long id;
     private String email;
     private String login;
+    private String password;
     private long score;
 
-    public UserDataSet(long id, String email, String login, long score) {
+    public UserDataSet(long id, String email, String login, String password, long score) {
         this.id = id;
         this.email = email;
         this.login = login;
+        this.password = password;
         this.score = score;
     }
 
@@ -35,6 +37,14 @@ public class UserDataSet {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public long getScore() {
