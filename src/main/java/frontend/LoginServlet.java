@@ -1,6 +1,7 @@
 package frontend;
 
 import base.AccountService;
+import base.AccountServiceError;
 import base.AccountServiceResponse;
 import base.UserProfile;
 import org.json.JSONException;
@@ -41,7 +42,8 @@ public class LoginServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
             else {
-                JSONObject jsnObj = new JSONObject().put("message", resp.getResponse());
+                AccountServiceError error = (AccountServiceError)resp.getResponse();
+                JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
                 response.getWriter().print(jsnObj.toString());
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -1,5 +1,6 @@
 package frontend;
 
+import base.AccountServiceError;
 import base.AccountServiceResponse;
 import base.UserProfile;
 import base.AccountService;
@@ -24,7 +25,8 @@ public class GetScoresServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         AccountServiceResponse resp = service.getTop10();
         if ( !resp.getStatus() ) {
-            JSONObject jsnObj = new JSONObject().put("message", "Internal server error");
+            AccountServiceError error = (AccountServiceError)resp.getResponse();
+            JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
             response.getWriter().print(jsnObj.toString());
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
