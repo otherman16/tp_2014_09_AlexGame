@@ -1,9 +1,6 @@
 package resourse;
 
-/**
- * Created by aleksei on 15.11.14.
- */
-public class Puck {
+public class Puck implements Resource{
 
     private String speed;
 
