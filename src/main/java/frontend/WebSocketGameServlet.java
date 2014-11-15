@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 
 @WebServlet(name = "WebSocketGameServlet", urlPatterns = {"/gameSocket"})
 public class WebSocketGameServlet extends WebSocketServlet {
-    private final static int IDLE_TIME = 15 * 1000;
+    private final static int IDLE_TIME = 60 * 1000;
     private AccountService authService;
     private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
@@ -26,6 +26,7 @@ public class WebSocketGameServlet extends WebSocketServlet {
 
     @Override
     public void configure(WebSocketServletFactory factory) {
+        System.out.append("SocketFactory");
         factory.getPolicy().setIdleTimeout(IDLE_TIME);
         factory.setCreator(new CustomWebSocketCreator(authService, gameMechanics, webSocketService));
     }

@@ -13,7 +13,7 @@ import java.util.Set;
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
-    private static final int gameTime = 15 * 1000;
+    private static final int gameTime = 60 * 1000;
 
     private WebSocketService webSocketService;
 
@@ -53,8 +53,8 @@ public class GameMechanicsImpl implements GameMechanics {
         gameSessionList.put(first, gameSession);
         gameSessionList.put(second, gameSession);
 
-        webSocketService.notifyStartGame(first, second);
-        webSocketService.notifyStartGame(second, first);
+        webSocketService.notifyStartGame(first, second, 2);
+        webSocketService.notifyStartGame(second, first, 1);
     }
 
     public void addGamer(String gamerEmail) {
@@ -66,12 +66,12 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
-    public void enemyStepAction(String gamerEnemyEmail, int x, int y) {
+    public void enemyStepAction(String gamerEnemyEmail, int direction) {
         GameSession myGameSession = gameSessionList.get(gamerEnemyEmail);
         Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
         Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
         myEnemy.incrementScore();
-        webSocketService.notifyEnemyStep(me.getEmail(), x, y);
+        webSocketService.notifyEnemyStep(me.getEmail(), direction);
         webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
     }
 }

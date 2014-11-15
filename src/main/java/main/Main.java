@@ -13,14 +13,17 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.http.HttpServlet;
-import resourse.ReadXMLFileSAX;
+import resourse.ResourceFactory;
 import resourse.StartPort;
 import websocket.WebSocketServiceImpl;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        StartPort P_startServer = (StartPort) ReadXMLFileSAX.readXML("./data/startPort.xml");
+        //StartPort P_startServer = (StartPort) ReadXMLFileSAX.readXML("./data/startPort.xml");
+        StartPort P_startServer = ResourceFactory.getInstance().get("./data/startPort.xml");
+        //StartPort P_startServer = ResourceFactory.getInstance()
+        //StartPort
         if (P_startServer == null) {
             System.out.append("Read xml Error");
         }

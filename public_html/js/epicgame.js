@@ -5,12 +5,14 @@ requirejs.config({
         "jquery" : "lib/jquery",
         "backbone" : "lib/backbone",
         "underscore" : "lib/underscore",
-        "kinetic" : "lib/kinetic",
-        "backbone.kineticview.js" : "lib/backbone.kineticview.js",
         "logout" : "lib/logout",
         "validate" : "lib/validate",
         "jquery.validate" : "lib/jquery.validate",
-        // Templates
+        // Libs for mechanics
+        "phoria" : "lib/mechanics/phoria",
+        "dat.gui" : "lib/mechanics/dat.gui.min",
+        "gl.matrix" : "lib/mechanics/gl.matrix",
+        // Templates/**
         "game_tmpl" : "tmpl/game_tmpl",
         "login_tmpl" : "tmpl/login_tmpl",
         "main_user_tmpl" : "tmpl/main_user_tmpl",
@@ -37,6 +39,8 @@ requirejs.config({
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",
         "vertex_model" : "models/vertex_model",
+        "cylinder_model" : "models/cylinder_model",
+        'puck_model' : "models/puck_model",
         // Collections
         "score_collection" : "collections/score_collection",
         "vertex_collection" : "collections/vertex_collection",
@@ -45,6 +49,9 @@ requirejs.config({
         "vertex_view" : "mechanics/vertex_view",
         "vertex_app" : "mechanics/vertex_app",
         "kinetic_example" : "mechanics/kinetic_example",
+        "arkanoid_app" : "mechanics/arkanoid_app",
+        "arkanoid_view" : "mechanics/arkanoid_view",
+        "arkanoid_controller" : "mechanics/arkanoid_controller"
     },
     shim: {
         'jquery': {
@@ -59,7 +66,11 @@ requirejs.config({
             exports: '_'
         },
         'jquery.validate' : {
-            deps: ['jquery'],
+            deps: ['jquery']
+        },
+        'phoria' : {
+            deps: ['gl.matrix', 'dat.gui'],
+            exports: 'Phoria'
         }
     }
 });

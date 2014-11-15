@@ -7,7 +7,7 @@ public interface GameMechanics {
 
     public void addGamer(String gamerEmail);
 
-    public void enemyStepAction(String gamerEnemyEmail, int x, int y);
+    public void enemyStepAction(String gamerEnemyEmail, int direction);
 
     public void run();
 }

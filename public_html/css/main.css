@@ -25,8 +25,7 @@ body {
 .screen__registration,
 .screen__scoreboard,
 .screen__game,
-.screen__profile,
-.screen__canvas {
+.screen__profile {
 	display:none;
 }
 /*Toolbar*/
@@ -170,5 +169,9 @@ label.valid{
 	font-size:12pt;
 	font-weight:bold;
 	display:none;
+}
+
+html {
+    overflow:  hidden; //временно для разроботки с консолью в chrome
 }
 

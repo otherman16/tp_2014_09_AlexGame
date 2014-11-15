@@ -6,8 +6,8 @@ define([
 	'game_tmpl',
 	// Models
 	'user_model',
-	'vertex_app',
-], function($, Backbone, game_tmpl, UserModel, VertexApp ) {
+	'arkanoid_app',
+], function($, Backbone, game_tmpl, UserModel, ArkanoidApp ) {
 
 	var GameView = Backbone.View.extend({
 		template: game_tmpl,
@@ -16,7 +16,8 @@ define([
 			this.$el.html(this.template(this.model.toJSON()));
 		},
 		show_game: function() {
-        	this.VertexApp = new VertexApp();
+            console.log("game start");
+        	this.ArkanoidApp = new ArkanoidApp();
 		},
 		show: function() {
 			if( this.model.isLogin() ) {
