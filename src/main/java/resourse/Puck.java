@@ -19,8 +19,4 @@ public class Puck implements Resource{
     public void setSpeed(String port) {
         this.speed = port;
     }
-
-    public String toString() {
-        return  " port: " + speed;
-    }
 }

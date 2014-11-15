@@ -1,7 +1,5 @@
 package database;
 
-import base.ResultHandler;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

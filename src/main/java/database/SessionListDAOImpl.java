@@ -1,8 +1,5 @@
 package database;
 
-import base.ResultHandler;
-import base.SessionListDAO;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 

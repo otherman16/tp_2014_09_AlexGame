@@ -18,8 +18,4 @@ public class StartPort implements Resource {
     public void setPort(int port) {
         this.port = port;
     }
-
-    public String toString() {
-        return "Port: " + port;
-    }
 }
