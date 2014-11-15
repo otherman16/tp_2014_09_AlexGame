@@ -22,6 +22,8 @@ define([
 			}
 		},
 		initialize: function() {
+            console.log("parapapam");
+            console.log(this.ababa);
 			this.listenTo(this.model,'change', this.render);
 			this.render();
 		},

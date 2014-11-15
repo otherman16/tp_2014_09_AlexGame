@@ -24,6 +24,7 @@ public class GameWebSocket {
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
+        System.out.append("Open_Socket");
         setSession(session);
         webSocketService.addSocket(this);
         gameMechanics.addGamer(gamerEmail);
@@ -37,10 +38,10 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data)  {
         try {
+            System.out.append("onMessage").append(data);
             JSONObject jsonRequest = new JSONObject(data);
-            int x = jsonRequest.getInt("x");
-            int y = jsonRequest.getInt("y");
-            gameMechanics.enemyStepAction(gamerEmail, x, y);
+            int direction = jsonRequest.getInt("dir");
+            gameMechanics.enemyStepAction(gamerEmail, direction);
         } catch (Exception e) {
             System.out.println("Exception in GameWebSocket.onMessage: " + e.getMessage());
         }

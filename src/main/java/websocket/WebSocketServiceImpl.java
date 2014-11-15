@@ -2,6 +2,9 @@ package websocket;
 
 import base.WebSocketService;
 import org.json.JSONObject;
+import resourse.ResourceFactory;
+import resourse.Puck;
+import resourse.StartPort;
 
 import java.util.HashMap;
 
@@ -30,10 +33,12 @@ public class WebSocketServiceImpl implements WebSocketService {
         socketList.remove(socketName);
     }
 
-    public void notifyStartGame(String gamerEmail, String gamerEnemyEmail) {
+    public void notifyStartGame(String gamerEmail, String gamerEnemyEmail, int number) {
         try {
             JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("code", "start_game").put("enemyEmail", gamerEnemyEmail);
+            Puck puck = (Puck)ResourceFactory.instance().get("./data/puck.xml");
+            System.out.append(puck.getSpeed());
+            jsonResponse.put("code", "start_game").put("enemyEmail", gamerEnemyEmail).put("number", number).put("speed", puck.getSpeed());
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyStartGame: " + e.getMessage());
@@ -60,10 +65,10 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
-    public void notifyEnemyStep(String gamerEmail, int x, int y) {
+    public void notifyEnemyStep(String gamerEmail, int direction) {
         try {
             JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("code", "enemy_step").put("x", x).put("y", y);
+            jsonResponse.put("code", "enemy_step").put("direction", direction);
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyStep: " + e.getMessage());

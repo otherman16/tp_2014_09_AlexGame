@@ -13,10 +13,9 @@ define([
     'canvas_view',
     // Model
     'user_model',
-    'vertex_app',
 ], function(Backbone, MainView, LoginView, RegistrationView, 
                     GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, CanvasView, 
-                    UserModel, VertexApp) {
+                    UserModel) {
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
