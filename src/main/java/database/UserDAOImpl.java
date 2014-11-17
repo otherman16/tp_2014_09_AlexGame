@@ -1,8 +1,5 @@
 package database;
 
-import base.ResultHandler;
-import base.UserDAO;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
