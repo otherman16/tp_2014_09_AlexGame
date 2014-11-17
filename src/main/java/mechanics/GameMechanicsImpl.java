@@ -2,6 +2,7 @@ package mechanics;
 
 import base.GameMechanics;
 import base.WebSocketService;
+import org.json.JSONObject;
 import utils.TimeHelper;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
-    private static final int gameTime = 60 * 1000;
+    private static final int gameTime = 45 * 1000;
 
     private WebSocketService webSocketService;
 
@@ -66,12 +67,33 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
-    public void enemyStepAction(String gamerEnemyEmail, int direction) {
+    public void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject) {
         GameSession myGameSession = gameSessionList.get(gamerEnemyEmail);
         Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
-        Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
-        myEnemy.incrementScore();
-        webSocketService.notifyEnemyStep(me.getEmail(), direction);
-        webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
+        int code = jsonObject.getInt("code");
+        if (code == 0) {
+            int direction = jsonObject.getInt("dir");
+            webSocketService.notifyEnemyStep(me.getEmail(), direction);
+        }
+        if ( code == 1) {
+            double dnextX = jsonObject.getDouble("dnextX");
+            double dnextY = jsonObject.getDouble("dnextY");
+            double velocityX = jsonObject.getDouble("velocityX");
+            double velocityY = jsonObject.getDouble("velocityY");
+            double speed = jsonObject.getDouble("speed");
+            double angle = jsonObject.getDouble("angle");
+            webSocketService.notifyEnemyKick(me.getEmail(), dnextX, dnextY, velocityX, velocityY, speed, angle);
+        }
+        else if (code == 2 ) {
+            double dnextX = jsonObject.getDouble("dnextX");
+            double dnextY = jsonObject.getDouble("dnextY");
+            webSocketService.notifyEnemyPosition(me.getEmail(), dnextX, dnextY);
+        }
+        else if (code == 3 ) {
+            Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
+            myEnemy.incrementScore();
+            webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
+            webSocketService.notifyMyNewScore(me.getEmail(), me.getScore());
+        }
     }
 }

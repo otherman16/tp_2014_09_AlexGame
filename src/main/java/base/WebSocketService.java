@@ -20,5 +20,10 @@ public interface WebSocketService {
 
     public void notifyEnemyStep(String gamerEmail, int direction);
 
+    public void notifyEnemyPosition(String gamerEmail, double dnextX, double dnextY);
+
+    public void notifyEnemyKick(String gamerEmail, double dnextX, double dnextY, double velocityX,
+                                     double velocityY, double speed, double angle);
+
     public void notifyGameOver(String gamerEmail, boolean win);
 }

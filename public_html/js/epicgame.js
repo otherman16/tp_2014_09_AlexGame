@@ -38,20 +38,13 @@ requirejs.config({
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",
-        "vertex_model" : "models/vertex_model",
-        "cylinder_model" : "models/cylinder_model",
+        "bat_model" : "models/bat_model",
         'puck_model' : "models/puck_model",
         // Collections
         "score_collection" : "collections/score_collection",
         "vertex_collection" : "collections/vertex_collection",
         // Game_mechanics
-        "vertex_controller" : "mechanics/vertex_controller",
-        "vertex_view" : "mechanics/vertex_view",
-        "vertex_app" : "mechanics/vertex_app",
-        "kinetic_example" : "mechanics/kinetic_example",
-        "arkanoid_app" : "mechanics/arkanoid_app",
-        "arkanoid_view" : "mechanics/arkanoid_view",
-        "arkanoid_controller" : "mechanics/arkanoid_controller"
+        "air_hockey_app" : "mechanics/air_hockey_app",
     },
     shim: {
         'jquery': {

@@ -37,7 +37,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             Puck puck = (Puck)ResourceFactory.instance().get("./data/puck.xml");
-            System.out.append(puck.getSpeed());
+            //System.out.append(puck.getSpeed());
             jsonResponse.put("code", "start_game").put("enemyEmail", gamerEnemyEmail).put("number", number).put("speed", puck.getSpeed());
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
@@ -72,6 +72,29 @@ public class WebSocketServiceImpl implements WebSocketService {
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyStep: " + e.getMessage());
+        }
+    }
+
+    public void notifyEnemyKick(String gamerEmail, double dnextX, double dnextY, double velocityX,
+                                     double velocityY, double speed, double angle) {
+        try {
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("code", "kick").put("dnextX", dnextX).put("dnextY" , dnextY);
+            jsonResponse.put("velocityX" , velocityX).put("velocityY", velocityY);
+            jsonResponse.put("speed", speed).put("angle", angle);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
+        } catch (Exception e) {
+            System.out.println("Exception in WebSocketServiceImpl.notifyEnemyCollision: " + e.getMessage());
+        }
+    }
+
+    public void notifyEnemyPosition(String gamerEmail, double dnextX, double dnextY) {
+        try {
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("code", "enemy_position").put("dnextX", dnextX).put("dnextY" , dnextY);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
+        } catch (Exception e) {
+            System.out.println("Exception in WebSocketServiceImpl.notifyEnemyPosition: " + e.getMessage());
         }
     }
 

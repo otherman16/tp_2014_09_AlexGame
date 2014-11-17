@@ -3,9 +3,9 @@ define([
     'jquery',
     'backbone',
     'phoria',
-    'cylinder_model',
+    'bat_model',
     'puck_model'
-], function($, Backbone, P,  CylinderModel, PuckModel){
+], function($, Backbone, P, BatModel, PuckModel){
     var ArkanoidApp = Backbone.View.extend({
         el: $('.screen__game'),
         initialize: function() {
@@ -23,18 +23,16 @@ define([
                 length : 20
             };
 
-            /* отрисовка границ и карты */
-
             var block1 = {
-                x : net.length/20,
-                y : net.length/20,
-                z : net.length/2
+                x : net.length/40,
+                y : net.length/40,
+                z : net.length
             };
 
             var block2 = {
                 x : net.length/4,
-                y : net.length/20,
-                z : net.length/20
+                y : net.length/40,
+                z : net.length/40
             };
 
             var border = function(b) {
@@ -56,9 +54,6 @@ define([
                         {vertices:[5,4,6,7]},
                         {vertices:[1,0,2,3]},
                     ],
-                    edges: [
-                        {a:7, b:4}
-                    ],
                     style: {
                         drawmode: "solid",
                         fillmode: "fill",
@@ -69,18 +64,13 @@ define([
             };
             var border1 = border(block1);
             var border2 = border(block1);
-            var border3 = border(block1);
-            var border4 = border(block1);
             var border5 = border(block2);
             var border6 = border(block2);
             var border7 = border(block2);
             var border8 = border(block2);
 
-
-            border1.translateX(-net.length/2-block1.x);
-            border2.translateZ(-net.length/2).translateX(-net.length/2-block1.x);
-            border3.translateX(net.length/2);
-            border4.translateX(net.length/2).translateZ(-net.length/2);
+            border1.translateZ(-net.length/2).translateX(-net.length/2-block1.x);
+            border2.translateX(net.length/2).translateZ(-net.length/2);
             border5.translateX(net.length/2-block2.x+block1.x).translateZ(net.length/2);
             border6.translateX(net.length/2-block2.x+block1.x).translateZ(-net.length/2-block2.z);
             border7.translateX(-net.length/2-block1.x).translateZ(net.length/2);
@@ -115,20 +105,24 @@ define([
                 color: [255, 255, 255]
             });
 
-            var send_message = function(direction) {
-                var data = JSON.stringify({dir: direction});
-                console.log(ws);
+            var send_message_enemy_score = function() {
+                var data = JSON.stringify({code: 3});
                 ws.send(data);
             };
 
-            var send_massage_renew = function(renew) {
-                var data = JSON.stringify({renew: renew});
+            var send_message_puck = function( dnextX, dnextY, velocityX, velocityY, speed, angle) {
+                var data = JSON.stringify({code: 1, dnextX: dnextX, dnextY: dnextY,velocityX:velocityX,
+                    velocityY: velocityY, speed: speed, angle : angle});
+                ws.send(data);
+            };
+
+            var send_message_position_enemy_bat = function (dnextX, dnextY) {
+                var data = JSON.stringify({code: 2, dnextX: dnextX, dnextY: dnextY});
                 ws.send(data);
             };
 
             if ( !this.ws) {
                 var ws = new WebSocket("ws://localhost:8096/gameSocket");
-                console.log(ws);
             }
 
             var canvas = document.getElementById('myCanvas');
@@ -151,20 +145,10 @@ define([
                     color : [200,200,200]
                 }
             }));
-            var t = Date.now()/1000;
-            var p = [~~((Math.sin(t))*128)+128,~~((Math.sin(t/2))*128)+128,~~((Math.cos(t))*128)+128];
-            var light = Phoria.DistantLight.create({
-                position: {x:0, y:0, z:0},
-                intensity: 0.75,
-                attenuation: 0.2,
-                attenuationFactor: "squared",
-                color: [p[0]/255,p[1]/255,p[2]/255]
-            });
 
-            var myBat = new CylinderModel();
-            var enemyBat = new CylinderModel();
+            var myBat = new BatModel();
+            var enemyBat = new BatModel();
             var puck = new PuckModel();
-            //puck.setBigCylinder(0.4, 0.5, 50);
             myBat.initAsMy();
             enemyBat.initAsEnemy();
             scene.graph.push(new Phoria.DistantLight());
@@ -177,8 +161,6 @@ define([
             scene.graph.push(light4);
             scene.graph.push(border1);
             scene.graph.push(border2);
-            scene.graph.push(border3);
-            scene.graph.push(border4);
             scene.graph.push(border5);
             scene.graph.push(border6);
             scene.graph.push(border7);
@@ -201,119 +183,163 @@ define([
                     if (keyPressList[37]) {
                         if (keyPressList[38]) {
                             myBat.left_top();
-                            send_message(3738);
                             break handler;
                         }
                         if (keyPressList[40]) {
                             myBat.left_bottom();
-                            send_message(3740);
                             break handler;
                         }
-                        //alert("left")
                         myBat.left();
-                        send_message(37);
                     }
-
                     if (keyPressList[39]) {
                         if (keyPressList[38]) {
                             myBat.right_top();
-                            send_message(3839);
                             break handler;
                         }
                         if (keyPressList[40]) {
                             myBat.right_bottom();
-                            send_message(3840);
                             break handler;
                         }
-                        //alert("right")
                         myBat.right();
-                        send_message(39);
                     }
-
                    if (keyPressList[38]) {
-                       //alert("top")
                        myBat.top();
-                       send_message(38);
                    }
-
                    if (keyPressList[40]) {
-                       //alert("bottom")
                        myBat.bottom();
-                       send_message(40);
-
                    }
                }
             };
 
            var setStartParameters = function(code, speed) {
                // если второй соперник, то разворачиваем для него угол направление движения шайбы на 180 градусов
-               if (code == 2)
-                   puck.angle += 180;
-               puck.update();
                puck.speed = speed;
+               if (code == 2) {
+                   puck.angle += 180;
+               }
+               puck.update();
                puck.start = true;
            };
 
-           var enemyStepHandler = function(code) {
-               console.log(code);
-               if (code == 39) {
-                   enemyBat.left();
-               } else if ( code == 37 ) {
-                   enemyBat.right();
-               } else if ( code == 38 ) {
-                   enemyBat.bottom();
-               } else if ( code == 40 ) {
-                   enemyBat.top();
-               } else if ( code == 3840 ) {
-                   enemyBat.left_top();
-               } else if ( code == 3839 ) {
-                   enemyBat.left_bottom();
-               } else if ( code == 3740 ) {
-                   enemyBat.right_top();
-               } else if ( code == 3738 ) {
-                   enemyBat.right_bottom();
-               }
-           };
+            var EnemyPositionHandler = function (dnextX, dnextY) {
+                enemyBat.dnextX = -dnextX;
+                enemyBat.dnextY = -dnextY;
+                enemyBat.render();
+            };
 
-            var step = 0;
+            var kickHandler = function (dnextX, dnextY, velocityX, velocityY, speed, angle) {
+                puck.dnextX = -dnextX;
+                puck.dnextY = -dnextY;
+                puck.velocityX = -velocityX;
+                puck.velocityY = -velocityY;
+                puck.speed = speed;
+                puck.angle = 180 + angle;
+            };
+
+            var collide = function(myBat, puck) {
+                if (hitTest(myBat, puck)) {
+                    var dx = (myBat.x + myBat.dnextX) - (puck.x + puck.dnextX);
+                    var dy = (myBat.y + myBat.dnextY) - (puck.y + puck.dnextY);
+
+                    var collisionAngle = Math.atan2(dy, dx);
+
+                    var speed1 = Math.sqrt(myBat.velocityX * myBat.velocityX +
+                        myBat.velocityY * myBat.velocityY);
+                    var speed2 = Math.sqrt(puck.velocityX * puck.velocityX +
+                        puck.velocityY * puck.velocityY);
+                    var direction1 = Math.atan2(myBat.velocityY, myBat.velocityX);
+                    var direction2 = Math.atan2(puck.velocityY, puck.velocityX);
+
+                    var velocityx_1 = speed1 * Math.cos(direction1 - collisionAngle);
+                    var velocityy_1 = speed1 * Math.sin(direction1 - collisionAngle);
+                    var velocityx_2 = speed2 * Math.cos(direction2 - collisionAngle);
+                    var velocityy_2 = speed2 * Math.sin(direction2 - collisionAngle);
+
+                    var final_velocityx_1 = ((myBat.mass - puck.mass) * velocityx_1 +
+                        (puck.mass + puck.mass) * velocityx_2)/(myBat.mass + puck.mass);
+                    var final_velocityx_2 = ((myBat.mass + myBat.mass) * velocityx_1 +
+                        (puck.mass - myBat.mass) * velocityx_2)/(myBat.mass + puck.mass);
+
+                    var final_velocityy_1 = velocityy_1;
+                    var final_velocityy_2 = velocityy_2;
+
+                    myBat.velocityX = Math.cos(collisionAngle) * final_velocityx_1 +
+                        Math.cos(collisionAngle + Math.PI/2) * final_velocityy_1;
+                    myBat.velocityY = Math.sin(collisionAngle) * final_velocityx_1 +
+                        Math.sin(collisionAngle + Math.PI/2) * final_velocityy_1;
+                    puck.velocityX = Math.cos(collisionAngle) * final_velocityx_2 +
+                        Math.cos(collisionAngle + Math.PI/2) * final_velocityy_2;
+                    puck.velocityY = Math.sin(collisionAngle) * final_velocityx_2 +
+                        Math.sin(collisionAngle + Math.PI/2) * final_velocityy_2;
+
+                    puck.speed = Math.sqrt(puck.velocityX*puck.velocityX + puck.velocityY*puck.velocityY);
+                    myBat.dnextX = (myBat.dnextX += myBat.velocityX);
+                    myBat.dnextY = (myBat.dnextY += myBat.velocityY);
+                    puck.dnextX = (puck.dnextX += puck.velocityX);
+                    puck.dnextY = (puck.dnextY += puck.velocityY);
+                    puck.angle = Math.atan2(puck.velocityY, puck.velocityX)*180/Math.PI;
+                    send_message_puck(puck.dnextX, puck.dnextY, puck.velocityX, puck.velocityY, puck.speed, puck.angle);
+                }
+            };
+
+            var hitTest = function (myBat, puck) {
+                var retval = false;
+                var dx = (myBat.x + myBat.dnextX) - (puck.x + puck.dnextX);
+                var dy = (myBat.y + myBat.dnextX) - (puck.y + puck.dnextY);
+                var distance = (dx * dx + dy * dy);
+                if (distance <= (myBat.radius + puck.radius) *
+                    (myBat.radius + puck.radius) )
+                    retval = true;
+                return retval;
+            };
+
+            var setEndParameters = function () {
+                game_session = false;
+            };
+            // надо настоить синхронное начало для игры, а так вроде неплохо
+            puck.update();
+            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters);
+
             var fnAnimate = function() {
-                // stop и start не будет
-                keyPressListHandler();
-                if ( puck.start ) {
-                    //console.log(puck.x);
-                    puck.move();
-                    if (puck.x > net.length/2 -puck.radius || puck.x < -net.length/2 + puck.radius ) {
-                        puck.angle = 180 - puck.angle;
+                if (game_session) {
+                    keyPressListHandler();
+                    myBat.testBorder(net.length / 2, net.length / 2);
+                    if (puck.start) {
+                        if (puck.x > net.length / 2 - puck.radius - puck.dnextX || puck.x < -net.length / 2 + puck.radius - puck.dnextX) {
+                            puck.angle = 180 - puck.angle;
+                        } else if (puck.y > net.length / 2 - puck.radius - puck.dnextY) {
+                            puck.angle = 360 - puck.angle;
+                        } else if (puck.y < -net.length / 2 + puck.radius - puck.dnextY) {
+                            puck.angle = 360 - puck.angle;
+                            if (puck.x < block2.x - puck.radius - puck.dnextX || puck.x > -block2.x + puck.radius - puck.dnextX) {
+                                send_message_enemy_score();
+                            }
+                        }
                         puck.update();
-                    } else if (puck.y > net.length/2-puck.radius || puck.y < -net.length/2 + puck.radius) {
-                        puck.angle = 360 - puck.angle;
-                        send_massage_renew(1);
+                        collide(myBat, puck);
+                        send_message_position_enemy_bat(myBat.dnextX, myBat.dnextY);
                         puck.update();
                     }
+                    puck.render();
+                    myBat.render();
+                    scene.modelView();
+                    renderer.render(scene);
+                    requestAnimFrame(fnAnimate);
                 }
-                //light.translateX(0.00001);
-                scene.modelView();
-                renderer.render(scene);
-                requestAnimFrame(fnAnimate);
-                step++;
             };
-            //var startTime = (new Date()).getTime();
-
+            var game_session = true;
             requestAnimFrame(fnAnimate);
-            this.initSocket(ws, enemyBat, enemyStepHandler, setStartParameters);
         },
 
         setScene: function (scene, canvas) {
-            scene.camera.position = {x:0.0, y:15.0, z:-25.0};
+            scene.camera.position = {x:0.0, y:25.0, z:-25.0};
             scene.perspective.aspect = canvas.width / canvas.height;
             scene.viewport.width = canvas.width;
             scene.viewport.height = canvas.height;
         },
 
-        initSocket : function(ws, enemyCylinder, enemyStepHandler, setStartParameters) {
-            console.log("initSocket");
-            console.log(ws);
-            var wscl = ws; // чтоб вызвать this.ws.close(); в строчке 39
+        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters) {
+            var wscl = ws;
 
             ws.onopen = function (event) {
                 document.getElementById("gameOver").style.display = "none";
@@ -323,7 +349,6 @@ define([
             ws.onmessage = function (event) {
                 //alert("Message");
                 var data = JSON.parse(event.data);
-                //console.log(data);
                 if(data.code == "start_game") {
                     document.getElementById("gameOver").style.display = "none";
                     document.getElementById("wait").style.display = "none";
@@ -331,8 +356,6 @@ define([
                     document.getElementById("enemyScore").innerHTML = "0";
                     document.getElementById("myScore").innerHTML = "0";
                     document.getElementById("enemyName").innerHTML = data.enemyEmail;
-                    console.log(data.number);
-                    console.log(data.speed);
                     setStartParameters(data.number, data.speed);
                 }
                 if(data.code == "game_over"){
@@ -342,15 +365,11 @@ define([
                         document.getElementById("win").innerHTML = "winner!";
                     else
                         document.getElementById("win").innerHTML = "loser!";
-                    // на закрытии стираем все с экрана.
                     this.canvas = document.getElementById("myCanvas");
                     this.c = this.canvas.getContext('2d');
                     // очистить экран
                     this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    // !!!
-                    // закрыть соккет
                     wscl.close();
-                    //this.ws = null;
                 }
                 if(data.code == "set_my_new_score") {
                     document.getElementById("myScore").innerHTML = data.score;
@@ -358,13 +377,23 @@ define([
                 if(data.code == "set_enemy_new_score") {
                     document.getElementById("enemyScore").innerHTML = data.score;
                 }
-                if(data.code == "enemy_step"){
-                    enemyStepHandler(data.direction);
-                    //alert("enemy_step");
 
+                if (data.code == "kick") {
+                    var dnextX = data.dnextX;
+                    var dnextY = data.dnextY;
+                    var velocityX = data.velocityX;
+                    var velocityY = data.velocityY;
+                    var speed = data.speed;
+                    var angle = data.angle;
+                    kickHandler(dnextX, dnextY, velocityX, velocityY, speed, angle);
+                }
+                if ( data.code == "enemy_position") {
+                    EnemyPositionHandler(data.dnextX, data.dnextY);
                 }
             };
             ws.onclose = function (event) {
+                setEndParameters();
+                console.log("game_stop");
                 //alert("close Socket - game Over");
                 window.location.hash = "";
             }

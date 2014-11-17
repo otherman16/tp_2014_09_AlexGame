@@ -1,5 +1,6 @@
 package backend;
 
+import base.AccountServiceError;
 import base.UserProfile;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -60,19 +61,28 @@ public class AServiceImplAuthTest extends TestCase {
         }
     }
 
-    public void testAuthUserLoginFail() throws Exception {
+    public void testAuthUserAlreadyAuthenticatedFail() throws Exception {
+        service.authUser(this.getAuthUser(), httpSession).getStatus();
         try {
-            Assert.assertFalse("auth Error", service.authUser(this.getUserWrongEmail(), httpSession).getStatus());
+            Assert.assertEquals(1, ((AccountServiceError)service.authUser(this.getAuthUser(), httpSession).getResponse()).getCode());
         } catch (Exception e) {
-            Assert.fail("exception in testAuthUserLoginFail\n" + e.getMessage());
+            Assert.fail("exception in testAuthUserAlreadyAuthenticatedFail:\n" + e.getMessage());
         }
     }
 
-    public void testAuthUserPassFail() throws Exception {
+    public void testAuthUserByEmailExistFail() throws Exception {
         try {
-            Assert.assertFalse("auth Error", service.authUser(this.getUserWrongPass(), httpSession).getStatus());
+            Assert.assertEquals(2, ((AccountServiceError)service.authUser(this.getUserWrongEmail(), httpSession).getResponse()).getCode());
         } catch (Exception e) {
-            Assert.fail("exception in testAuthUserPassFail\n" + e.getMessage());
+            Assert.fail("exception in testAuthUserByEmailExistFail:\n" + e.getMessage());
+        }
+    }
+
+    public void testAuthUserWrongPassFail() throws Exception {
+        try {
+            Assert.assertEquals(3, ((AccountServiceError)service.authUser(this.getUserWrongPass(), httpSession).getResponse()).getCode());
+        } catch (Exception e) {
+            Assert.fail("exception in testAuthUserWrongPassFail:\n" + e.getMessage());
         }
     }
 
@@ -82,7 +92,7 @@ public class AServiceImplAuthTest extends TestCase {
         try {
             Assert.assertTrue("Logout Error", service.logoutUser(httpSession).getStatus());
         } catch (Exception e) {
-            Assert.fail("exception in testLogoutUserOK()\n" + e.getMessage());
+            Assert.fail("exception in testLogoutUserOK:\n" + e.getMessage());
         } finally {
             service.deleteUser(this.getLogoutUser().getEmail());
         }
@@ -90,9 +100,9 @@ public class AServiceImplAuthTest extends TestCase {
 
     public void testLogoutUserFail() throws Exception {
         try {
-            Assert.assertFalse("Logout Error", service.logoutUser(httpSession).getStatus());
+            Assert.assertEquals(4, ((AccountServiceError)service.logoutUser(httpSession).getResponse()).getCode());
         } catch (Exception e) {
-            Assert.fail("exception in testLogoutUserFail\n" + e.getMessage());
+            Assert.fail("exception in testLogoutUserFail: User does not authenticated.\n" + e.getMessage());
         }
     }
 
@@ -102,7 +112,7 @@ public class AServiceImplAuthTest extends TestCase {
             service.authUser(this.getAuthUser(), httpSession);
             Assert.assertTrue("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() == curNum + 1);
         } catch (Exception e) {
-            Assert.fail("exception in testNumberOfAuthUserOK\n" + e.getMessage());
+            Assert.fail("exception in testNumberOfAuthUserOK:\n" + e.getMessage());
         }
     }
 
@@ -112,7 +122,7 @@ public class AServiceImplAuthTest extends TestCase {
             service.authUser(this.getAuthUser(), httpSession);
             Assert.assertFalse("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() != curNum + 1);
         } catch (Exception e) {
-            Assert.fail("exception in testNumberOfAuthUserFail\n" + e.getMessage());
+            Assert.fail("exception in testNumberOfAuthUserFail:\n" + e.getMessage());
         }
     }
 }

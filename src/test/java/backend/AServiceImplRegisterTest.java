@@ -1,6 +1,7 @@
 package backend;
 
 import base.AccountService;
+import base.AccountServiceError;
 import base.UserProfile;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -43,7 +44,7 @@ public class AServiceImplRegisterTest extends TestCase {
 
     public void testRegisterUserOk() throws Exception {
         try {
-            Assert.assertTrue("registrationOK Error", service.registerUser(this.getRegUser(), httpSession).getStatus() );
+            Assert.assertTrue("registrationOK Error", service.registerUser(this.getRegUser(), httpSession).getStatus());
         } catch (Exception e) {
             Assert.fail("Exception in testRegisterUserOk:\n" + e.getMessage());
         }
@@ -52,7 +53,7 @@ public class AServiceImplRegisterTest extends TestCase {
     public void testRegisterUserFail() throws Exception {
         try {
             service.registerUser(this.getRegUser(), httpSession);
-            Assert.assertFalse("registrationFail Error", service.registerUser(this.getRegUser(), httpSession).getStatus());
+            Assert.assertEquals(5, ((AccountServiceError)service.registerUser(this.getRegUser(), httpSession).getResponse()).getCode());
         } catch (Exception e) {
             Assert.fail("Exception in testRegisterUserFail:\n" + e.getMessage());
         }

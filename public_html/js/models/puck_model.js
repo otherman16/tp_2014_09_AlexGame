@@ -7,55 +7,42 @@ define([
 
         x: 0,
         y: 0,
+        dnextX: 0.1,
+        dnextY: -0.1,
+        velocityX: 0,
+        velocityY: 0,
+        speed: 0.8,
+
         height : 0.25,
-        radius : 0.5,
+        radius : 1,
         accuracy : 50, // детальность прорисовки фигуры
         tmp : {},
         Shape : {},
         who_is : "nobody",
         stepX : 0.2,
         startY : 8,
-        // for shaiba
         start : false,
-        k : 1,
-        angle : 150,
-        speed : 0.2,
+        mass: 0.1,
+        angle : 280,
         radians : 0,
-        xunits : 0,
-        yunits : 0,
 
         update : function() {
             this.radians = this.angle * Math.PI/ 180;
-            this.xunits = Math.cos(this.radians) * this.speed * this.k;
-            this.yunits = Math.sin(this.radians) * this.speed * this.k;
-            this.x += this.xunits;
-            this.y += this.yunits;
+            this.velocityX = Math.cos(this.radians) * this.speed;
+            this.velocityY = Math.sin(this.radians) * this.speed;
+            this.dnextX = this.velocityX;
+            this.dnextY = this.velocityY;
         },
 
-        setBigShape : function(height, radius, accuracy) {
-            this.tmp = Phoria.Util.generateShape(radius, height, accuracy);
-            this.Shape = Phoria.Entity.create({
-                points: this.tmp.points,
-                edges: this.tmp.edges,
-                polygons: this.tmp.polygons
-            });
-        },
-
-        left: function() {
-            this.Shape.translateX(-this.stepX);
-            this.x += -this.stepX;
-        },
-
-        right: function() {
-            this.Shape.translateX(this.stepX);
-            this.x += this.stepX;
-        },
-
-        move: function() {
-            this.Shape.translateX(this.xunits);
-            this.Shape.translateZ(this.yunits);
-            this.x += this.xunits;
-            this.y += this.yunits;
+        render: function() {
+            if ( this.start) {
+                this.Shape.translateX(this.dnextX);
+                this.Shape.translateZ(this.dnextY);
+                this.x += this.dnextX;
+                this.y += this.dnextY;
+                this.velocityX = 0;
+                this.velocityY = 0;
+            }
         },
 
         initialize: function() {
