@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class LoginServlet extends HttpServlet {
@@ -26,29 +27,35 @@ public class LoginServlet extends HttpServlet {
     }
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String jsonStr = br.readLine();
+        InputStream tmp = request.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(tmp));
+        String jsonStr =br.readLine();
+        //System.out.append(jsonStr);
         try {
             JSONObject jsonObj = new JSONObject(jsonStr);
             String email = jsonObj.getString("email");
             String password = jsonObj.getString("password");
-            UserProfile user = new UserProfile("",email,password);
+
+            //String email = request.getParameter("email");
+            //String password = request.getParameter("password");
+            UserProfile user = new UserProfile("", email, password);
             AccountServiceResponse resp = service.authUser(user, request.getSession());
             if (resp.getStatus()) {
-                user = (UserProfile)resp.getResponse();
+                user = (UserProfile) resp.getResponse();
                 JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
                 response.getWriter().print(jsnObj.toString());
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_OK);
-            }
-            else {
-                AccountServiceError error = (AccountServiceError)resp.getResponse();
+            } else {
+                AccountServiceError error = (AccountServiceError) resp.getResponse();
                 JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
+                System.out.append(jsnObj.toString());
                 response.getWriter().print(jsnObj.toString());
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Exception in LoginServlet.doPost: " + e.getMessage());
             JSONObject jsnObj = new JSONObject().put("message", "Internal server error");
             response.getWriter().print(jsnObj.toString());

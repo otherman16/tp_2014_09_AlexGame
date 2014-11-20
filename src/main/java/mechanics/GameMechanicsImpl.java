@@ -91,9 +91,12 @@ public class GameMechanicsImpl implements GameMechanics {
         }
         else if (code == 3 ) {
             Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
-            myEnemy.incrementScore();
+            //myEnemy.incrementScore();
+            me.incrementScore();
             webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
             webSocketService.notifyMyNewScore(me.getEmail(), me.getScore());
+            webSocketService.notifyEnemyNewScore(myEnemy.getEmail(), me.getScore());
+            webSocketService.notifyMyNewScore(myEnemy.getEmail(), myEnemy.getScore());
         }
     }
 }

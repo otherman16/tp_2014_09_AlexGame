@@ -311,12 +311,16 @@ define([
                             puck.angle = 360 - puck.angle;
                         } else if (puck.y < -net.length / 2 + puck.radius - puck.dnextY) {
                             puck.angle = 360 - puck.angle;
-                            if (puck.x < block2.x - puck.radius - puck.dnextX || puck.x > -block2.x + puck.radius - puck.dnextX) {
+                            if (puck.x > -block2.x + puck.radius - puck.dnextX && puck.x < block2.x - puck.radius - puck.dnextX) {
+                                console.log("score");
+                                console.log(puck.x);
+                                console.log("lexa");
                                 send_message_enemy_score();
                             }
                         }
                         puck.update();
                         collide(myBat, puck);
+                        //send_message_puck(puck.dnextX, puck.dnextY, puck.velocityX, puck.velocityY, puck.speed, puck.angle);
                         send_message_position_enemy_bat(myBat.dnextX, myBat.dnextY);
                         puck.update();
                     }
@@ -341,26 +345,27 @@ define([
         initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters) {
             var wscl = ws;
 
-            ws.onopen = function (event) {
-                document.getElementById("gameOver").style.display = "none";
-                document.getElementById("wait").style.display = "block";
+            ws.onopen = function () {
+                $( "#gameOver" ).hide();
+                $( "#wait" ).show();
                 //alert("Open Socket - ready for Game");
             };
             ws.onmessage = function (event) {
                 //alert("Message");
                 var data = JSON.parse(event.data);
                 if(data.code == "start_game") {
-                    document.getElementById("gameOver").style.display = "none";
-                    document.getElementById("wait").style.display = "none";
-                    document.getElementById("gameplay").style.display = "block";
-                    document.getElementById("enemyScore").innerHTML = "0";
-                    document.getElementById("myScore").innerHTML = "0";
+                    $( "#gameOver" ).hide();
+                    $( "#wait" ).hide();
+                    $( "#gameplay" ).show();
+                    $("#enemyScore").html("0");
+                    $("#myScore").html("0");
+                    //$("enemyName").append(data.enemyEmail);
                     document.getElementById("enemyName").innerHTML = data.enemyEmail;
                     setStartParameters(data.number, data.speed);
                 }
                 if(data.code == "game_over"){
-                    document.getElementById("gameOver").style.display = "block";
-                    document.getElementById("gameplay").style.display = "none";
+                    $( "#gameOver" ).show();
+                    $( "#gameplay" ).hide();
                     if(data.win)
                         document.getElementById("win").innerHTML = "winner!";
                     else
@@ -369,6 +374,14 @@ define([
                     this.c = this.canvas.getContext('2d');
                     // очистить экран
                     this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    var ms = 2000;
+                    setEndParameters();
+                    function sleep(ms) {
+                        console.log("sleep");
+                        ms += new Date().getTime();
+                        while (new Date() < ms){}
+                    }
+                    sleep(ms);
                     wscl.close();
                 }
                 if(data.code == "set_my_new_score") {
@@ -392,10 +405,9 @@ define([
                 }
             };
             ws.onclose = function (event) {
-                setEndParameters();
                 console.log("game_stop");
                 //alert("close Socket - game Over");
-                window.location.hash = "";
+                //window.location.hash = "";
             }
         }
     });

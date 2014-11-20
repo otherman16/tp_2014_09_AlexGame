@@ -37,7 +37,6 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             Puck puck = (Puck)ResourceFactory.instance().get("./data/puck.xml");
-            //System.out.append(puck.getSpeed());
             jsonResponse.put("code", "start_game").put("enemyEmail", gamerEnemyEmail).put("number", number).put("speed", puck.getSpeed());
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
