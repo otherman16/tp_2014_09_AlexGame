@@ -64,7 +64,7 @@ public class AServiceImplAuthTest extends TestCase {
     public void testAuthUserAlreadyAuthenticatedFail() throws Exception {
         service.authUser(this.getAuthUser(), httpSession).getStatus();
         try {
-            Assert.assertEquals("IsAuthError", ((AccountServiceError)service.authUser(this.getAuthUser(), httpSession).getResponse()).getCode());
+            Assert.assertEquals(AccountServiceError.IsAuthError, ((AccountServiceError)service.authUser(this.getAuthUser(), httpSession).getResponse()));
         } catch (Exception e) {
             Assert.fail("exception in testAuthUserAlreadyAuthenticatedFail:\n" + e.getMessage());
         }
@@ -72,7 +72,7 @@ public class AServiceImplAuthTest extends TestCase {
 
     public void testAuthUserByEmailExistFail() throws Exception {
         try {
-            Assert.assertEquals("WrongEmailError", ((AccountServiceError)service.authUser(this.getUserWrongEmail(), httpSession).getResponse()).getCode());
+            Assert.assertEquals(AccountServiceError.WrongEmailError, ((AccountServiceError)service.authUser(this.getUserWrongEmail(), httpSession).getResponse()));
         } catch (Exception e) {
             Assert.fail("exception in testAuthUserByEmailExistFail:\n" + e.getMessage());
         }
@@ -80,7 +80,7 @@ public class AServiceImplAuthTest extends TestCase {
 
     public void testAuthUserWrongPassFail() throws Exception {
         try {
-            Assert.assertEquals("WrongPasswordError", ((AccountServiceError)service.authUser(this.getUserWrongPass(), httpSession).getResponse()).getCode());
+            Assert.assertEquals(AccountServiceError.WrongPasswordError, ((AccountServiceError)service.authUser(this.getUserWrongPass(), httpSession).getResponse()));
         } catch (Exception e) {
             Assert.fail("exception in testAuthUserWrongPassFail:\n" + e.getMessage());
         }
@@ -100,7 +100,7 @@ public class AServiceImplAuthTest extends TestCase {
 
     public void testLogoutUserFail() throws Exception {
         try {
-            Assert.assertEquals("NotAuthError", ((AccountServiceError)service.logoutUser(httpSession).getResponse()).getCode());
+            Assert.assertEquals(AccountServiceError.NotAuthError, ((AccountServiceError)service.logoutUser(httpSession).getResponse()));
         } catch (Exception e) {
             Assert.fail("exception in testLogoutUserFail: User does not authenticated.\n" + e.getMessage());
         }

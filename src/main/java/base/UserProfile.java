@@ -1,8 +1,5 @@
 package base;
 
-/**
- * Created by Алексей on 23.09.2014.
- */
 public class UserProfile {
     private Long id;
     private String login;
@@ -51,5 +48,9 @@ public class UserProfile {
     }
     public void setScore(Long score) {
         this.score = score;
+    }
+
+    public static UserProfile Guest() {
+        return new UserProfile("guest","guest","");
     }
 }

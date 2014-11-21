@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import base.AccountService;
+import base.AccountServiceError;
 import base.AccountServiceResponse;
 import base.UserProfile;
 import org.json.*;
@@ -16,21 +17,24 @@ public class GetUserServlet extends HttpServlet {
     public GetUserServlet(AccountService service) {
         this.service = service;
     }
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         AccountServiceResponse resp = service.getUserBySession(request.getSession());
-        UserProfile user;
         if (!resp.getStatus()) {
-            user = new UserProfile("Guest","","");
+            success(response, new UserProfile("Guest","",""));
         }
         else {
-            user = (UserProfile)resp.getResponse();
+            success(response, (UserProfile)resp.getResponse());
         }
+    }
+    @Override
+    public void doPost(HttpServletRequest request,
+                       HttpServletResponse response) throws ServletException, IOException { response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED); }
+    private void success(HttpServletResponse response, UserProfile user) throws ServletException, IOException {
         JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
-        response.getWriter().println(jsnObj.toString());
+        response.getWriter().print(jsnObj.toString());
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
     }
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException { response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED); }
 }

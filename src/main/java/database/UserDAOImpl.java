@@ -1,5 +1,7 @@
 package database;
 
+import com.sun.istack.internal.Nullable;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class UserDAOImpl implements UserDAO {
         this.db_connection = db_connection;
     }
 
+    @Override
     public void createTable() throws Exception {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS user("
                 + "id INT(9) UNSIGNED NOT NULL AUTO_INCREMENT, "
@@ -25,18 +28,20 @@ public class UserDAOImpl implements UserDAO {
         DBExecutor.execUpdate(db_connection, createTableSQL);
     }
 
+    @Override
     public void add(UserDataSet user) throws Exception {
         String sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
         DBExecutor.execUpdate(db_connection, sqlStatement);
     }
 
+    @Override
     public Boolean isExistsByEmail(String findEmail) throws Exception {
         String sqlStatement = "SELECT COUNT(*) as count FROM user WHERE email = \"" + findEmail + "\";";
         return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<Boolean>() {
             @Override
             public Boolean handle(ResultSet result) throws Exception{
                 int count = 0;
-                while (result.next()) {
+                if (result.first()) {
                     count = result.getInt("count");
                 }
                 return count == 1;
@@ -44,59 +49,60 @@ public class UserDAOImpl implements UserDAO {
         });
     }
 
+    @Override
+    @Nullable
     public UserDataSet getByEmail(String findEmail) throws Exception {
         String sqlStatement = "SELECT * FROM user WHERE email = \"" + findEmail + "\";";
         return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<UserDataSet>() {
             @Override
             public UserDataSet handle(ResultSet result) throws Exception {
-                Long id = 0L;
-                String login = "Guest";
-                String email = "";
-                String password = "";
-                Long score = 0L;
-                while (result.next()) {
-                    id = result.getLong("id");
-                    login = result.getString("login");
-                    email = result.getString("email");
-                    password = result.getString("password");
-                    score = result.getLong("score");
+                if (result.first()) {
+                    Long id = result.getLong("id");
+                    String login = result.getString("login");
+                    String email = result.getString("email");
+                    String password = result.getString("password");
+                    Long score = result.getLong("score");
+                    return new UserDataSet(id,login,email,password,score);
                 }
-                return new UserDataSet(id,login,email,password,score);
+                else {
+                    return null;
+                }
             }
         });
     }
 
+    @Override
+    @Nullable
     public UserDataSet getBySessionId(String findSession_id) throws Exception {
         String sqlStatement = "SELECT user.id, user.login, user.email, user.password, user.score FROM user " +
-                "JOIN session_list ON user.id = session_list.user_id " +
-                "WHERE session_list.session_id = \"" + findSession_id + "\";";
+                "JOIN session ON user.id = session.user_id " +
+                "WHERE session.id = \"" + findSession_id + "\";";
         return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<UserDataSet>() {
             @Override
             public UserDataSet handle(ResultSet result) throws Exception {
-                Long id = 0l;
-                String login = "Guest";
-                String email = "";
-                String password = "";
-                Long score = 0L;
-                while (result.next()) {
-                    id = result.getLong("id");
-                    login = result.getString("login");
-                    email = result.getString("email");
-                    password = result.getString("password");
-                    score = result.getLong("score");
+                if (result.first()) {
+                    Long id = result.getLong("id");
+                    String login = result.getString("login");
+                    String email = result.getString("email");
+                    String password = result.getString("password");
+                    Long score = result.getLong("score");
+                    return new UserDataSet(id,login,email,password,score);
                 }
-                return new UserDataSet(id,login,email,password,score);
+                else {
+                    return null;
+                }
             }
         });
     }
 
+    @Override
     public Integer getNumber() throws Exception {
         String sqlStatement = "SELECT COUNT(*) as count FROM user;";
         return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<Integer>() {
             @Override
             public Integer handle(ResultSet result) throws Exception {
                 int count = 0;
-                while (result.next()) {
+                if (result.first()) {
                     count = result.getInt("count");
                 }
                 return count;
@@ -104,6 +110,7 @@ public class UserDAOImpl implements UserDAO {
         });
     }
 
+    @Override
     public ArrayList<UserDataSet> getTop10() throws Exception {
         String sqlStatement = "SELECT * FROM user " +
                 "ORDER BY -score " +
@@ -125,6 +132,7 @@ public class UserDAOImpl implements UserDAO {
         });
     }
 
+    @Override
     public void delete(String email) throws Exception {
         String sqlStatement = "DELETE FROM user " +
                 "WHERE email = \"" + email+ "\";";

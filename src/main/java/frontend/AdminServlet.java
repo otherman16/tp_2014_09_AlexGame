@@ -15,12 +15,13 @@ public class AdminServlet extends HttpServlet {
     public AdminServlet(AccountService service) {
         this.service = service;
     }
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         AccountServiceResponse resp = service.getUserBySession(request.getSession());
         if(resp.getStatus()) {
             UserProfile user = (UserProfile)resp.getResponse();
-            if(user.getId().equals(1L)) {
+            if(user.getEmail().equals("admin@admin.ru")) {
                 String timeString = request.getParameter("shutdown");
                 if (timeString != null) {
                     int timeMS = Integer.valueOf(timeString);
@@ -54,6 +55,7 @@ public class AdminServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
         }
     }
+    @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);

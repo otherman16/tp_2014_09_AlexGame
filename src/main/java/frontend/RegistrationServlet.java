@@ -19,11 +19,13 @@ public class RegistrationServlet extends HttpServlet {
     public RegistrationServlet(AccountService service) {
         this.service = service;
     }
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("/#");
         response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
+    @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -36,25 +38,26 @@ public class RegistrationServlet extends HttpServlet {
             UserProfile user = new UserProfile(login,email,password);
             AccountServiceResponse resp = service.registerUser(user, request.getSession());
             if (resp.getStatus()) {
-                user = (UserProfile)resp.getResponse();
-                JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
-                response.getWriter().print(jsnObj.toString());
-                response.setContentType("application/json");
-                response.setStatus(HttpServletResponse.SC_OK);
+                success(response, (UserProfile)resp.getResponse());
             }
             else {
-                AccountServiceError error = (AccountServiceError)resp.getResponse();
-                JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
-                response.getWriter().print(jsnObj.toString());
-                response.setContentType("application/json");
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                error(response, (AccountServiceError)resp.getResponse());
             }
         } catch (Exception e) {
             System.out.println("Exception in RegistrationServlet.doPost: " + e.getMessage());
-            JSONObject jsnObj = new JSONObject().put("message", "Internal server error");
-            response.getWriter().print(jsnObj.toString());
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            error(response, AccountServiceError.ServerError);
         }
+    }
+    private void error(HttpServletResponse response, AccountServiceError error) throws ServletException, IOException {
+        JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
+        response.getWriter().print(jsnObj.toString());
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+    private void success(HttpServletResponse response, UserProfile user) throws ServletException, IOException {
+        JSONObject jsnObj = new JSONObject().put("id", user.getId()).put("email", user.getEmail()).put("login", user.getLogin()).put("score", user.getScore());
+        response.getWriter().print(jsnObj.toString());
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }
