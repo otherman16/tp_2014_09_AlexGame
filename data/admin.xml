@@ -1,0 +1,7 @@
+<class type='resourse.Admin'>
+    <id>1</id>
+    <name>admin</name>
+    <email>admin@admin.ru</email>
+    <password>admin</password>
+    <score>1000</score>
+</class>

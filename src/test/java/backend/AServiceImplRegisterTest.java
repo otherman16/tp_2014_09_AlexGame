@@ -43,39 +43,23 @@ public class AServiceImplRegisterTest extends TestCase {
     }
 
     public void testRegisterUserOk() throws Exception {
-        try {
-            Assert.assertTrue("registrationOK Error", service.registerUser(this.getRegUser(), httpSession).getStatus());
-        } catch (Exception e) {
-            Assert.fail("Exception in testRegisterUserOk:\n" + e.getMessage());
-        }
+        Assert.assertTrue("registrationOK Error", service.registerUser(this.getRegUser(), httpSession).getStatus());
     }
 
     public void testRegisterUserFail() throws Exception {
-        try {
-            service.registerUser(this.getRegUser(), httpSession);
-            Assert.assertEquals("UserExistsError", ((AccountServiceError)service.registerUser(this.getRegUser(), httpSession).getResponse()).getCode());
-        } catch (Exception e) {
-            Assert.fail("Exception in testRegisterUserFail:\n" + e.getMessage());
-        }
+        service.registerUser(this.getRegUser(), httpSession);
+        Assert.assertEquals("UserExistsError", ((AccountServiceError)service.registerUser(this.getRegUser(), httpSession).getResponse()).getCode());
     }
 
     public void testNumberOfRegisteredUserOK() throws Exception {
-        try {
-            int curNum = (int)service.numberOfRegisteredUsers().getResponse();
-            service.registerUser(this.getOkUser(), httpSession);
-            Assert.assertEquals("NumberOfRegistered Error", (int)service.numberOfRegisteredUsers().getResponse(), curNum + 1);
-        } catch (Exception e) {
-            Assert.fail("Exception in testNumberOfRegisteredUserOK:\n" + e.getMessage());
-        }
+        int curNum = (int)service.numberOfRegisteredUsers().getResponse();
+        service.registerUser(this.getOkUser(), httpSession);
+        Assert.assertEquals("NumberOfRegistered Error", (int)service.numberOfRegisteredUsers().getResponse(), curNum + 1);
     }
 
     public void testNumberOfRegisteredUserFail() throws Exception {
-        try {
-            int curNum = (int)service.numberOfRegisteredUsers().getResponse();
-            service.registerUser(this.getOkUser(), httpSession);
-            Assert.assertNotEquals("NumberOfRegistered Error", (int)service.numberOfRegisteredUsers().getResponse(), curNum);
-        } catch (Exception e) {
-            Assert.fail("Exception in testNumberOfRegisteredUserFail:\n" + e.getMessage());
-        }
+       int curNum = (int)service.numberOfRegisteredUsers().getResponse();
+       service.registerUser(this.getOkUser(), httpSession);
+       Assert.assertNotEquals("NumberOfRegistered Error", (int)service.numberOfRegisteredUsers().getResponse(), curNum);
     }
 }

@@ -2,6 +2,9 @@ package backend;
 
 import base.*;
 import database.DBServiceImpl;
+import resourse.Admin;
+import resourse.DataBase;
+import resourse.ResourceFactory;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,10 +14,12 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountServiceImpl() {
         try {
-            dbService = new DBServiceImpl("localhost","3306","g06_alexgame_db","alexgame_user","alexgame_user");
-            UserProfile admin = new UserProfile(1L, "admin", "admin@admin.ru", "admin", 1000L);
+            DataBase dataBase = (DataBase)ResourceFactory.instance().get("./data/dataBase.xml");
+            dbService = new DBServiceImpl(dataBase.getHost(), dataBase.getPort(), dataBase.getUser(), dataBase.getName(), dataBase.getPassword());
+            Admin admin = (Admin)ResourceFactory.instance().get("./data/admin.xml");
+            UserProfile user = new UserProfile(Long.parseLong(admin.getId()), admin.getName(), admin.getEmail(), admin.getPassword(), Long.parseLong(admin.getScore()));
             if (!dbService.isUserExistsByEmail(admin.getEmail())) {
-                dbService.addUser(admin);
+                dbService.addUser(user);
             }
         } catch (Exception e) {
             System.out.println("Exception in AccountService.AccountServiceImpl: " + e.getMessage());

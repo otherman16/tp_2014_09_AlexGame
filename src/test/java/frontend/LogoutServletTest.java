@@ -4,9 +4,7 @@ import backend.AccountServiceImpl;
 import base.UserProfile;
 import junit.framework.TestCase;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,43 +40,27 @@ public class LogoutServletTest extends TestCase {
     @After
     public void tearDown() throws Exception {
         UserProfile user = this.getLogoutUser();
-        service.registerUser(user, httpSession); // здесь по умолчанию пользователь в session list добавляется после регистрации
+        service.registerUser(user, httpSession);
     }
 
-    @Test
     public void testDoPostOk() throws Exception {
-        try {
-            when(request.getSession()).thenReturn(httpSession);
-            when(response.getWriter()).thenReturn(printWriter);
-            logoutServlet.doPost(request, response);
-            verify(response).setStatus(HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            Assert.fail("exception in testLogoutServletDoPostOk:\n" + e.getMessage());
-        }
+        when(request.getSession()).thenReturn(httpSession);
+        when(response.getWriter()).thenReturn(printWriter);
+        logoutServlet.doPost(request, response);
+        verify(response).setStatus(HttpServletResponse.SC_OK);
     }
 
-    @Test
     public void testDoPostFail() throws Exception {
-        try {
-            service.logoutUser(httpSession);
-            when(request.getSession()).thenReturn(httpSession);
-            when(response.getWriter()).thenReturn(printWriter);
-            logoutServlet.doPost(request, response);
-            verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
-            Assert.fail("exception in testLogoutServletDoPostFail:\n" + e.getMessage());
-        }
+        service.logoutUser(httpSession);
+        when(request.getSession()).thenReturn(httpSession);
+        when(response.getWriter()).thenReturn(printWriter);
+        logoutServlet.doPost(request, response);
+        verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
-    @Test
     public void testDoGetOk() throws Exception {
-        try {
-            logoutServlet.doGet(request, response);
-            verify(response).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-            verify(response).sendRedirect("/#");
-        } catch (Exception e) {
-            Assert.fail("exception in testLogoutServletDoGetOk:\n" + e.getMessage());
-        }
+        logoutServlet.doGet(request, response);
+        verify(response).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        verify(response).sendRedirect("/#");
     }
-    // нужен ли тест testDoGetFail?
 }

@@ -1,4 +1,4 @@
 package resourse;
 
-public interface Resource {
+interface Resource {
 }

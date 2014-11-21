@@ -33,15 +33,11 @@ import static org.junit.Assert.*;
 
 public class LoginServletTest {
 
-
-    private JSONObject jsonObj = Mockito.mock(JSONObject.class);
     private AccountServiceImpl service = new AccountServiceImpl();
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private LoginServlet loginServlet = new LoginServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-    //private HttpServletRequest request = new MockHttpServletRequest("GET", "/login");
     private HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-    //private HttpServletResponse response = new MockHttpServletResponse();
     private InputStream inputStream = Mockito.mock(InputStream.class);
 
     private UserProfile getLoginUser() {
@@ -61,66 +57,19 @@ public class LoginServletTest {
 
     }
 
-    private InputStream myRequest() throws Exception {
-        String exampleString = "{email: 'login@login.ru, pass: login}";
-        InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
-        return stream;
-    }
-
     @Test
     public void testDoPost() throws Exception {
-        try {
-            UserProfile user = this.getLoginUser();
-            service.registerUser(user, httpSession);
-            service.logoutUser(httpSession);
-            //service.logoutUser(httpSession);
-            String exampleString = "{email: 'login@login.ru, pass: login}";
-            InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
-
-            BufferedReader a = new BufferedReader(new InputStreamReader(stream));
-            //when(request.getInputStream()).thenReturn();
-            //when(request.getInputStream()).thenAnswer((Answer<?>) (InputStream)new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8)));
-            //when(new BufferedReader(new InputStreamReader(request.getInputStream()))).thenReturn(a);
-            //jsonObj.put("email", "login@login.ru");
-            //jsonObj.put("pass", "login");
-            /*when(request.getInputStream()).thenAnswer(new Answer<InputStream>() {
-                InputStream answer(InvocationOnMock invocation) {
-                    String exampleString = "{email: 'login@login.ru, pass: login}";
-                    InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
-                    //Object[] args = invocation.getArguments();
-                    //Object mock = invocation.getMock();
-                    return stream;
-                }
-            });*/
-            //when(httpSession.getId()).thenReturn(user.getSessionId());
-            //when(jsonObj.getString("email")).thenReturn(user.getEmail());
-            //when(jsonObj.getString("pass")).thenReturn(user.getPassword());
-            //when(request.getParameter("email")).thenReturn("login@login.ru");
-            //when(request.getParameter("password")).thenReturn("login");
-            //when(request.getSession()).thenReturn(httpSession);
-
-            //loginServlet.doPost(request, response);
-
-            //verify(response).setStatus(HttpServletResponse.SC_OK);
-            //System.out.println(response.getStatus());
-            //Assert.assertEquals(0, this.response.getStatus());
-        } catch (Exception e) {
-            Assert.fail("exception in testLoginServlet:\n" + e.getMessage());
-        }
-        finally {
-            service.logoutUser(httpSession);
-            service.deleteUser(getLoginUser().getEmail());
-        }
+        UserProfile user = this.getLoginUser();
+        service.registerUser(user, httpSession);
+        service.logoutUser(httpSession);
+        service.logoutUser(httpSession);
+        service.deleteUser(getLoginUser().getEmail());
     }
 
     @Test
     public void testDoGet() throws Exception {
-        try {
-            loginServlet.doGet(request, response);
-            verify(response).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-            verify(response).sendRedirect("/#");
-        } catch (Exception e) {
-            Assert.fail("exception in testAuthUserOk:\n" + e.getMessage());
-        }
+        loginServlet.doGet(request, response);
+        verify(response).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        verify(response).sendRedirect("/#");
     }
 }

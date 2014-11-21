@@ -28,6 +28,8 @@ public class GameMechanicsImpl implements GameMechanics {
         this.webSocketService = webSocketService;
     }
 
+    private Puck puck;
+
     @Override
     public void run() {
         while (true) {
@@ -76,13 +78,11 @@ public class GameMechanicsImpl implements GameMechanics {
             webSocketService.notifyEnemyStep(me.getEmail(), direction);
         }
         if ( code == 1) {
-            double dnextX = jsonObject.getDouble("dnextX");
-            double dnextY = jsonObject.getDouble("dnextY");
-            double velocityX = jsonObject.getDouble("velocityX");
-            double velocityY = jsonObject.getDouble("velocityY");
-            double speed = jsonObject.getDouble("speed");
-            double angle = jsonObject.getDouble("angle");
-            webSocketService.notifyEnemyKick(me.getEmail(), dnextX, dnextY, velocityX, velocityY, speed, angle);
+            puck.setPuck(jsonObject.getDouble("dnextX"), jsonObject.getDouble("dnextY"),
+                    jsonObject.getDouble("velocityX"), jsonObject.getDouble("velocityY"),
+                    jsonObject.getDouble("speed"), jsonObject.getDouble("angle"));
+            webSocketService.notifyEnemyKick(me.getEmail(), puck.getDnextX(), puck.getDnextY(),
+                    puck.getVelocityX(), puck.getVelocityY(), puck.getSpeed(), puck.getAngle());
         }
         else if (code == 2 ) {
             double dnextX = jsonObject.getDouble("dnextX");
@@ -91,7 +91,6 @@ public class GameMechanicsImpl implements GameMechanics {
         }
         else if (code == 3 ) {
             Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
-            //myEnemy.incrementScore();
             me.incrementScore();
             webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
             webSocketService.notifyMyNewScore(me.getEmail(), me.getScore());

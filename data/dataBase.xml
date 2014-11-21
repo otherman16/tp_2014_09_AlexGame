@@ -1,0 +1,7 @@
+<class type='resourse.DataBase'>
+    <db_host>localhost</db_host>
+    <db_port>3306</db_port>
+    <db_user>g06_alexgame_db</db_user>
+    <db_name>alexgame_user</db_name>
+    <db_password>alexgame_user</db_password>
+</class>

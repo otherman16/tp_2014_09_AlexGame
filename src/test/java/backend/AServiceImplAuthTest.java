@@ -54,75 +54,42 @@ public class AServiceImplAuthTest extends TestCase {
     }
 
     public void testAuthUserOk() throws Exception {
-        try {
-            Assert.assertTrue("auth Error", service.authUser(this.getAuthUser(), httpSession).getStatus());
-        } catch (Exception e) {
-            Assert.fail("exception in testAuthUserOk:\n" + e.getMessage());
-        }
+        Assert.assertTrue("auth Error", service.authUser(this.getAuthUser(), httpSession).getStatus());
     }
 
     public void testAuthUserAlreadyAuthenticatedFail() throws Exception {
         service.authUser(this.getAuthUser(), httpSession).getStatus();
-        try {
-            Assert.assertEquals("IsAuthError", ((AccountServiceError)service.authUser(this.getAuthUser(), httpSession).getResponse()).getCode());
-        } catch (Exception e) {
-            Assert.fail("exception in testAuthUserAlreadyAuthenticatedFail:\n" + e.getMessage());
-        }
+        Assert.assertEquals("IsAuthError", ((AccountServiceError)service.authUser(this.getAuthUser(), httpSession).getResponse()).getCode());
     }
 
     public void testAuthUserByEmailExistFail() throws Exception {
-        try {
-            Assert.assertEquals("WrongEmailError", ((AccountServiceError)service.authUser(this.getUserWrongEmail(), httpSession).getResponse()).getCode());
-        } catch (Exception e) {
-            Assert.fail("exception in testAuthUserByEmailExistFail:\n" + e.getMessage());
-        }
+        Assert.assertEquals("WrongEmailError", ((AccountServiceError)service.authUser(this.getUserWrongEmail(), httpSession).getResponse()).getCode());
     }
 
     public void testAuthUserWrongPassFail() throws Exception {
-        try {
-            Assert.assertEquals("WrongPasswordError", ((AccountServiceError)service.authUser(this.getUserWrongPass(), httpSession).getResponse()).getCode());
-        } catch (Exception e) {
-            Assert.fail("exception in testAuthUserWrongPassFail:\n" + e.getMessage());
-        }
+        Assert.assertEquals("WrongPasswordError", ((AccountServiceError)service.authUser(this.getUserWrongPass(), httpSession).getResponse()).getCode());
     }
 
     public void testLogoutUserOK() throws Exception {
         service.registerUser(this.getLogoutUser(), httpSession);
         service.authUser(this.getLogoutUser(), httpSession);
-        try {
-            Assert.assertTrue("Logout Error", service.logoutUser(httpSession).getStatus());
-        } catch (Exception e) {
-            Assert.fail("exception in testLogoutUserOK:\n" + e.getMessage());
-        } finally {
-            service.deleteUser(this.getLogoutUser().getEmail());
-        }
+        Assert.assertTrue("Logout Error", service.logoutUser(httpSession).getStatus());
+        service.deleteUser(this.getLogoutUser().getEmail());
     }
 
     public void testLogoutUserFail() throws Exception {
-        try {
-            Assert.assertEquals("NotAuthError", ((AccountServiceError)service.logoutUser(httpSession).getResponse()).getCode());
-        } catch (Exception e) {
-            Assert.fail("exception in testLogoutUserFail: User does not authenticated.\n" + e.getMessage());
-        }
+        Assert.assertEquals("NotAuthError", ((AccountServiceError)service.logoutUser(httpSession).getResponse()).getCode());
     }
 
     public void testNumberOfAuthUserOK() throws Exception {
         int curNum = (Integer)service.numberOfAuthUsers().getResponse();
-        try {
-            service.authUser(this.getAuthUser(), httpSession);
-            Assert.assertTrue("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() == curNum + 1);
-        } catch (Exception e) {
-            Assert.fail("exception in testNumberOfAuthUserOK:\n" + e.getMessage());
-        }
+        service.authUser(this.getAuthUser(), httpSession);
+        Assert.assertTrue("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() == curNum + 1);
     }
 
     public void testNumberOfAuthUserFail() throws Exception {
         int curNum = (Integer)service.numberOfAuthUsers().getResponse();
-        try {
-            service.authUser(this.getAuthUser(), httpSession);
-            Assert.assertFalse("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() != curNum + 1);
-        } catch (Exception e) {
-            Assert.fail("exception in testNumberOfAuthUserFail:\n" + e.getMessage());
-        }
+        service.authUser(this.getAuthUser(), httpSession);
+        Assert.assertFalse("NumberOfAuth Error", (Integer)service.numberOfAuthUsers().getResponse() != curNum + 1);
     }
 }
