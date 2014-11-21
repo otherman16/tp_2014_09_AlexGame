@@ -48,7 +48,7 @@ public class AServiceImplRegisterTest extends TestCase {
 
     public void testRegisterUserFail() throws Exception {
         service.registerUser(this.getRegUser(), httpSession);
-        Assert.assertEquals("UserExistsError", ((AccountServiceError)service.registerUser(this.getRegUser(), httpSession).getResponse()).getCode());
+        Assert.assertEquals(AccountServiceError.UserExistsError, (service.registerUser(this.getRegUser(), httpSession).getResponse()));
     }
 
     public void testNumberOfRegisteredUserOK() throws Exception {

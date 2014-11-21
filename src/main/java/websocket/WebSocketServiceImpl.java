@@ -12,6 +12,7 @@ public class WebSocketServiceImpl implements WebSocketService {
 
     private HashMap<String, GameWebSocket> socketList = new HashMap<>();
 
+    @Override
     public GameWebSocket getExisting(String socketName) {
         if (exists(socketName)) {
             return socketList.get(socketName);
@@ -21,18 +22,22 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public boolean exists(String gamerEmail) {
         return socketList.containsKey(gamerEmail);
     }
 
+    @Override
     public void addSocket(GameWebSocket socket) {
         socketList.put(socket.getMyName(), socket);
     }
 
+    @Override
     public void deleteSocket(String socketName) {
         socketList.remove(socketName);
     }
 
+    @Override
     public void notifyStartGame(String gamerEmail, String gamerEnemyEmail, int number) {
         try {
             JSONObject jsonResponse = new JSONObject();
@@ -44,6 +49,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public void notifyMyNewScore(String gamerEmail, int myNewScore) {
         try {
             JSONObject jsonResponse = new JSONObject();
@@ -54,6 +60,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public void notifyEnemyNewScore(String gamerEmail, int enemyNewScore) {
         try {
             JSONObject jsonResponse = new JSONObject();
@@ -64,6 +71,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public void notifyEnemyStep(String gamerEmail, int direction) {
         try {
             JSONObject jsonResponse = new JSONObject();
@@ -74,6 +82,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public void notifyEnemyKick(String gamerEmail, double dnextX, double dnextY, double velocityX,
                                      double velocityY, double speed, double angle) {
         try {
@@ -87,6 +96,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public void notifyEnemyPosition(String gamerEmail, double dnextX, double dnextY) {
         try {
             JSONObject jsonResponse = new JSONObject();
@@ -97,6 +107,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
     public void notifyGameOver(String gamerEmail, boolean win) {
         try {
             JSONObject jsonResponse = new JSONObject();

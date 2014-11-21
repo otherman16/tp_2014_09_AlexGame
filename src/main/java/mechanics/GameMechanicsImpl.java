@@ -60,6 +60,7 @@ public class GameMechanicsImpl implements GameMechanics {
         webSocketService.notifyStartGame(second, first, 1);
     }
 
+    @Override
     public void addGamer(String gamerEmail) {
         if (waiter != null && !gamerEmail.equals(waiter)) {
             starGame(gamerEmail);
@@ -69,6 +70,7 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
+    @Override
     public void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject) {
         GameSession myGameSession = gameSessionList.get(gamerEnemyEmail);
         Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);

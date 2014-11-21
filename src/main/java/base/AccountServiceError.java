@@ -1,34 +1,36 @@
 package base;
 
-import java.util.HashMap;
-
-public class AccountServiceError {
-
-    private String code;
-
-    private HashMap<String, String> errors;
-
-    public AccountServiceError(String code) {
-        errors = new HashMap<>();
-        errors.put("ServerError", "Internal server error");
-        errors.put("WrongEmailError", "User with those email is not exist");
-        errors.put("WrongPasswordError", "Wrong password");
-        errors.put("NotAuthError", "User is not authenticated");
-        errors.put("IsAuthError", "User is already authenticated");
-        errors.put("UserExistsError", "User with those email is already exists");
-        if (errors.containsKey(code)) {
-            this.code = code;
+public enum AccountServiceError {
+    ServerError {
+        public String getMessage() {
+            return "Internal server error";
         }
-        else {
-            this.code = "ServerError";
+    },
+    WrongEmailError {
+        public String getMessage() {
+            return "User with those email is not exist";
         }
-    }
+    },
+    WrongPasswordError {
+        public String getMessage() {
+            return "Wrong password";
+        }
+    },
+    NotAuthError {
+        public String getMessage() {
+            return "User is not authenticated";
+        }
+    },
+    IsAuthError {
+        public String getMessage() {
+            return "User is already authenticated";
+        }
+    },
+    UserExistsError {
+        public String getMessage() {
+            return "User with those email is already exists";
+        }
+    };
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return errors.get(code);
-    }
+    public abstract String getMessage();
 }

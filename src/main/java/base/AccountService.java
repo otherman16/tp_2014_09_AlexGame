@@ -5,21 +5,20 @@ import java.util.ArrayList;
 
  public interface AccountService {
 
-    public AccountServiceResponse authUser(UserProfile user, HttpSession session);
+    AccountServiceResponse authUser(UserProfile user, HttpSession session);
 
-    public AccountServiceResponse getUserBySession(HttpSession session);
+    AccountServiceResponse getUserBySession(HttpSession session);
 
-    public AccountServiceResponse registerUser(UserProfile user, HttpSession session);
+    AccountServiceResponse registerUser(UserProfile user, HttpSession session);
 
-    public AccountServiceResponse logoutUser(HttpSession session);
+    AccountServiceResponse logoutUser(HttpSession session);
 
-    public AccountServiceResponse numberOfRegisteredUsers();
+    AccountServiceResponse numberOfRegisteredUsers();
 
-    public AccountServiceResponse numberOfAuthUsers();
+    AccountServiceResponse numberOfAuthUsers();
 
-    public AccountServiceResponse getTop10();
+    AccountServiceResponse getTop10();
 
-    public AccountServiceResponse deleteUser(String email);
+    AccountServiceResponse deleteUser(String email);
 
 }
-

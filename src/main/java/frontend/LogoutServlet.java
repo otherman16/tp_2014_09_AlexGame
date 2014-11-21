@@ -24,17 +24,23 @@ public class LogoutServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         AccountServiceResponse resp = service.logoutUser(request.getSession());
-        JSONObject jsnObj;
-        response.setContentType("application/json");
         if (resp.getStatus()) {
-            jsnObj = new JSONObject().put("message", resp.getResponse());
-            response.setStatus(HttpServletResponse.SC_OK);
+            success(response, (String)resp.getResponse());
         }
         else {
-            AccountServiceError error = (AccountServiceError)resp.getResponse();
-            jsnObj = new JSONObject().put("message", error.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            error(response, (AccountServiceError)resp.getResponse());
         }
+    }
+    private void error(HttpServletResponse response, AccountServiceError error) throws ServletException, IOException {
+        JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
         response.getWriter().print(jsnObj.toString());
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+    private void success(HttpServletResponse response, String message) throws ServletException, IOException {
+        JSONObject jsnObj = new JSONObject().put("message", message);
+        response.getWriter().print(jsnObj.toString());
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }
