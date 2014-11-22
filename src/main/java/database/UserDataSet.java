@@ -7,7 +7,7 @@ public class UserDataSet {
     private String password;
     private long score;
 
-    public UserDataSet(long id, String email, String login, String password, long score) {
+    public UserDataSet(long id, String login, String email, String password, long score) {
         this.id = id;
         this.email = email;
         this.login = login;

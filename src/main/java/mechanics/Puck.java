@@ -6,16 +6,16 @@ import resourse.DataBase;
  * Created by aleksei on 22.11.14.
  */
 public class Puck {
-    private Double dnextX;
-    private Double dnextY;
-    private Double velocityX;
-    private Double velocityY;
-    private Double speed;
-    private Double angle;
+    private double dnextX;
+    private double dnextY;
+    private double velocityX;
+    private double velocityY;
+    private double speed;
+    private double angle;
 
     public Puck () {}
 
-    public void setPuck (Double dnextX, Double dnextY, Double velocityX, Double velocityY, Double speed, Double angle) {
+    public void setPuck (double dnextX, double dnextY, double velocityX, double velocityY, double speed, double angle) {
         this.setDnextX(dnextX);
         this.setDnextY(dnextY);
         this.setVelocityX(velocityX);
@@ -24,17 +24,17 @@ public class Puck {
         this.setAngle(angle);
     }
 
-    public void setDnextX (Double dnextX) { this.dnextX = dnextY;}
-    public void setDnextY (Double dnextY) { this.dnextY = dnextY;}
-    public void setVelocityX (Double velocityX) { this.velocityX = velocityX;}
-    public void setVelocityY (Double velocityY) { this.velocityY = velocityY;}
-    public void setSpeed (Double speed) { this.speed = speed;}
-    public void setAngle (Double angle) { this.angle =angle;}
+    public void setDnextX (double dnextX) { this.dnextX = dnextX;}
+    public void setDnextY (double dnextY) { this.dnextY = dnextY;}
+    public void setVelocityX (double velocityX) { this.velocityX = velocityX;}
+    public void setVelocityY (double velocityY) { this.velocityY = velocityY;}
+    public void setSpeed (double speed) { this.speed = speed;}
+    public void setAngle (double angle) { this.angle =angle;}
 
-    public Double getDnextX () {return dnextX;}
-    public Double getDnextY () {return dnextY;}
-    public Double getVelocityX () {return velocityX;}
-    public Double getVelocityY () { return velocityY;}
-    public Double getSpeed () {return speed;}
-    public Double getAngle () {return angle;}
+    public double getDnextX () {return dnextX;}
+    public double getDnextY () {return dnextY;}
+    public double getVelocityX () {return velocityX;}
+    public double getVelocityY () { return velocityY;}
+    public double getSpeed () {return speed;}
+    public double getAngle () {return angle;}
 }

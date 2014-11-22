@@ -3,6 +3,9 @@ package frontend;
 import backend.AccountServiceImpl;
 import base.UserProfile;
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +17,11 @@ import java.io.PrintWriter;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class LogoutServletTest extends TestCase {
+public class GetUserServletTest extends TestCase {
 
     private AccountServiceImpl service = new AccountServiceImpl();
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
-    private LogoutServlet logoutServlet = new LogoutServlet(this.service);
+    private GetUserServlet getUserServlet = new GetUserServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
     private HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
     private PrintWriter printWriter = Mockito.mock(PrintWriter.class);
@@ -30,26 +33,37 @@ public class LogoutServletTest extends TestCase {
         return new UserProfile(authLogin, authEmail, authPass);
     }
 
-    public void testDoPostOk() throws Exception {
-        service.authUser(getAdminUser(), httpSession);
+    @Before
+    public void setUp() throws Exception {
+        service.logoutUser(this.httpSession);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        service.logoutUser(this.httpSession);
+    }
+
+    @Test
+    public void testDoGetAuth() throws Exception {
+        service.authUser(this.getAdminUser(), httpSession);
         when(request.getSession()).thenReturn(httpSession);
         when(response.getWriter()).thenReturn(printWriter);
-        logoutServlet.doPost(request, response);
+        getUserServlet.doGet(request, response);
         verify(response).setStatus(HttpServletResponse.SC_OK);
         service.logoutUser(httpSession);
     }
 
-    public void testDoPostFail() throws Exception {
+    @Test
+    public void testDoGetGuest() throws Exception {
         when(request.getSession()).thenReturn(httpSession);
         when(response.getWriter()).thenReturn(printWriter);
-        logoutServlet.doPost(request, response);
-        verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        service.logoutUser(httpSession);
+        getUserServlet.doGet(request, response);
+        verify(response).setStatus(HttpServletResponse.SC_OK);
     }
 
-    public void testDoGetOk() throws Exception {
-        logoutServlet.doGet(request, response);
+    @Test
+    public void testDoPost() throws Exception {
+        getUserServlet.doPost(request, response);
         verify(response).setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-        verify(response).sendRedirect("/#");
     }
 }

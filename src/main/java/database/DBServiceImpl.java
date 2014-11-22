@@ -1,7 +1,6 @@
 package database;
 
 import base.*;
-import com.sun.istack.internal.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,12 +31,11 @@ public class DBServiceImpl implements DBService{
         }
     }
 
-    private void createDBAndUser() {
-        Connection root_db_connection = null;
-        Statement db_statement = null;
-        try {
-            root_db_connection = DriverManager.getConnection("jdbc:mysql://localhost:3306?user=root&password=root");
-            db_statement = root_db_connection.createStatement();
+    static private void createDBAndUser() {
+
+        try ( Connection root_db_connection = DriverManager.getConnection("jdbc:mysql://localhost:3306?user=root&password=root");
+              Statement db_statement = root_db_connection.createStatement())
+        {
             root_db_connection.setAutoCommit(false);
             String sqlStatement = "DROP DATABASE IF EXISTS g06_alexgame_db;";
             db_statement.execute(sqlStatement);
@@ -50,29 +48,15 @@ public class DBServiceImpl implements DBService{
             sqlStatement = "GRANT ALL ON g06_alexgame_db.* TO 'alexgame_user'@'127.0.0.1';";
             db_statement.execute(sqlStatement);
             root_db_connection.commit();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (db_statement != null) {
-                try {
-                    db_statement.close();
-                } catch (Exception e) {
-                    System.out.println("Exception in DBServiceImpl.createDBAndUser: " + e.getMessage());
-                }
-            }
-            if (root_db_connection != null) {
-                try {
-                    root_db_connection.close();
-                } catch (Exception e) {
-                    System.out.println("Exception in DBServiceImpl.createDBAndUser: " + e.getMessage());
-                }
-            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void addUser(UserProfile user) throws Exception {
-        userDAO.add(new UserDataSet(user.getId(),user.getEmail(),user.getLogin(),user.getPassword(),user.getScore()));
+        userDAO.add(new UserDataSet(user.getId(),user.getLogin(),user.getEmail(),user.getPassword(),user.getScore()));
     }
 
     @Override

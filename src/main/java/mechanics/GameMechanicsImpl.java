@@ -28,7 +28,7 @@ public class GameMechanicsImpl implements GameMechanics {
         this.webSocketService = webSocketService;
     }
 
-    private Puck puck;
+    private Puck puck = new Puck();
 
     @Override
     public void run() {
@@ -75,10 +75,6 @@ public class GameMechanicsImpl implements GameMechanics {
         GameSession myGameSession = gameSessionList.get(gamerEnemyEmail);
         Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
         int code = jsonObject.getInt("code");
-        if (code == 0) {
-            int direction = jsonObject.getInt("dir");
-            webSocketService.notifyEnemyStep(me.getEmail(), direction);
-        }
         if ( code == 1) {
             puck.setPuck(jsonObject.getDouble("dnextX"), jsonObject.getDouble("dnextY"),
                     jsonObject.getDouble("velocityX"), jsonObject.getDouble("velocityY"),

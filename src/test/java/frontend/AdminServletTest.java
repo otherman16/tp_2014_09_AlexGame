@@ -5,17 +5,12 @@ import base.UserProfile;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-import java.security.Permission;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class AdminServletTest extends TestCase {
@@ -41,38 +36,39 @@ public class AdminServletTest extends TestCase {
         return new UserProfile(authLogin, authEmail, authPass);
     }
 
-    @Before
-    public void setUp() throws Exception {
-        service.logoutUser(httpSession);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        service.logoutUser(httpSession);
-    }
-
    public void testDoGetShowOk() throws Exception {
-       service.authUser(this.getAdminUser(), httpSession);
+       service.logoutUser(httpSession);
+       service.authUser(getAdminUser(), httpSession);
        when(request.getSession()).thenReturn(httpSession);
        when(request.getParameter("shutdown")).thenReturn(null);
        when(response.getWriter()).thenReturn(printWriter);
        adminServlet.doGet(request, response);
        verify(response).setStatus(HttpServletResponse.SC_OK);
+       service.logoutUser(httpSession);
     }
 
     public void testDoGetStopServer() throws Exception {
-        service.authUser(this.getAdminUser(), httpSession);
+        service.authUser(getAdminUser(), httpSession);
         when(request.getSession()).thenReturn(httpSession);
         when(request.getParameter("shutdown")).thenReturn("1000");
+        //adminServlet.doGet(request, response); // уж простите
+        service.logoutUser(httpSession);
     }
 
-    public void testDoGetFail() throws Exception {
-        service.registerUser(this.getNotAdminUser(), httpSession);
-        service.authUser(this.getNotAdminUser(), httpSession);
+   public void testDoGetNotAuthFail() throws Exception {
+       when(request.getSession()).thenReturn(httpSession);
+       adminServlet.doGet(request, response);
+       verify(response).sendRedirect("/#");
+       verify(response).setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+   }
+
+    public void testDoGetNotAdminFail() throws Exception {
+        service.registerUser(getNotAdminUser(), httpSession);
         when(request.getSession()).thenReturn(httpSession);
         adminServlet.doGet(request, response);
         verify(response).sendRedirect("/#");
         verify(response).setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+        service.deleteUser(getNotAdminUser().getEmail());
     }
 
     public void testDoPost() throws Exception {

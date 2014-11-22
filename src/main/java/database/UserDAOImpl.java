@@ -30,9 +30,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void add(UserDataSet user) throws Exception {
-        String sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
+        String sqlStatement;
+        if(user.getEmail().equals("admin@admin.ru"))
+            sqlStatement = "INSERT INTO user (id,login,email,password,score) VALUES (\"" + user.getId() + "\",\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
+        else
+            sqlStatement = "INSERT INTO user (login,email,password,score) VALUES (\"" + user.getLogin() + "\",\"" + user.getEmail() + "\",\"" + user.getPassword() + "\"," + user.getScore() + ");";
         DBExecutor.execUpdate(db_connection, sqlStatement);
     }
+
 
     @Override
     public Boolean isExistsByEmail(String findEmail) throws Exception {
