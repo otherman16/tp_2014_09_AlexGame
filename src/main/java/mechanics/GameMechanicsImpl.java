@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 

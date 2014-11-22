@@ -1,6 +1,7 @@
 package database;
 
 import base.*;
+import com.sun.istack.internal.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class DBServiceImpl implements DBService{
 
     @Override
     public UserProfile getUserByEmail(String findEmail) throws Exception {
+        @Nullable
         UserDataSet user = userDAO.getByEmail(findEmail);
         if (user == null) {
             return UserProfile.Guest();
@@ -85,6 +87,7 @@ public class DBServiceImpl implements DBService{
 
     @Override
     public UserProfile getUserBySessionId(String findSession_id) throws Exception {
+        @Nullable
         UserDataSet user = userDAO.getBySessionId(findSession_id);
         if (user == null) {
             return UserProfile.Guest();

@@ -1,7 +1,5 @@
 package database;
 
-import com.sun.istack.internal.Nullable;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -55,7 +53,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Nullable
     public UserDataSet getByEmail(String findEmail) throws Exception {
         String sqlStatement = "SELECT * FROM user WHERE email = \"" + findEmail + "\";";
         return DBExecutor.execQuery(db_connection, sqlStatement, new ResultHandler<UserDataSet>() {
@@ -77,7 +74,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Nullable
     public UserDataSet getBySessionId(String findSession_id) throws Exception {
         String sqlStatement = "SELECT user.id, user.login, user.email, user.password, user.score FROM user " +
                 "JOIN session ON user.id = session.user_id " +
