@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AdminServlet extends HttpServlet {
     private AccountService service;
     public AdminServlet(AccountService service) {
@@ -34,14 +37,11 @@ public class AdminServlet extends HttpServlet {
                     System.out.print("\nShutdown");
                     System.exit(0);
                 } else {
+                    Map<String, Object> pageVariables = new HashMap<>();
+                    pageVariables.put("numberOfRegisteredUsers", service.numberOfRegisteredUsers().getResponse());
+                    pageVariables.put("numberOfAuthUsers", service.numberOfAuthUsers().getResponse());
                     response.setContentType("text/html;charset=utf-8");
-                    response.getWriter().println("<div>Сервер Epic Game:<br/>Зарегестрированных пользователей: " +
-                            service.numberOfRegisteredUsers().getResponse() + "<br/>Количество пользователей Online: " +
-                            service.numberOfAuthUsers().getResponse() + "<br/>" +
-                            "<form action=\"/admin\" method=\"get\">" +
-                            "<label for=\"shutdown\">Задайте время остановки сервера в мс</label>" +
-                            "<input id=\"shutdown\" name=\"shutdown\" type=\"text\" value=\"1000\"><br/>" +
-                            "<input type=\"submit\"></div>");
+                    response.getWriter().println(PageGenerator.getPage("admin_page.xml", pageVariables));
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
@@ -55,6 +55,7 @@ public class AdminServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
         }
     }
+
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {

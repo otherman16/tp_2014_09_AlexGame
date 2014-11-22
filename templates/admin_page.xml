@@ -1,0 +1,9 @@
+<div>Сервер Epic Game:<br/>
+    <p>Зарегестрированных пользователей: ${numberOfRegisteredUsers}</p>
+    <p>Количество пользователей Online: ${numberOfAuthUsers}</p>
+    <form action="/admin" method="GET">
+        <label for= "shutdown">Задайте время остановки сервера в мс</label>
+        <input id="shutdown" name= "shutdown" type="text" value="1000"></input><br/>
+        <input type="submit"></input>
+    </form>
+</div>
