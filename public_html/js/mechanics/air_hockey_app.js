@@ -110,6 +110,12 @@ define([
                 ws.send(data);
             };
 
+            var score = 0;
+
+            var local_storage = function () {
+                localStorage.setItem('score', myBat.score);
+            };
+
             var send_message_puck = function( dnextX, dnextY, velocityX, velocityY, speed, angle) {
                 var data = JSON.stringify({code: 1, dnextX: dnextX, dnextY: dnextY,velocityX:velocityX,
                     velocityY: velocityY, speed: speed, angle : angle});
@@ -298,7 +304,7 @@ define([
             };
             // надо настоить синхронное начало для игры, а так вроде неплохо
             puck.update();
-            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters);
+            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage());
 
             var fnAnimate = function() {
                 if (game_session) {
@@ -312,9 +318,10 @@ define([
                         } else if (puck.y < -net.length / 2 + puck.radius - puck.dnextY) {
                             puck.angle = 360 - puck.angle;
                             if (puck.x > -block2.x + puck.radius - puck.dnextX && puck.x < block2.x - puck.radius - puck.dnextX) {
-                                console.log("score");
-                                console.log(puck.x);
-                                console.log("lexa");
+                                //console.log("score");
+                                //console.log(puck.x);
+                                //console.log("lexa");
+                                myBat.score = myBat.score + 1;
                                 send_message_enemy_score();
                             }
                         }
@@ -342,7 +349,7 @@ define([
             scene.viewport.height = canvas.height;
         },
 
-        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters) {
+        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage) {
             var wscl = ws;
 
             ws.onopen = function () {
@@ -406,6 +413,8 @@ define([
             };
             ws.onclose = function (event) {
                 console.log("game_stop");
+                local_storage();
+                //localStorage.setItem('score', myBat.score);
                 //alert("close Socket - game Over");
                 //window.location.hash = "";
             }

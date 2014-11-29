@@ -44,8 +44,30 @@ module.exports = function (grunt) {
 				options: {
 					livereload: true
 				}
-			}
+			},
+            sass: {
+                files: ['public_html/css/*.scss'],
+                tasks: ['sass'],
+                options: {
+                    atBegin: true
+                }
+            }
 		},
+
+        sass: {
+            css: { /* Подзадача */
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'public_html/css', /* исходная директория */
+                        src: '*.scss', /* имена шаблонов */
+                        dest: 'public_html/css', /* результирующая директория */
+                        ext: '.css'
+                    }
+                ]
+            }
+        },
+
 		concurrent: {
 			target: ['watch', 'shell'],
 			options: {
@@ -56,6 +78,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-fest');
 	grunt.registerTask('default', ['concurrent']);
 };

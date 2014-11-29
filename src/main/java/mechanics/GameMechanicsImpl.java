@@ -78,8 +78,7 @@ public class GameMechanicsImpl implements GameMechanics {
             puck.setPuck(jsonObject.getDouble("dnextX"), jsonObject.getDouble("dnextY"),
                     jsonObject.getDouble("velocityX"), jsonObject.getDouble("velocityY"),
                     jsonObject.getDouble("speed"), jsonObject.getDouble("angle"));
-            webSocketService.notifyEnemyKick(me.getEmail(), puck.getDnextX(), puck.getDnextY(),
-                    puck.getVelocityX(), puck.getVelocityY(), puck.getSpeed(), puck.getAngle());
+            webSocketService.notifyEnemyKick(me.getEmail(), puck);
         }
         else if (code == 2 ) {
             double dnextX = jsonObject.getDouble("dnextX");

@@ -24,6 +24,7 @@ define([
         stepX : 0.5,
         stepY : 0.5,
         startY : 8,
+        score: 0,
 
         sqrt2: Math.sqrt(2),
 

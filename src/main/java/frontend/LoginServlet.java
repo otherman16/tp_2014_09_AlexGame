@@ -26,12 +26,13 @@ public class LoginServlet extends HttpServlet {
         response.sendRedirect("/#");
         response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
+
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         InputStream tmp = request.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(tmp));
-        String jsonStr =br.readLine();
+        String jsonStr = br.readLine();
         try {
             JSONObject jsonObj = new JSONObject(jsonStr);
             String email = jsonObj.getString("email");
@@ -51,6 +52,7 @@ public class LoginServlet extends HttpServlet {
             error(response, AccountServiceError.ServerError);
         }
     }
+
     private void error(HttpServletResponse response, AccountServiceError error) throws ServletException, IOException {
         JSONObject jsnObj = new JSONObject().put("message", error.getMessage());
         response.getWriter().print(jsnObj.toString());

@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class ResourceFactory {
     private static ResourceFactory resourceFactory = null;
 
+    // все HashMap надо заменить на ConcurrentHashMap
     private HashMap<String, Resource> resources = null;
 
     private ResourceFactory(){

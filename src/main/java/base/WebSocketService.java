@@ -1,5 +1,6 @@
 package base;
 
+import mechanics.Puck;
 import websocket.GameWebSocket;
 
 public interface WebSocketService {
@@ -18,12 +19,9 @@ public interface WebSocketService {
 
     void notifyEnemyNewScore(String gamerEmail, int enemyNewScore);
 
-    void notifyEnemyStep(String gamerEmail, int direction);
-
     void notifyEnemyPosition(String gamerEmail, double dnextX, double dnextY);
 
-    void notifyEnemyKick(String gamerEmail, double dnextX, double dnextY, double velocityX,
-                                     double velocityY, double speed, double angle);
+    void notifyEnemyKick(String gamerEmail, Puck puck);
 
     void notifyGameOver(String gamerEmail, boolean win);
 }

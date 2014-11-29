@@ -72,24 +72,12 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void notifyEnemyStep(String gamerEmail, int direction) {
+    public void notifyEnemyKick(String gamerEmail, mechanics.Puck puck) {
         try {
             JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("code", "enemy_step").put("direction", direction);
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
-        } catch (Exception e) {
-            System.out.println("Exception in WebSocketServiceImpl.notifyEnemyStep: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void notifyEnemyKick(String gamerEmail, double dnextX, double dnextY, double velocityX,
-                                     double velocityY, double speed, double angle) {
-        try {
-            JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("code", "kick").put("dnextX", dnextX).put("dnextY" , dnextY);
-            jsonResponse.put("velocityX" , velocityX).put("velocityY", velocityY);
-            jsonResponse.put("speed", speed).put("angle", angle);
+            jsonResponse.put("code", "kick").put("dnextX", puck.getDnextX()).put("dnextY" , puck.getDnextY());
+            jsonResponse.put("velocityX" , puck.getVelocityX()).put("velocityY", puck.getVelocityY());
+            jsonResponse.put("speed", puck.getSpeed()).put("angle", puck.getAngle());
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyCollision: " + e.getMessage());

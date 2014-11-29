@@ -6,11 +6,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.stubbing.OngoingStubbing;
+
 import static org.mockito.Mockito.*;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.InputStream;
 
 
 public class LoginServletTest {
@@ -20,6 +24,7 @@ public class LoginServletTest {
     private LoginServlet loginServlet = new LoginServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
     private HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+    private InputStream inputStream = Mockito.mock(InputStream.class);
 
     private UserProfile getLoginUser() {
         String loginLogin = "login";
@@ -43,7 +48,7 @@ public class LoginServletTest {
         UserProfile user = this.getLoginUser();
         service.registerUser(user, httpSession);
         service.logoutUser(httpSession);
-        service.logoutUser(httpSession);
+        //when(request.getInputStream()).thenAnswer((org.mockito.stubbing.Answer<?>) inputStream);
         service.deleteUser(getLoginUser().getEmail());
     }
 
