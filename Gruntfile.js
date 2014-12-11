@@ -68,6 +68,37 @@ module.exports = function (grunt) {
             }
         },
 
+        requirejs: {
+            build: {
+                options: {
+                    almond: true,
+                    baseUrl: "public_html/js",
+                    mainConfigFile: "public_html/js/epicgame.js",
+                    name: "epicgame",
+                    optimize: "none",
+                    out: "public_html/js/build/epicgame.js"
+                }
+            }
+        },
+
+        uglify: {
+            build: {
+                files: {
+                    'public_html/js/build.min.js':
+                        ['public_html/js/build.js']
+                }
+            }
+        },
+        concat: {
+            build: { /* Подзадача */
+                options: {
+                    separator: ';\n'
+                },
+                src: ['public_html/js/lib/almond.js', 'public_html/js/lib/require.ls', 'public_html/js/build/epicgame.js', ],
+                dest: 'public_html/js/build.js'
+            }
+        },
+
 		concurrent: {
 			target: ['watch', 'shell'],
 			options: {
@@ -80,5 +111,18 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-fest');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.registerTask('default', ['concurrent']);
+    grunt.registerTask(
+        'build',
+        [
+            'fest', 'requirejs:build',
+            'concat:build', 'uglify:build'
+        ]
+    );
+
+
+
 };
