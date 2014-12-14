@@ -17,7 +17,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private WebSocketService webSocketService;
 
-    private Map<String, GameSession> gameSessionList = new HashMap<>();
+    private Map<String, GameSession> gameSessionMap = new HashMap<>();
 
     private Set<GameSession> allSessions = new HashSet<>();
 
@@ -37,7 +37,7 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
-    private void gmStep() {
+    public void gmStep() {
         for (GameSession session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 session.closeGameSession();
@@ -52,11 +52,18 @@ public class GameMechanicsImpl implements GameMechanics {
         String second = waiter;
         GameSession gameSession = new GameSession(first, second);
         allSessions.add(gameSession);
-        gameSessionList.put(first, gameSession);
-        gameSessionList.put(second, gameSession);
-
+        gameSessionMap.put(first, gameSession);
+        gameSessionMap.put(second, gameSession);
         webSocketService.notifyStartGame(first, second, 2);
         webSocketService.notifyStartGame(second, first, 1);
+    }
+
+    public boolean isFirstWin() {
+        for (GameSession session : allSessions) {
+            if (session.isFirstWin())
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -71,7 +78,7 @@ public class GameMechanicsImpl implements GameMechanics {
 
     @Override
     public void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject) {
-        GameSession myGameSession = gameSessionList.get(gamerEnemyEmail);
+        GameSession myGameSession = gameSessionMap.get(gamerEnemyEmail);
         Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
         int code = jsonObject.getInt("code");
         if ( code == 1) {

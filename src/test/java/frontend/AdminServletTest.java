@@ -51,7 +51,7 @@ public class AdminServletTest extends TestCase {
         service.authUser(getAdminUser(), httpSession);
         when(request.getSession()).thenReturn(httpSession);
         when(request.getParameter("shutdown")).thenReturn("1000");
-        //adminServlet.doGet(request, response); // уж простите
+        //adminServlet.doGet(request, response);
         service.logoutUser(httpSession);
     }
 

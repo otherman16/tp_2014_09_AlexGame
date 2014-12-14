@@ -31,7 +31,7 @@ public class GameWebSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        //webSocketService.deleteSocket(this); // нельзя здесь удалять сокет, потому что он еще используется для отправки сообщения game_over
+        //webSocketService.deleteSocket(this);
     }
 
     @OnWebSocketMessage

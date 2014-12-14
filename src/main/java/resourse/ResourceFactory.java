@@ -1,25 +1,30 @@
 package resourse;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ResourceFactory {
-    private static ResourceFactory resourceFactory = null;
+    private static volatile ResourceFactory resourceFactory = null;
 
-    // все HashMap надо заменить на ConcurrentHashMap
-    private HashMap<String, Resource> resources = null;
+    private ConcurrentHashMap <String, Resource> resources = null;
 
     private ResourceFactory(){
-        resources = new HashMap<>();
+        resources = new ConcurrentHashMap<>();
     }
 
     public static ResourceFactory instance() {
+        ResourceFactory localResourceFactory = resourceFactory;
         if (resourceFactory == null) {
-            return new ResourceFactory();
+            synchronized (ResourceFactory.class) {
+                localResourceFactory = resourceFactory;
+                if (localResourceFactory == null ) {
+                    resourceFactory = localResourceFactory = new ResourceFactory();
+                }
+            }
         }
-        return resourceFactory;
+        return localResourceFactory;
     }
 
-    public Resource get(String path) {
+    public synchronized Resource get(String path) {
         if (resources.containsKey(path)) {
             return resources.get(path);
         }

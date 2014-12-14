@@ -58,7 +58,7 @@ public class AServiceImplAuthTest extends TestCase {
     }
 
     public void testAuthUserAlreadyAuthenticatedFail() throws Exception {
-        service.authUser(this.getAuthUser(), httpSession).getStatus();
+        service.authUser(this.getAuthUser(), httpSession);//.getStatus();
         Assert.assertEquals(AccountServiceError.IsAuthError, (service.authUser(this.getAuthUser(), httpSession).getResponse()));
     }
 

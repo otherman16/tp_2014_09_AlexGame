@@ -2,6 +2,7 @@ package frontend;
 
 import backend.AccountServiceImpl;
 import base.UserProfile;
+import org.eclipse.jetty.server.HttpInputOverHTTP;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class LoginServletTest {
     private LoginServlet loginServlet = new LoginServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
     private HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-    private InputStream inputStream = Mockito.mock(InputStream.class);
+    private HttpInputOverHTTP inputStream = Mockito.mock(HttpInputOverHTTP.class);
 
     private UserProfile getLoginUser() {
         String loginLogin = "login";
@@ -48,7 +49,11 @@ public class LoginServletTest {
         UserProfile user = this.getLoginUser();
         service.registerUser(user, httpSession);
         service.logoutUser(httpSession);
-        //when(request.getInputStream()).thenAnswer((org.mockito.stubbing.Answer<?>) inputStream);
+
+        //when(request.getInputStream()).thenReturn(inputStream);
+
+        //loginServlet.doPost(request, response);
+
         service.deleteUser(getLoginUser().getEmail());
     }
 
