@@ -18,5 +18,7 @@ public interface UserDAO {
 
     ArrayList<UserDataSet> getTop10() throws Exception;
 
+    void increaseScore(String findEmail, int scoreToIncrease) throws Exception;
+
     void delete(String email) throws Exception;
 }

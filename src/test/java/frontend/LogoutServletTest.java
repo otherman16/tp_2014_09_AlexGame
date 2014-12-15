@@ -3,6 +3,7 @@ package frontend;
 import backend.AccountServiceImpl;
 import base.UserProfile;
 import junit.framework.TestCase;
+import messageSystem.MessageSystem;
 import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,9 @@ import static org.mockito.Mockito.when;
 
 public class LogoutServletTest extends TestCase {
 
-    private AccountServiceImpl service = new AccountServiceImpl();
+    private MessageSystem ms = new MessageSystem();
+
+    private AccountServiceImpl service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private LogoutServlet logoutServlet = new LogoutServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);

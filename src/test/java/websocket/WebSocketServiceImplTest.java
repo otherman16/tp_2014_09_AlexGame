@@ -4,18 +4,15 @@ import base.GameMechanics;
 import base.WebSocketService;
 import junit.framework.TestCase;
 import mechanics.GameMechanicsImpl;
+import messageSystem.MessageSystem;
 import org.junit.Assert;
-import org.junit.Test;
-
-import java.util.HashMap;
-
-import static org.junit.Assert.*;
 
 public class WebSocketServiceImplTest extends TestCase {
+    private MessageSystem ms = new MessageSystem();
 
     private WebSocketService webSocketService = new WebSocketServiceImpl();
     private String gamerEmail = "admin@admin.ru";
-    private GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
+    private GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService, ms);
     private GameWebSocket gameWebSocket = new GameWebSocket(gamerEmail, gameMechanics, webSocketService);
 
     public void testAddSocketOk() throws Exception {

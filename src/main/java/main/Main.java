@@ -6,6 +6,7 @@ import base.GameMechanics;
 import base.WebSocketService;
 import frontend.*;
 import mechanics.GameMechanicsImpl;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -28,9 +29,14 @@ public class Main {
         Integer port = startPort.getPort();
         System.out.append("Starting at port: ").append(port.toString()).append('\n');
 
-        AccountService service = new AccountServiceImpl();
+        final MessageSystem messageSystem = new MessageSystem();
+
+        AccountService service = new AccountServiceImpl(messageSystem);
         WebSocketService webSocketService = new WebSocketServiceImpl();
-        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
+        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService, messageSystem);
+
+        (new Thread(service)).start();
+        (new Thread(gameMechanics)).start();
 
         HttpServlet loginServlet = new LoginServlet(service);
         HttpServlet registrationServlet = new RegistrationServlet(service);
@@ -58,7 +64,7 @@ public class Main {
         server.setHandler(handlers);
 
         server.start();
-        gameMechanics.run();
+        gameMechanics.runGameMechanics();
         server.join();
     }
 }

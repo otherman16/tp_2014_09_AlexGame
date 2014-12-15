@@ -120,6 +120,10 @@ public class DBServiceImpl implements DBService{
         return userProfiles;
     }
 
+    public void increaseScore(String findEmail, int scoreToIncrease) throws Exception {
+        userDAO.increaseScore(findEmail, scoreToIncrease);
+    }
+
     @Override
     public void deleteUser(String email) throws Exception {
         userDAO.delete(email);

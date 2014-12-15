@@ -2,25 +2,26 @@ package frontend;
 
 import backend.AccountServiceImpl;
 import base.UserProfile;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.server.HttpInputOverHTTP;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
 
 import static org.mockito.Mockito.*;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.InputStream;
+
 
 
 public class LoginServletTest {
 
-    private AccountServiceImpl service = new AccountServiceImpl();
+    private MessageSystem ms = new MessageSystem();
+
+    private AccountServiceImpl service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private LoginServlet loginServlet = new LoginServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);

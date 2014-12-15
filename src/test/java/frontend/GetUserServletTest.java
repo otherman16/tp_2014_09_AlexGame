@@ -3,6 +3,7 @@ package frontend;
 import backend.AccountServiceImpl;
 import base.UserProfile;
 import junit.framework.TestCase;
+import messageSystem.MessageSystem;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,9 @@ import static org.mockito.Mockito.when;
 
 public class GetUserServletTest extends TestCase {
 
-    private AccountServiceImpl service = new AccountServiceImpl();
+    private MessageSystem ms = new MessageSystem();
+
+    private AccountServiceImpl service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private GetUserServlet getUserServlet = new GetUserServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);

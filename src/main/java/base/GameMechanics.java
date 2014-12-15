@@ -2,7 +2,7 @@ package base;
 
 import org.json.JSONObject;
 
-public interface GameMechanics {
+public interface GameMechanics extends Runnable  {
 
     boolean isFirstWin();
 
@@ -12,5 +12,5 @@ public interface GameMechanics {
 
     void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject);
 
-    void run();
+    void runGameMechanics();
 }

@@ -24,6 +24,8 @@ public interface DBService {
 
     ArrayList<UserProfile> getTop10() throws Exception;
 
+    void increaseScore(String findEmail, int scoreToIncrease) throws Exception;
+
     void deleteUser(String email) throws Exception;
 
 }

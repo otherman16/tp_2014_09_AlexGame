@@ -4,8 +4,9 @@ define([
     'backbone',
     'phoria',
     'bat_model',
-    'puck_model'
-], function($, Backbone, P, BatModel, PuckModel){
+    'puck_model',
+    'user_model',
+], function($, Backbone, P, BatModel, PuckModel, UserModel){
     var ArkanoidApp = Backbone.View.extend({
         el: $('.screen__game'),
         initialize: function() {
@@ -304,7 +305,7 @@ define([
             };
             // надо настоить синхронное начало для игры, а так вроде неплохо
             puck.update();
-            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage());
+            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage(), UserModel);
 
             var fnAnimate = function() {
                 if (game_session) {
@@ -349,7 +350,7 @@ define([
             scene.viewport.height = canvas.height;
         },
 
-        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage) {
+        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage, UserModel) {
             var wscl = ws;
 
             ws.onopen = function () {
@@ -412,6 +413,7 @@ define([
                 }
             };
             ws.onclose = function (event) {
+                //UserModel.sync();
                 console.log("game_stop");
                 local_storage();
                 //localStorage.setItem('score', myBat.score);

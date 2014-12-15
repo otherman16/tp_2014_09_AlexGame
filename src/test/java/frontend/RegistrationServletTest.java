@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.AccountServiceImpl;
+import messageSystem.MessageSystem;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,9 @@ import static org.mockito.Mockito.verify;
 
 public class RegistrationServletTest {
 
-    private AccountServiceImpl service = new AccountServiceImpl();
+    private MessageSystem ms = new MessageSystem();
+
+    private AccountServiceImpl service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private RegistrationServlet registrationServlet = new RegistrationServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);

@@ -1,7 +1,13 @@
 package mechanics;
 
+import backend.MessageIncreaseScore;
 import base.GameMechanics;
 import base.WebSocketService;
+import main.ThreadSettings;
+import messageSystem.Abonent;
+import messageSystem.Address;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
 import org.json.JSONObject;
 import utils.TimeHelper;
 
@@ -10,7 +16,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GameMechanicsImpl implements GameMechanics {
+public class GameMechanicsImpl implements GameMechanics, Abonent {
+
+    private final Address address = new Address();
+    private final MessageSystem messageSystem;
+
     private static final int STEP_TIME = 100;
 
     private static final int gameTime = 45 * 1000;
@@ -23,14 +33,25 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private String waiter;
 
-    public GameMechanicsImpl(WebSocketService webSocketService) {
+    public GameMechanicsImpl(WebSocketService webSocketService, MessageSystem ms) {
+        this.messageSystem = ms;
+        messageSystem.addService(this);
+        messageSystem.getAddressService().registerGameMechanics(this);
         this.webSocketService = webSocketService;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public MessageSystem getMessageSystem() {
+        return messageSystem;
     }
 
     private Puck puck = new Puck();
 
     @Override
-    public void run() {
+    public void runGameMechanics() {
         while (true) {
             gmStep();
             TimeHelper.sleep(STEP_TIME);
@@ -41,6 +62,12 @@ public class GameMechanicsImpl implements GameMechanics {
         for (GameSession session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 session.closeGameSession();
+
+                Gamer winner = session.isFirstWin() ? session.getFirst() : session.getSecond();
+
+                Message messageIncreaseScore = new MessageIncreaseScore(getAddress(), messageSystem.getAddressService().getAccountServiceAddress(), winner.getEmail(), winner.getScore());
+                messageSystem.sendMessage(messageIncreaseScore);
+
                 boolean firstWin = session.isFirstWin();
                 webSocketService.notifyGameOver(session.getFirst().getEmail(), firstWin);
                 webSocketService.notifyGameOver(session.getSecond().getEmail(), !firstWin);
@@ -99,6 +126,17 @@ public class GameMechanicsImpl implements GameMechanics {
             webSocketService.notifyMyNewScore(me.getEmail(), me.getScore());
             webSocketService.notifyEnemyNewScore(myEnemy.getEmail(), me.getScore());
             webSocketService.notifyMyNewScore(myEnemy.getEmail(), myEnemy.getScore());
+        }
+    }
+
+    public void run() {
+        while (true){
+            messageSystem.execForAbonent(this);
+            try {
+                Thread.sleep(ThreadSettings.SERVICE_SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

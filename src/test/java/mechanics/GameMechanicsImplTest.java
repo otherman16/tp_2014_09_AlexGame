@@ -5,6 +5,7 @@ import base.GameMechanics;
 import base.UserProfile;
 import base.WebSocketService;
 import junit.framework.TestCase;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
@@ -19,7 +20,6 @@ import websocket.WebSocketServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class GameMechanicsImplTest extends TestCase {
@@ -30,9 +30,11 @@ public class GameMechanicsImplTest extends TestCase {
     private String gamer1 = "gamer1";
     private String gamer2 = "gamer2";
 
-    private AccountServiceImpl service = new AccountServiceImpl();
+    private MessageSystem ms = new MessageSystem();
+
+    private AccountServiceImpl service = new AccountServiceImpl(ms);
     private WebSocketService webSocketService = new WebSocketServiceImpl();
-    private GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
+    private GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService, ms);
     private HttpSession httpSession1 = Mockito.mock(HttpSession.class);
     private HttpSession httpSession2 = Mockito.mock(HttpSession.class);
     private Session session1 = Mockito.mock(Session.class);
@@ -103,7 +105,6 @@ public class GameMechanicsImplTest extends TestCase {
         gameMechanics.enemyStepAction(gamer1, json3);
     }
 
-    // надо supress на Exeption
     public void helpWinnerDetect () {
         service.authUser(getAdminUser(), httpSession1);
         when(request.getHttpServletRequest()).thenReturn(httpServletRequest);

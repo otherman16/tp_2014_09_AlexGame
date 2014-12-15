@@ -134,6 +134,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public void increaseScore(String email, int scoreToIncrease) throws Exception {
+        String sqlStatement = "UPDATE user SET score=score+\"" + scoreToIncrease + "\"" + "WHERE email = \"" + email +"\";";
+        DBExecutor.execUpdate(db_connection, sqlStatement);
+    }
+
+    @Override
     public void delete(String email) throws Exception {
         String sqlStatement = "DELETE FROM user " +
                 "WHERE email = \"" + email+ "\";";

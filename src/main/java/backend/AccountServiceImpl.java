@@ -2,17 +2,35 @@ package backend;
 
 import base.*;
 import database.DBServiceImpl;
+import main.ThreadSettings;
+import messageSystem.Abonent;
+import messageSystem.Address;
+import messageSystem.MessageSystem;
 import resourse.Admin;
 import resourse.DataBase;
 import resourse.ResourceFactory;
 
 import javax.servlet.http.HttpSession;
 
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService, Abonent {
+
+    private final Address address = new Address();
+    private final MessageSystem messageSystem;
 
     private DBService dbService;
 
-    public AccountServiceImpl() {
+    public Address getAddress() {
+        return address;
+    }
+
+    public MessageSystem getMessageSystem() {
+        return messageSystem;
+    }
+
+    public AccountServiceImpl(MessageSystem ms) {
+        this.messageSystem = ms;
+        messageSystem.addService(this);
+        messageSystem.getAddressService().registerAccountService(this);
         try {
             DataBase dataBase = (DataBase)ResourceFactory.instance().get("./data/dataBase.xml");
             dbService = new DBServiceImpl(dataBase.getHost(), dataBase.getPort(), dataBase.getUser(), dataBase.getName(), dataBase.getPassword());
@@ -129,6 +147,28 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             System.out.println("Exception in AccountService.deleteUser: " + e.getMessage());
             return new AccountServiceResponse<>(false, AccountServiceError.ServerError);
+        }
+    }
+
+    @Override
+    public AccountServiceResponse increaseScore(String findEmail, int scoreToIncrease) {
+        try{
+            dbService.increaseScore(findEmail, scoreToIncrease);
+            return new AccountServiceResponse<>(true, findEmail);
+        } catch (Exception e) {
+            System.out.println("Exception in AccountService.increaseScore: " + e.getMessage());
+            return new AccountServiceResponse<>(false, AccountServiceError.ServerError);
+        }
+    }
+
+    public void run() {
+        while (true){
+            messageSystem.execForAbonent(this);
+            try {
+                Thread.sleep(ThreadSettings.SERVICE_SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

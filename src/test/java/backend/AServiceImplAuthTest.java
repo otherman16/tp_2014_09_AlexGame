@@ -3,6 +3,7 @@ package backend;
 import base.AccountServiceError;
 import base.UserProfile;
 import junit.framework.TestCase;
+import messageSystem.MessageSystem;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 public class AServiceImplAuthTest extends TestCase {
 
-    private AccountServiceImpl service = new AccountServiceImpl();
+    private MessageSystem ms = new MessageSystem();
+
+    private AccountServiceImpl service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
 
     @Before

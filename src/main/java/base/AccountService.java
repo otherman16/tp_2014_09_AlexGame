@@ -3,7 +3,7 @@ package base;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
- public interface AccountService {
+ public interface AccountService extends Runnable {
 
     AccountServiceResponse authUser(UserProfile user, HttpSession session);
 
