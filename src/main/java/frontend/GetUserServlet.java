@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import base.AccountService;
-import base.AccountServiceError;
 import base.AccountServiceResponse;
 import base.UserProfile;
 import org.json.*;

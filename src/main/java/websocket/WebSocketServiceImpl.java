@@ -4,7 +4,6 @@ import base.WebSocketService;
 import org.json.JSONObject;
 import resourse.ResourceFactory;
 import resourse.Puck;
-import resourse.StartPort;
 
 import java.util.HashMap;
 
@@ -89,7 +88,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "enemy_position").put("dnextX", dnextX).put("dnextY" , dnextY);
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyPosition: " + e.getMessage());
         }

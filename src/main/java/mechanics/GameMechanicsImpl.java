@@ -4,7 +4,6 @@ import backend.MessageIncreaseScore;
 import base.GameMechanics;
 import base.WebSocketService;
 import main.ThreadSettings;
-import messageSystem.Abonent;
 import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
@@ -16,7 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GameMechanicsImpl implements GameMechanics, Abonent {
+public class GameMechanicsImpl implements GameMechanics {
 
     private final Address address = new Address();
     private final MessageSystem messageSystem;
@@ -65,7 +64,8 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
 
                 Gamer winner = session.isFirstWin() ? session.getFirst() : session.getSecond();
 
-                Message messageIncreaseScore = new MessageIncreaseScore(getAddress(), messageSystem.getAddressService().getAccountServiceAddress(), winner.getEmail(), winner.getScore());
+                Message messageIncreaseScore = new MessageIncreaseScore(getAddress(),
+                        messageSystem.getAddressService().getAccountServiceAddress(), winner.getEmail(), winner.getScore());
                 messageSystem.sendMessage(messageIncreaseScore);
 
                 boolean firstWin = session.isFirstWin();
@@ -104,7 +104,7 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
     }
 
     @Override
-    public void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject) {
+    public void stepAction(String gamerEnemyEmail, JSONObject jsonObject) {
         GameSession myGameSession = gameSessionMap.get(gamerEnemyEmail);
         Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
         int code = jsonObject.getInt("code");

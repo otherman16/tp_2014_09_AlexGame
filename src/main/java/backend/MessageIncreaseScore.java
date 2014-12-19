@@ -1,5 +1,6 @@
 package backend;
 
+import base.AccountService;
 import messageSystem.Address;
 
 public final class MessageIncreaseScore extends MessageToAccountService {
@@ -14,7 +15,7 @@ public final class MessageIncreaseScore extends MessageToAccountService {
     }
 
     @Override
-    protected void exec(AccountServiceImpl service) {
+    protected void exec(AccountService service) {
         service.increaseScore(email, scoreToIncrease);
     }
 }

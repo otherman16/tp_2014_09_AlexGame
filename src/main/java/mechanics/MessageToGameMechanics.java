@@ -1,5 +1,6 @@
 package mechanics;
 
+import base.GameMechanics;
 import messageSystem.Abonent;
 import messageSystem.Address;
 import messageSystem.Message;
@@ -11,10 +12,10 @@ public abstract class MessageToGameMechanics extends Message {
 
     @Override
     public void exec(Abonent abonent) {
-        if (abonent instanceof GameMechanicsImpl) {
-            exec((GameMechanicsImpl) abonent);
+        if (abonent instanceof GameMechanics) {
+            exec((GameMechanics) abonent);
         }
     }
 
-    protected abstract void exec(GameMechanicsImpl gameMechanics);
+    protected abstract void exec(GameMechanics gameMechanics);
 }

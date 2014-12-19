@@ -13,7 +13,7 @@ public class WebSocketServiceImplTest extends TestCase {
     private WebSocketService webSocketService = new WebSocketServiceImpl();
     private String gamerEmail = "admin@admin.ru";
     private GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService, ms);
-    private GameWebSocket gameWebSocket = new GameWebSocket(gamerEmail, gameMechanics, webSocketService);
+    private GameWebSocket gameWebSocket = new GameWebSocket(gamerEmail, webSocketService, ms);
 
     public void testAddSocketOk() throws Exception {
         webSocketService.addSocket(gameWebSocket);

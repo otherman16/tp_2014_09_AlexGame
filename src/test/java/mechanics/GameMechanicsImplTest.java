@@ -42,7 +42,7 @@ public class GameMechanicsImplTest extends TestCase {
     private HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class);
     private ServletUpgradeRequest request = Mockito.mock(ServletUpgradeRequest.class);
     private ServletUpgradeResponse response = Mockito.mock(ServletUpgradeResponse.class);
-    private CustomWebSocketCreator customWebSocketCreator = new CustomWebSocketCreator(service, gameMechanics, webSocketService);
+    private CustomWebSocketCreator customWebSocketCreator = new CustomWebSocketCreator(service, webSocketService, ms);
 
     private JSONObject json =  (new JSONObject()).put("code", 3);
 
@@ -88,21 +88,21 @@ public class GameMechanicsImplTest extends TestCase {
         setJson1();
         gameMechanics.addGamer(gamer1);
         gameMechanics.addGamer(gamer2);
-        gameMechanics.enemyStepAction(gamer1, json1);
+        gameMechanics.stepAction(gamer1, json1);
     }
 
     public void testEnemyStepActionPosition() throws Exception {
         setJson2();
         gameMechanics.addGamer(gamer1);
         gameMechanics.addGamer(gamer2);
-        gameMechanics.enemyStepAction(gamer1, json2);
+        gameMechanics.stepAction(gamer1, json2);
     }
 
     public void testEnemyStepActionScore() throws Exception {
         setJson3();
         gameMechanics.addGamer(gamer1);
         gameMechanics.addGamer(gamer2);
-        gameMechanics.enemyStepAction(gamer1, json3);
+        gameMechanics.stepAction(gamer1, json3);
     }
 
     public void helpWinnerDetect () {
@@ -125,14 +125,14 @@ public class GameMechanicsImplTest extends TestCase {
     @Test
     public void FirstWinOk() throws Exception {
         this.helpWinnerDetect();
-        gameMechanics.enemyStepAction(getAdminUser().getEmail(), json);
+        gameMechanics.stepAction(getAdminUser().getEmail(), json);
         Assert.assertEquals(true, gameMechanics.isFirstWin());
     }
 
     @Test
     public void FirstWinFail() throws Exception {
         this.helpWinnerDetect();
-        gameMechanics.enemyStepAction(getLoginUser().getEmail(), json);
+        gameMechanics.stepAction(getLoginUser().getEmail(), json);
         Assert.assertEquals(false, gameMechanics.isFirstWin());
     }
 
@@ -141,9 +141,9 @@ public class GameMechanicsImplTest extends TestCase {
     public void SecondWinOk() throws Exception {
         this.helpWinnerDetect();
         for (int i = 0; i < 10; i++)
-            gameMechanics.enemyStepAction(getAdminUser().getEmail(), json);
+            gameMechanics.stepAction(getAdminUser().getEmail(), json);
         for (int i = 0; i < 42; i++)
-            gameMechanics.enemyStepAction(getLoginUser().getEmail(), json);
+            gameMechanics.stepAction(getLoginUser().getEmail(), json);
         Assert.assertEquals(false, gameMechanics.isFirstWin());
     }
 
@@ -151,9 +151,9 @@ public class GameMechanicsImplTest extends TestCase {
     public void SecondWinFail() throws Exception {
         this.helpWinnerDetect();
         for (int i = 0; i < 42; i++)
-            gameMechanics.enemyStepAction(getAdminUser().getEmail(), json);
+            gameMechanics.stepAction(getAdminUser().getEmail(), json);
         for (int i = 0; i < 10; i++)
-            gameMechanics.enemyStepAction(getLoginUser().getEmail(), json);
+            gameMechanics.stepAction(getLoginUser().getEmail(), json);
         Assert.assertEquals(true, gameMechanics.isFirstWin());
     }
 }
