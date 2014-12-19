@@ -1,9 +1,7 @@
 package websocket;
 
-import base.GameMechanics;
 import base.WebSocketService;
 import junit.framework.TestCase;
-import mechanics.GameMechanicsImpl;
 import messageSystem.MessageSystem;
 import org.junit.Assert;
 
@@ -12,7 +10,6 @@ public class WebSocketServiceImplTest extends TestCase {
 
     private WebSocketService webSocketService = new WebSocketServiceImpl();
     private String gamerEmail = "admin@admin.ru";
-    private GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService, ms);
     private GameWebSocket gameWebSocket = new GameWebSocket(gamerEmail, webSocketService, ms);
 
     public void testAddSocketOk() throws Exception {

@@ -1,10 +1,5 @@
 package mechanics;
 
-import resourse.DataBase;
-
-/**
- * Created by aleksei on 22.11.14.
- */
 public class Puck {
     private double dnextX;
     private double dnextY;

@@ -47,6 +47,10 @@ public class GameMechanicsImpl implements GameMechanics {
         return messageSystem;
     }
 
+    public String getWaiter() {
+        return this.waiter;
+    }
+
     private Puck puck = new Puck();
 
     @Override
@@ -57,7 +61,7 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
-    public void gmStep() {
+    private void gmStep() {
         for (GameSession session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 session.closeGameSession();

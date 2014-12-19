@@ -6,10 +6,11 @@ import resourse.ResourceFactory;
 import resourse.Puck;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class WebSocketServiceImpl implements WebSocketService {
 
-    private HashMap<String, GameWebSocket> socketList = new HashMap<>();
+    private Map<String, GameWebSocket> socketList = new HashMap<>();
 
     @Override
     public GameWebSocket getExisting(String socketName) {
@@ -42,7 +43,9 @@ public class WebSocketServiceImpl implements WebSocketService {
             JSONObject jsonResponse = new JSONObject();
             Puck puck = (Puck)ResourceFactory.instance().get("./data/puck.xml");
             jsonResponse.put("code", "start_game").put("enemyEmail", gamerEnemyEmail).put("number", number).put("speed", puck.getSpeed());
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyStartGame: " + e.getMessage());
         }
@@ -53,7 +56,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "set_my_new_score").put("score", myNewScore);
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyMyNewScore: " + e.getMessage());
         }
@@ -64,7 +69,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "set_enemy_new_score").put("score", enemyNewScore);
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyNewScore: " + e.getMessage());
         }
@@ -77,7 +84,9 @@ public class WebSocketServiceImpl implements WebSocketService {
             jsonResponse.put("code", "kick").put("dnextX", puck.getDnextX()).put("dnextY" , puck.getDnextY());
             jsonResponse.put("velocityX" , puck.getVelocityX()).put("velocityY", puck.getVelocityY());
             jsonResponse.put("speed", puck.getSpeed()).put("angle", puck.getAngle());
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyCollision: " + e.getMessage());
         }
@@ -101,7 +110,9 @@ public class WebSocketServiceImpl implements WebSocketService {
         try {
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("code", "game_over").put("win", win);
-            socketList.get(gamerEmail).sendResponse(jsonResponse);
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
             deleteSocket(gamerEmail);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyGameOver: " + e.getMessage());

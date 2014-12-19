@@ -4,7 +4,6 @@ import base.AccountService;
 import base.AccountServiceError;
 import base.AccountServiceResponse;
 import base.UserProfile;
-import org.json.JSONException;
 import org.json.JSONObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,7 +36,6 @@ public class LoginServlet extends HttpServlet {
             JSONObject jsonObj = new JSONObject(jsonStr);
             String email = jsonObj.getString("email");
             String password = jsonObj.getString("password");
-
             UserProfile user = new UserProfile("", email, password);
             AccountServiceResponse resp = service.authUser(user, request.getSession());
             if (resp.getStatus()) {

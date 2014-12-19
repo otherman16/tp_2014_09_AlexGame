@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.AccountServiceImpl;
+import base.AccountService;
 import base.UserProfile;
 import junit.framework.TestCase;
 import messageSystem.MessageSystem;
@@ -16,7 +17,7 @@ public class AdminServletTest extends TestCase {
 
     private MessageSystem ms = new MessageSystem();
 
-    private AccountServiceImpl service = new AccountServiceImpl(ms);
+    private AccountService service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private AdminServlet adminServlet = new AdminServlet(this.service);
     private HttpServletRequest request = Mockito.mock(HttpServletRequest.class);

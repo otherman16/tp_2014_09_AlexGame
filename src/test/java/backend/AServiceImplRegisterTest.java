@@ -1,4 +1,5 @@
 package backend;
+import base.AccountService;
 import base.AccountServiceError;
 import base.UserProfile;
 import junit.framework.TestCase;
@@ -13,7 +14,7 @@ public class AServiceImplRegisterTest extends TestCase {
 
     private MessageSystem ms = new MessageSystem();
 
-    private AccountServiceImpl service = new AccountServiceImpl(ms);
+    private AccountService service = new AccountServiceImpl(ms);
     private HttpSession httpSession = Mockito.mock(HttpSession.class);
     private UserProfile getRegUser() {
         String regLogin = "test";

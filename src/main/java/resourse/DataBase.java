@@ -1,8 +1,5 @@
 package resourse;
 
-/**
- * Created by aleksei on 21.11.14.
- */
 public class DataBase implements Resource{
 
     private String db_host;
