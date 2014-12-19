@@ -6,11 +6,9 @@ public interface GameMechanics extends Runnable  {
 
     boolean isFirstWin();
 
-    void gmStep();
+    void addGamerOrJoystick(String gamerEmail);
 
-    void addGamer(String gamerEmail);
-
-    void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject);
+    void StepAction(String gamerEnemyEmail, JSONObject jsonObject);
 
     void runGameMechanics();
 }

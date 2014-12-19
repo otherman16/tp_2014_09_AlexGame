@@ -7,7 +7,7 @@ define([
     'puck_model',
     'user_model',
 ], function($, Backbone, P, BatModel, PuckModel, UserModel){
-    var ArkanoidApp = Backbone.View.extend({
+    var AirHockeyApp = Backbone.View.extend({
         el: $('.screen__game'),
         initialize: function() {
 
@@ -128,10 +128,15 @@ define([
                 ws.send(data);
             };
 
+             var sendStartBatPosition = function () {
+                var data = JSON.stringify({code: 5, dnextX: myBat.x, dnextY: myBat.y});
+                console.log(data);
+                ws.send(data);
+             }
+
             if ( !this.ws) {
                 var ws = new WebSocket("ws://localhost:8096/gameSocket");
             }
-
             var canvas = document.getElementById('myCanvas');
             var scene = new P.Scene();
             this.setScene(scene, canvas);
@@ -218,6 +223,8 @@ define([
                }
             };
 
+
+
            var setStartParameters = function(code, speed) {
                // если второй соперник, то разворачиваем для него угол направление движения шайбы на 180 градусов
                puck.speed = speed;
@@ -229,27 +236,51 @@ define([
            };
 
             var EnemyPositionHandler = function (dnextX, dnextY) {
+                //console.log(dnextX);
+                //console.log(dnextY);
                 enemyBat.dnextX = -dnextX;
                 enemyBat.dnextY = -dnextY;
                 enemyBat.render();
             };
 
+            var setStartPosition = function (_x, _y ) {
+                console.log("setStartposition" + " x" + _x + " y " + _y);
+                enemyBat.dnextX = enemyBat.x - _x;
+                //enemyBat.dnextY = (enemyBat.y + _y);
+                console.log(enemyBat.dnextX);
+                console.log(enemyBat.dnextY);
+                enemyBat.render();
+            };
+
+            var MyPositionHandler = function (dnextX, dnextY) {
+                //console.log(velocityX);
+                //console.log(velocityY);
+                myBat.velocityX = -dnextX;
+                myBat.velocityY = -dnextY;
+                myBat.dnextX = -dnextX;
+                myBat.dnextY = -dnextY;
+                //send_message_position_enemy_bat(myBat.dnextX, myBat.dnextY);
+                //myBat.render();
+             };
+
             var kickHandler = function (dnextX, dnextY, velocityX, velocityY, speed, angle) {
-                puck.dnextX = -dnextX;
-                puck.dnextY = -dnextY;
-                puck.velocityX = -velocityX;
-                puck.velocityY = -velocityY;
+                puck.dnextX += -dnextX;
+                puck.dnextY += -dnextY;
+                puck.velocityX += -velocityX;
+                puck.velocityY += -velocityY;
                 puck.speed = speed;
                 puck.angle = 180 + angle;
             };
 
             var collide = function(myBat, puck) {
                 if (hitTest(myBat, puck)) {
+
                     var dx = (myBat.x + myBat.dnextX) - (puck.x + puck.dnextX);
                     var dy = (myBat.y + myBat.dnextY) - (puck.y + puck.dnextY);
 
                     var collisionAngle = Math.atan2(dy, dx);
-
+                    //console.log("X" + myBat.velocityX);
+                    //console.log("Y" + myBat.velocityY)
                     var speed1 = Math.sqrt(myBat.velocityX * myBat.velocityX +
                         myBat.velocityY * myBat.velocityY);
                     var speed2 = Math.sqrt(puck.velocityX * puck.velocityX +
@@ -295,20 +326,25 @@ define([
                 var dy = (myBat.y + myBat.dnextX) - (puck.y + puck.dnextY);
                 var distance = (dx * dx + dy * dy);
                 if (distance <= (myBat.radius + puck.radius) *
-                    (myBat.radius + puck.radius) )
+                    (myBat.radius + puck.radius) ) {
                     retval = true;
+                    console.log("hit");
+                }
                 return retval;
             };
 
             var setEndParameters = function () {
                 game_session = false;
             };
-            // надо настоить синхронное начало для игры, а так вроде неплохо
+
+            var game_session = true;
+
             puck.update();
-            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage(), UserModel);
+            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, MyPositionHandler, setEndParameters, local_storage(), UserModel, sendStartBatPosition, setStartPosition);
 
             var fnAnimate = function() {
                 if (game_session) {
+                    console.log("fn Animate");
                     keyPressListHandler();
                     myBat.testBorder(net.length / 2, net.length / 2);
                     if (puck.start) {
@@ -339,7 +375,7 @@ define([
                     requestAnimFrame(fnAnimate);
                 }
             };
-            var game_session = true;
+
             requestAnimFrame(fnAnimate);
         },
 
@@ -350,27 +386,37 @@ define([
             scene.viewport.height = canvas.height;
         },
 
-        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage, UserModel) {
+
+        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, MyPositionHandler, setEndParameters, local_storage, UserModel, sendStartBatPosition, setStartPosition) {
             var wscl = ws;
 
-            ws.onopen = function () {
+            ws.onopen = function (event) {
                 $( "#gameOver" ).hide();
                 $( "#wait" ).show();
-                //alert("Open Socket - ready for Game");
+                console.log("Open Socket - ready for Game");
             };
             ws.onmessage = function (event) {
-                //alert("Message");
                 var data = JSON.parse(event.data);
+                if(data.code == "token") {
+                    console.log("token");
+                    document.getElementById("token").innerHTML = data.token;
+                    $( "#token" ).show();
+                }
+
                 if(data.code == "start_game") {
                     $( "#gameOver" ).hide();
                     $( "#wait" ).hide();
+                    $( "#token" ).hide();
                     $( "#gameplay" ).show();
                     $("#enemyScore").html("0");
                     $("#myScore").html("0");
                     //$("enemyName").append(data.enemyEmail);
                     document.getElementById("enemyName").innerHTML = data.enemyEmail;
                     setStartParameters(data.number, data.speed);
+                    sendStartBatPosition();
+                    console.log("senStartBatPosition");
                 }
+
                 if(data.code == "game_over"){
                     $( "#gameOver" ).show();
                     $( "#gameplay" ).hide();
@@ -411,16 +457,24 @@ define([
                 if ( data.code == "enemy_position") {
                     EnemyPositionHandler(data.dnextX, data.dnextY);
                 }
+                if ( data.code == "my_position" ) {
+                    console.log(data.dnextX);
+                    console.log(data.dnextY);
+                    MyPositionHandler(data.dnextX, data.dnextY);
+                }
+
+                if ( data.code == "start_position" ) {
+                    console.log("data пришла");
+                    console.log(data);
+                    setStartPosition(data.dnextX, data.dnextY);
+                }
             };
             ws.onclose = function (event) {
                 //UserModel.sync();
                 console.log("game_stop");
-                local_storage();
-                //localStorage.setItem('score', myBat.score);
-                //alert("close Socket - game Over");
-                //window.location.hash = "";
+                //local_storage();
             }
         }
     });
-    return ArkanoidApp;
+    return AirHockeyApp;
 });

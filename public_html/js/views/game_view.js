@@ -16,7 +16,7 @@ define([
 			this.$el.html(this.template(this.model.toJSON()));
 		},
 		show_game: function() {
-            console.log("game start");
+            //console.log("game start");
         	this.AirHockeyApp = new AirHockeyApp();
 		},
 		show: function() {

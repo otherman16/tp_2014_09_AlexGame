@@ -4,6 +4,10 @@
         <p>Hello, <fest:value>json.login</fest:value>!</p>
     </div>
 
+    <div id="token">
+        <p><span id="token"></span></p>
+    </div>
+
     <div id="wait">
         <p>Prepare yourself. Wait for enemy!</p>
     </div>

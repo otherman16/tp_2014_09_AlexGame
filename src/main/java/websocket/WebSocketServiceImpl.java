@@ -1,6 +1,7 @@
 package websocket;
 
 import base.WebSocketService;
+import mechanics.Direction;
 import org.json.JSONObject;
 import resourse.ResourceFactory;
 import resourse.Puck;
@@ -85,13 +86,61 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void notifyEnemyPosition(String gamerEmail, double dnextX, double dnextY) {
+    public void notifyEnemyPosition(String gamerEmail, Direction direction) {
         try {
             JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("code", "enemy_position").put("dnextX", dnextX).put("dnextY" , dnextY);
+            jsonResponse.put("code", "enemy_position").put("dnextX", direction.getDnextX()).put("dnextY" , direction.getDnextY());
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
+        } catch (Exception e) {
+            System.out.println("Exception in WebSocketServiceImpl.notifyEnemyPosition: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void notifyMyPosition(String gamerEmail, Direction direction) {
+        try {
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("code", "my_position").put("dnextX", direction.getDnextX()).put("dnextY" , direction.getDnextY());
             socketList.get(gamerEmail).sendResponse(jsonResponse);
         } catch (Exception e) {
             System.out.println("Exception in WebSocketServiceImpl.notifyEnemyPosition: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void notifyStartPosition(String gamerEmail, Direction direction) {
+        try {
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("code", "start_position").put("dnextX", direction.getDnextX()).put("dnextY" , direction.getDnextY());
+            GameWebSocket current = socketList.get(gamerEmail);
+            if (current != null)
+                current.sendResponse(jsonResponse);
+        } catch (Exception e) {
+            System.out.println("Exception in WebSocketServiceImpl.notifyEnemyPosition: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void notifyToken(String gamerEmail, String token) {
+        try {
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("code", "token").put("token", token);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
+        } catch (Exception e) {
+            System.out.println("Exception in WebSocketServiceImpl.notifyToken: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void notifyNewEmail(String gamerEmail, String newEmail) {
+        try {
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("code", "new_email").put("new_email", newEmail);
+            socketList.get(gamerEmail).sendResponse(jsonResponse);
+        } catch (Exception e) {
+            System.out.println("Exception in WebSocketServiceImpl.notifyToken: " + e.getMessage());
         }
     }
 

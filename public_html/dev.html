@@ -1,0 +1,31 @@
+<!DOCTYPE  html>
+<html><head>
+    <meta charset="utf-8" />
+    <title>Epic Game</title>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+<div class="screen">
+
+    <div class="screen__toolbar"></div>
+    <div class="screen__canvas"></div>
+    <div class="screen__main"></div>
+    <div class="screen__joystick"></div>
+    <div class="screen__login"></div>
+    <div class="screen__registration"></div>
+    <div class="screen__scoreboard"></div>
+    <div class="screen__game"></div>
+    <div class="screen__profile"></div>
+    <div class="screen__alert"></div>
+
+</div>
+<script data-main="/js/epicgame.js" src="/js/lib/require.js" onload="loadBuild()">
+    loadBuild = function() {
+        document.getElementsByClassName("loading")[0].style.display = "none";
+    }
+</script>
+<script src="//localhost:35729/livereload.js"></script>
+</body>
+</html>
+
+

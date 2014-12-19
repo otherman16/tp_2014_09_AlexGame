@@ -86,23 +86,23 @@ public class GameMechanicsImplTest extends TestCase {
 
     public void testEnemyStepActionKick() throws Exception {
         setJson1();
-        gameMechanics.addGamer(gamer1);
-        gameMechanics.addGamer(gamer2);
-        gameMechanics.enemyStepAction(gamer1, json1);
+        gameMechanics.addGamerOrJoystick(gamer1);
+        gameMechanics.addGamerOrJoystick(gamer2);
+        gameMechanics.StepAction(gamer1, json1);
     }
 
     public void testEnemyStepActionPosition() throws Exception {
         setJson2();
-        gameMechanics.addGamer(gamer1);
-        gameMechanics.addGamer(gamer2);
-        gameMechanics.enemyStepAction(gamer1, json2);
+        gameMechanics.addGamerOrJoystick(gamer1);
+        gameMechanics.addGamerOrJoystick(gamer2);
+        gameMechanics.StepAction(gamer1, json2);
     }
 
     public void testEnemyStepActionScore() throws Exception {
         setJson3();
-        gameMechanics.addGamer(gamer1);
-        gameMechanics.addGamer(gamer2);
-        gameMechanics.enemyStepAction(gamer1, json3);
+        gameMechanics.addGamerOrJoystick(gamer1);
+        gameMechanics.addGamerOrJoystick(gamer2);
+        gameMechanics.StepAction(gamer1, json3);
     }
 
     public void helpWinnerDetect () {
@@ -125,14 +125,14 @@ public class GameMechanicsImplTest extends TestCase {
     @Test
     public void FirstWinOk() throws Exception {
         this.helpWinnerDetect();
-        gameMechanics.enemyStepAction(getAdminUser().getEmail(), json);
+        gameMechanics.StepAction(getAdminUser().getEmail(), json);
         Assert.assertEquals(true, gameMechanics.isFirstWin());
     }
 
     @Test
     public void FirstWinFail() throws Exception {
         this.helpWinnerDetect();
-        gameMechanics.enemyStepAction(getLoginUser().getEmail(), json);
+        gameMechanics.StepAction(getLoginUser().getEmail(), json);
         Assert.assertEquals(false, gameMechanics.isFirstWin());
     }
 
@@ -141,9 +141,9 @@ public class GameMechanicsImplTest extends TestCase {
     public void SecondWinOk() throws Exception {
         this.helpWinnerDetect();
         for (int i = 0; i < 10; i++)
-            gameMechanics.enemyStepAction(getAdminUser().getEmail(), json);
+            gameMechanics.StepAction(getAdminUser().getEmail(), json);
         for (int i = 0; i < 42; i++)
-            gameMechanics.enemyStepAction(getLoginUser().getEmail(), json);
+            gameMechanics.StepAction(getLoginUser().getEmail(), json);
         Assert.assertEquals(false, gameMechanics.isFirstWin());
     }
 
@@ -151,9 +151,9 @@ public class GameMechanicsImplTest extends TestCase {
     public void SecondWinFail() throws Exception {
         this.helpWinnerDetect();
         for (int i = 0; i < 42; i++)
-            gameMechanics.enemyStepAction(getAdminUser().getEmail(), json);
+            gameMechanics.StepAction(getAdminUser().getEmail(), json);
         for (int i = 0; i < 10; i++)
-            gameMechanics.enemyStepAction(getLoginUser().getEmail(), json);
+            gameMechanics.StepAction(getLoginUser().getEmail(), json);
         Assert.assertEquals(true, gameMechanics.isFirstWin());
     }
 }

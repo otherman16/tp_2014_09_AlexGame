@@ -15,6 +15,7 @@ requirejs.config({
         // Templates/**
         "game_tmpl" : "tmpl/game_tmpl",
         "login_tmpl" : "tmpl/login_tmpl",
+        "joystick_tmpl" : "tmpl/joystick_tmpl",
         "main_user_tmpl" : "tmpl/main_user_tmpl",
         "main_guest_tmpl" : "tmpl/main_guest_tmpl",
         "registration_tmpl" : "tmpl/registration_tmpl",
@@ -35,6 +36,7 @@ requirejs.config({
         "view_manager" : "views/view_manager",
         "toolbar_view" : "views/toolbar_view",
         "canvas_view" : "views/canvas_view",
+        "joystick_view" : "views/joystick_view",
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",
@@ -45,6 +47,7 @@ requirejs.config({
         "vertex_collection" : "collections/vertex_collection",
         // Game_mechanics
         "air_hockey_app" : "mechanics/air_hockey_app",
+        "joystick" : "mechanics/joystick"
     },
     shim: {
         'jquery': {

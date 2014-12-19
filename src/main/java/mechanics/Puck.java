@@ -1,10 +1,7 @@
 package mechanics;
 
-import resourse.DataBase;
+import org.json.JSONObject;
 
-/**
- * Created by aleksei on 22.11.14.
- */
 public class Puck {
     private double dnextX;
     private double dnextY;
@@ -15,13 +12,13 @@ public class Puck {
 
     public Puck () {}
 
-    public void setPuck (double dnextX, double dnextY, double velocityX, double velocityY, double speed, double angle) {
-        this.setDnextX(dnextX);
-        this.setDnextY(dnextY);
-        this.setVelocityX(velocityX);
-        this.setVelocityY(velocityY);
-        this.setSpeed(speed);
-        this.setAngle(angle);
+    public void setPuck ( JSONObject jsonObject) {
+        this.setDnextX(jsonObject.getDouble("dnextX"));
+        this.setDnextY(jsonObject.getDouble("dnextY"));
+        this.setVelocityX(jsonObject.getDouble("velocityX"));
+        this.setVelocityY(jsonObject.getDouble("velocityY"));
+        this.setSpeed(jsonObject.getDouble("speed"));
+        this.setAngle(jsonObject.getDouble("angle"));
     }
 
     public void setDnextX (double dnextX) { this.dnextX = dnextX;}

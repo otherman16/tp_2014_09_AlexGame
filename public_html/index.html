@@ -1,16 +1,18 @@
 <!DOCTYPE  html>
 <html><head>
 		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Epic Game</title>
 		<link rel="stylesheet" href="/css/main.css" />
-
 </head>
 <body>
+    <img src="img/indikator.gif" class="loading"/>
 	<div class="screen">
+    
 		<div class="screen__toolbar"></div>
-		
 		<div class="screen__canvas"></div>
 		<div class="screen__main"></div>
+        <div class="screen__joystick"></div>
 		<div class="screen__login"></div>
 		<div class="screen__registration"></div>
 		<div class="screen__scoreboard"></div>
@@ -19,8 +21,16 @@
 		<div class="screen__alert"></div>
 			
 	</div>
-	<!-- Livereload -->
-    <script src="js/build.min.js"></script>
+    <script>
+        var script = document.createElement('script');
+        script.src = "js/build.min.js";
+        document.documentElement.appendChild(script);    
+        script.onload = function() {            
+            document.getElementsByClassName("loading")[0].style.display = "none";            
+        }        
+    </script>
+    <!-- Livereload -->
+    <!--<script src="js/build.min.js"></script>-->
     <script src="//localhost:35729/livereload.js"></script>
 </body>
 </html>

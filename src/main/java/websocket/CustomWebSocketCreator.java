@@ -15,6 +15,7 @@ public class CustomWebSocketCreator implements WebSocketCreator {
     public CustomWebSocketCreator(AccountService authService,
                                   GameMechanics gameMechanics,
                                   WebSocketService webSocketService) {
+
         this.authService = authService;
         this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
@@ -26,16 +27,20 @@ public class CustomWebSocketCreator implements WebSocketCreator {
         AccountServiceResponse response = authService.getUserBySession(sessionId);
         UserProfile user;
         if (!response.getStatus()) {
-            user = new UserProfile("Guest","","");
+            user = new UserProfile("Guest","Guest@Guest.ru","Guest");
+            //System.out.println("Socket was not created");
+            //return null;
         }
         else {
             user = (UserProfile)response.getResponse();
         }
         String gamerEmail = user.getEmail();
         if (!webSocketService.exists(gamerEmail)) {
+            System.out.append("Create new web socket");
             return new GameWebSocket(gamerEmail, gameMechanics, webSocketService);
         }
         else {
+            System.out.append("Return existing");
             return webSocketService.getExisting(gamerEmail);
         }
     }

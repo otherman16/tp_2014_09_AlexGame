@@ -11,10 +11,7 @@ import messageSystem.MessageSystem;
 import org.json.JSONObject;
 import utils.TimeHelper;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GameMechanicsImpl implements GameMechanics, Abonent {
 
@@ -31,7 +28,29 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
 
     private Set<GameSession> allSessions = new HashSet<>();
 
+    private Map<String, String> tokenMap = new HashMap<>();
+
     private String waiter;
+
+    private void generateToken (String email) {
+        boolean success = false;
+        while ( !success ) {
+            char[] chars = "abcde123456789".toCharArray();
+            StringBuilder sb = new StringBuilder();
+            Random random = new Random();
+            for (int i = 0; i < 4; i++) {
+                char c = chars[random.nextInt(chars.length)];
+                sb.append(c);
+            }
+            String output = sb.toString();
+            System.out.println(output);
+            if ( tokenMap.get(output) == null ) {
+                tokenMap.put(output, email);
+                success = true;
+                webSocketService.notifyToken(email, output);
+            }
+        }
+    }
 
     public GameMechanicsImpl(WebSocketService webSocketService, MessageSystem ms) {
         this.messageSystem = ms;
@@ -49,6 +68,7 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
     }
 
     private Puck puck = new Puck();
+    private Direction direction = new Direction();
 
     @Override
     public void runGameMechanics() {
@@ -94,38 +114,57 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
     }
 
     @Override
-    public void addGamer(String gamerEmail) {
-        if (waiter != null && !gamerEmail.equals(waiter)) {
+    public void addGamerOrJoystick(String gamerEmail) {
+        if ( gamerEmail.equals("Guest@Guest.ru") ) {
+            System.out.println("This is joystick");
+        } else if ( waiter != null && !gamerEmail.equals(waiter) ){
+            generateToken(gamerEmail);
             starGame(gamerEmail);
             waiter = null;
         } else {
+            generateToken(gamerEmail);
             waiter = gamerEmail;
         }
     }
 
     @Override
-    public void enemyStepAction(String gamerEnemyEmail, JSONObject jsonObject) {
-        GameSession myGameSession = gameSessionMap.get(gamerEnemyEmail);
-        Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
+    public void StepAction(String gamerEnemyEmail, JSONObject jsonObject) {
+        //System.out.println("new action");
         int code = jsonObject.getInt("code");
-        if ( code == 1) {
-            puck.setPuck(jsonObject.getDouble("dnextX"), jsonObject.getDouble("dnextY"),
-                    jsonObject.getDouble("velocityX"), jsonObject.getDouble("velocityY"),
-                    jsonObject.getDouble("speed"), jsonObject.getDouble("angle"));
-            webSocketService.notifyEnemyKick(me.getEmail(), puck);
+        if ( code == 0 ) {
+            String email = jsonObject.getString("email");
+            direction.setDirection(jsonObject);
+            webSocketService.notifyMyPosition(email, direction);
+            //GameSession myGameSession = gameSessionMap.get(jsonObject.getString("email"));
+            //Gamer enemy = myGameSession.getGamerEnemy(gamerEnemyEmail);
+            //direction.inverse();
+            //webSocketService.notifyEnemyPosition(enemy.getEmail(), direction);
+        } else if ( code == -1 ) {
+            String token = jsonObject.getString("token");
+            String newEmail = tokenMap.get(token);
+            webSocketService.notifyNewEmail(gamerEnemyEmail, newEmail);
         }
-        else if (code == 2 ) {
-            double dnextX = jsonObject.getDouble("dnextX");
-            double dnextY = jsonObject.getDouble("dnextY");
-            webSocketService.notifyEnemyPosition(me.getEmail(), dnextX, dnextY);
-        }
-        else if (code == 3 ) {
-            Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
-            me.incrementScore();
-            webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
-            webSocketService.notifyMyNewScore(me.getEmail(), me.getScore());
-            webSocketService.notifyEnemyNewScore(myEnemy.getEmail(), me.getScore());
-            webSocketService.notifyMyNewScore(myEnemy.getEmail(), myEnemy.getScore());
+        else {
+            GameSession myGameSession = gameSessionMap.get(gamerEnemyEmail);
+            Gamer me = myGameSession.getGamerEnemy(gamerEnemyEmail);
+            if (code == 1) {
+                puck.setPuck(jsonObject);
+                webSocketService.notifyEnemyKick(me.getEmail(), puck);
+            } else if (code == 2) {
+                //System.out.println("code 2");
+                direction.setDirection(jsonObject);
+                webSocketService.notifyEnemyPosition(me.getEmail(), direction);
+            } else if (code == 3) {
+                Gamer myEnemy = myGameSession.getGamer(gamerEnemyEmail);
+                me.incrementScore();
+                webSocketService.notifyEnemyNewScore(me.getEmail(), myEnemy.getScore());
+                webSocketService.notifyMyNewScore(me.getEmail(), me.getScore());
+                webSocketService.notifyEnemyNewScore(myEnemy.getEmail(), me.getScore());
+                webSocketService.notifyMyNewScore(myEnemy.getEmail(), myEnemy.getScore());
+            } else if ( code == 5 ) {
+                direction.setDirection(jsonObject);
+                webSocketService.notifyStartPosition(me.getEmail(), direction);
+            }
         }
     }
 

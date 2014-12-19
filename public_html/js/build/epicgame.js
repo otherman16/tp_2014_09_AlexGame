@@ -1830,7 +1830,7 @@ define('registration_view',[
 	});
 	return RegistrationView;
 });
-define('game_tmpl',[],function () { return function (__fest_context){var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div id=\"hello\"><p>Hello,");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("!</p></div><div id=\"wait\"><p>Prepare yourself. Wait for enemy!</p></div><div id=\"gameplay\" style=\"display: none\"><div id=\"score\"><p><span id=\"myName\">");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "12");}__fest_buf+=("</span>:<span id=\"myScore\">0</span></p><p><span id=\"enemyName\"></span>:<span id=\"enemyScore\">0</span></p></div></div><div id=\"gameOver\" style=\"display: none\"><p>Game over! You are<span id=\"win\"></span></p></div><div class=\"screen__canvas\"><canvas id=\"myCanvas\" width=\"368\" height=\"212\" style=\"background-color: #eee\">Your browser does not support the HTML5 canvas tag.</canvas></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('game_tmpl',[],function () { return function (__fest_context){var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<div id=\"hello\"><p>Hello,");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "3");}__fest_buf+=("!</p></div><div id=\"token\"><p><span id=\"token\"></span></p></div><div id=\"wait\"><p>Prepare yourself. Wait for enemy!</p></div><div id=\"gameplay\" style=\"display: none\"><div id=\"score\"><p><span id=\"myName\">");try{__fest_buf+=(__fest_escapeHTML(json.login))}catch(e){__fest_log_error(e.message + "16");}__fest_buf+=("</span>:<span id=\"myScore\">0</span></p><p><span id=\"enemyName\"></span>:<span id=\"enemyScore\">0</span></p></div></div><div id=\"gameOver\" style=\"display: none\"><p>Game over! You are<span id=\"win\"></span></p></div><div class=\"screen__canvas\"><canvas id=\"myCanvas\" width=\"368\" height=\"212\" style=\"background-color: #eee\">Your browser does not support the HTML5 canvas tag.</canvas></div>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
 /**
  * @fileoverview gl-matrix - High performance matrix and vector operations
  * @author Brandon Jones
@@ -6173,9 +6173,10 @@ define('air_hockey_app',[
     'backbone',
     'phoria',
     'bat_model',
-    'puck_model'
-], function($, Backbone, P, BatModel, PuckModel){
-    var ArkanoidApp = Backbone.View.extend({
+    'puck_model',
+    'user_model',
+], function($, Backbone, P, BatModel, PuckModel, UserModel){
+    var AirHockeyApp = Backbone.View.extend({
         el: $('.screen__game'),
         initialize: function() {
 
@@ -6296,10 +6297,15 @@ define('air_hockey_app',[
                 ws.send(data);
             };
 
+             var sendStartBatPosition = function () {
+                var data = JSON.stringify({code: 5, dnextX: myBat.x, dnextY: myBat.y});
+                console.log(data);
+                ws.send(data);
+             }
+
             if ( !this.ws) {
                 var ws = new WebSocket("ws://localhost:8096/gameSocket");
             }
-
             var canvas = document.getElementById('myCanvas');
             var scene = new P.Scene();
             this.setScene(scene, canvas);
@@ -6386,6 +6392,8 @@ define('air_hockey_app',[
                }
             };
 
+
+
            var setStartParameters = function(code, speed) {
                // если второй соперник, то разворачиваем для него угол направление движения шайбы на 180 градусов
                puck.speed = speed;
@@ -6397,27 +6405,51 @@ define('air_hockey_app',[
            };
 
             var EnemyPositionHandler = function (dnextX, dnextY) {
+                //console.log(dnextX);
+                //console.log(dnextY);
                 enemyBat.dnextX = -dnextX;
                 enemyBat.dnextY = -dnextY;
                 enemyBat.render();
             };
 
+            var setStartPosition = function (_x, _y ) {
+                console.log("setStartposition" + " x" + _x + " y " + _y);
+                enemyBat.dnextX = enemyBat.x - _x;
+                //enemyBat.dnextY = (enemyBat.y + _y);
+                console.log(enemyBat.dnextX);
+                console.log(enemyBat.dnextY);
+                enemyBat.render();
+            };
+
+            var MyPositionHandler = function (dnextX, dnextY) {
+                //console.log(velocityX);
+                //console.log(velocityY);
+                myBat.velocityX = -dnextX;
+                myBat.velocityY = -dnextY;
+                myBat.dnextX = -dnextX;
+                myBat.dnextY = -dnextY;
+                //send_message_position_enemy_bat(myBat.dnextX, myBat.dnextY);
+                //myBat.render();
+             };
+
             var kickHandler = function (dnextX, dnextY, velocityX, velocityY, speed, angle) {
-                puck.dnextX = -dnextX;
-                puck.dnextY = -dnextY;
-                puck.velocityX = -velocityX;
-                puck.velocityY = -velocityY;
+                puck.dnextX += -dnextX;
+                puck.dnextY += -dnextY;
+                puck.velocityX += -velocityX;
+                puck.velocityY += -velocityY;
                 puck.speed = speed;
                 puck.angle = 180 + angle;
             };
 
             var collide = function(myBat, puck) {
                 if (hitTest(myBat, puck)) {
+
                     var dx = (myBat.x + myBat.dnextX) - (puck.x + puck.dnextX);
                     var dy = (myBat.y + myBat.dnextY) - (puck.y + puck.dnextY);
 
                     var collisionAngle = Math.atan2(dy, dx);
-
+                    //console.log("X" + myBat.velocityX);
+                    //console.log("Y" + myBat.velocityY)
                     var speed1 = Math.sqrt(myBat.velocityX * myBat.velocityX +
                         myBat.velocityY * myBat.velocityY);
                     var speed2 = Math.sqrt(puck.velocityX * puck.velocityX +
@@ -6463,20 +6495,25 @@ define('air_hockey_app',[
                 var dy = (myBat.y + myBat.dnextX) - (puck.y + puck.dnextY);
                 var distance = (dx * dx + dy * dy);
                 if (distance <= (myBat.radius + puck.radius) *
-                    (myBat.radius + puck.radius) )
+                    (myBat.radius + puck.radius) ) {
                     retval = true;
+                    console.log("hit");
+                }
                 return retval;
             };
 
             var setEndParameters = function () {
                 game_session = false;
             };
-            // надо настоить синхронное начало для игры, а так вроде неплохо
+
+            var game_session = true;
+
             puck.update();
-            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage());
+            this.initSocket(ws, enemyBat, setStartParameters, kickHandler, EnemyPositionHandler, MyPositionHandler, setEndParameters, local_storage(), UserModel, sendStartBatPosition, setStartPosition);
 
             var fnAnimate = function() {
                 if (game_session) {
+                    console.log("fn Animate");
                     keyPressListHandler();
                     myBat.testBorder(net.length / 2, net.length / 2);
                     if (puck.start) {
@@ -6507,7 +6544,7 @@ define('air_hockey_app',[
                     requestAnimFrame(fnAnimate);
                 }
             };
-            var game_session = true;
+
             requestAnimFrame(fnAnimate);
         },
 
@@ -6518,27 +6555,37 @@ define('air_hockey_app',[
             scene.viewport.height = canvas.height;
         },
 
-        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, setEndParameters, local_storage) {
+
+        initSocket : function(ws, enemyCylinder, setStartParameters, kickHandler, EnemyPositionHandler, MyPositionHandler, setEndParameters, local_storage, UserModel, sendStartBatPosition, setStartPosition) {
             var wscl = ws;
 
-            ws.onopen = function () {
+            ws.onopen = function (event) {
                 $( "#gameOver" ).hide();
                 $( "#wait" ).show();
-                //alert("Open Socket - ready for Game");
+                console.log("Open Socket - ready for Game");
             };
             ws.onmessage = function (event) {
-                //alert("Message");
                 var data = JSON.parse(event.data);
+                if(data.code == "token") {
+                    console.log("token");
+                    document.getElementById("token").innerHTML = data.token;
+                    $( "#token" ).show();
+                }
+
                 if(data.code == "start_game") {
                     $( "#gameOver" ).hide();
                     $( "#wait" ).hide();
+                    $( "#token" ).hide();
                     $( "#gameplay" ).show();
                     $("#enemyScore").html("0");
                     $("#myScore").html("0");
                     //$("enemyName").append(data.enemyEmail);
                     document.getElementById("enemyName").innerHTML = data.enemyEmail;
                     setStartParameters(data.number, data.speed);
+                    sendStartBatPosition();
+                    console.log("senStartBatPosition");
                 }
+
                 if(data.code == "game_over"){
                     $( "#gameOver" ).show();
                     $( "#gameplay" ).hide();
@@ -6579,17 +6626,26 @@ define('air_hockey_app',[
                 if ( data.code == "enemy_position") {
                     EnemyPositionHandler(data.dnextX, data.dnextY);
                 }
+                if ( data.code == "my_position" ) {
+                    console.log(data.dnextX);
+                    console.log(data.dnextY);
+                    MyPositionHandler(data.dnextX, data.dnextY);
+                }
+
+                if ( data.code == "start_position" ) {
+                    console.log("data пришла");
+                    console.log(data);
+                    setStartPosition(data.dnextX, data.dnextY);
+                }
             };
             ws.onclose = function (event) {
+                //UserModel.sync();
                 console.log("game_stop");
-                local_storage();
-                //localStorage.setItem('score', myBat.score);
-                //alert("close Socket - game Over");
-                //window.location.hash = "";
+                //local_storage();
             }
         }
     });
-    return ArkanoidApp;
+    return AirHockeyApp;
 });
 define('game_view',[
 	// Libs
@@ -6609,7 +6665,7 @@ define('game_view',[
 			this.$el.html(this.template(this.model.toJSON()));
 		},
 		show_game: function() {
-            console.log("game start");
+            //console.log("game start");
         	this.AirHockeyApp = new AirHockeyApp();
 		},
 		show: function() {
@@ -6872,6 +6928,119 @@ define('canvas_view',[
 	});
 	return CanvasView;
 });
+define('joystick_tmpl',[],function () { return function (__fest_context){var __fest_self=this,__fest_buf="",__fest_chunks=[],__fest_chunk,__fest_attrs=[],__fest_select,__fest_if,__fest_iterator,__fest_to,__fest_fn,__fest_html="",__fest_blocks={},__fest_params,__fest_element,__fest_debug_file="",__fest_debug_line="",__fest_debug_block="",__fest_htmlchars=/[&<>"]/g,__fest_htmlchars_test=/[&<>"]/,__fest_short_tags = {"area":true,"base":true,"br":true,"col":true,"command":true,"embed":true,"hr":true,"img":true,"input":true,"keygen":true,"link":true,"meta":true,"param":true,"source":true,"wbr":true},__fest_element_stack = [],__fest_htmlhash={"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"},__fest_jschars=/[\\'"\/\n\r\t\b\f<>]/g,__fest_jschars_test=/[\\'"\/\n\r\t\b\f<>]/,__fest_jshash={"\"":"\\\"","\\":"\\\\","/":"\\/","\n":"\\n","\r":"\\r","\t":"\\t","\b":"\\b","\f":"\\f","'":"\\'","<":"\\u003C",">":"\\u003E"},___fest_log_error;if(typeof __fest_error === "undefined"){___fest_log_error = (typeof console !== "undefined" && console.error) ? function(){return Function.prototype.apply.call(console.error, console, arguments)} : function(){};}else{___fest_log_error=__fest_error};function __fest_log_error(msg){___fest_log_error(msg+"\nin block \""+__fest_debug_block+"\" at line: "+__fest_debug_line+"\nfile: "+__fest_debug_file)}function __fest_replaceHTML(chr){return __fest_htmlhash[chr]}function __fest_replaceJS(chr){return __fest_jshash[chr]}function __fest_extend(dest, src){for(var i in src)if(src.hasOwnProperty(i))dest[i]=src[i];}function __fest_param(fn){fn.param=true;return fn}function __fest_call(fn, params,cp){if(cp)for(var i in params)if(typeof params[i]=="function"&&params[i].param)params[i]=params[i]();return fn.call(__fest_self,params)}function __fest_escapeJS(s){if (typeof s==="string") {if (__fest_jschars_test.test(s))return s.replace(__fest_jschars,__fest_replaceJS);} else if (typeof s==="undefined")return "";return s;}function __fest_escapeHTML(s){if (typeof s==="string") {if (__fest_htmlchars_test.test(s))return s.replace(__fest_htmlchars,__fest_replaceHTML);} else if (typeof s==="undefined")return "";return s;}var json=__fest_context;__fest_buf+=("<form method=\"post\" class=\"screen__joystick__form\">Enter token:<br/><input type=\"text\" name=\"token\"/><br/><input type=\"submit\" value=\"Submit\"/></form>");__fest_to=__fest_chunks.length;if (__fest_to) {__fest_iterator = 0;for (;__fest_iterator<__fest_to;__fest_iterator++) {__fest_chunk=__fest_chunks[__fest_iterator];if (typeof __fest_chunk==="string") {__fest_html+=__fest_chunk;} else {__fest_fn=__fest_blocks[__fest_chunk.name];if (__fest_fn) __fest_html+=__fest_call(__fest_fn,__fest_chunk.params,__fest_chunk.cp);}}return __fest_html+__fest_buf;} else {return __fest_buf;}} ; });
+define('joystick',[
+    // Libs
+    'jquery',
+    'backbone',
+    'phoria',
+    'bat_model',
+    'puck_model',
+    'user_model',
+], function($, Backbone, P, BatModel, PuckModel, UserModel){
+    var joystickView = Backbone.View.extend({
+        initialize: function() {
+            var Email;
+            // не забывать менять url на 192.168.43.43
+            var socket = new WebSocket("ws://192.168.43.43:8096/gameSocket");
+
+            socket.onopen = function () {
+                alert("Соединение установлено.");
+            };
+
+            socket.onclose = function (event) {
+                if (event.wasClean) {
+                    alert('Соединение закрыто чисто');
+                } else {
+                    alert('Обрыв соединения'); // например, "убит" процесс сервера
+                }
+                alert('Код: ' + event.code + ' причина: ' + event.reason);
+                window.removeEventListener('deviceorientation', handleOrientation);
+            };
+
+            socket.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                console.log(data);
+                if(data.code == "new_email") {
+                    Email = data.new_email;
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+                alert("Получены данные " + event.data);
+            };
+
+            socket.onerror = function (error) {
+                alert("Ошибка " + error.message);
+            };
+            var i = 0;
+            // посмотрим что сейчас получается без setInterval
+            function handleOrientation(event) {
+
+                var x = -event.beta / 50;  // In degree in the range [-180,180]
+                var y = -event.gamma / 50; // In degree in the range [-90,90]
+
+                if (i % 100 == 0) {
+                    console.log("x " + x);
+                    console.log("y " + y);
+                }
+
+                var data = JSON.stringify({code: 0, email: Email, dnextX: x, dnextY: y});
+                socket.send(data);
+            }
+
+             // Send message to chat server
+             $('form').submit(function() {
+                var data = JSON.stringify({code: -1, token : $('form').find('input[name="token"]').val()});
+                socket.send( data );
+                console.log( $('form').find('input[name="token"]').val() );
+                return false;
+             });
+        }
+    });
+    return joystickView;
+});
+
+
+define('joystick_view',[
+    // Libs
+    'jquery',
+    'backbone',
+    // Tmpl
+    'joystick_tmpl',
+    // Models
+    'user_model',
+    'joystick',
+], function($, Backbone, joystick_tmpl, UserModel, joystick ) {
+
+    var joyStickView = Backbone.View.extend({
+        template: joystick_tmpl,
+        el: $('.screen__joystick'),
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
+        },
+        show_joystick: function() {
+            //console.log("game start");
+            this.joystick = new joystick();
+        },
+        show: function() {
+            this.show_joystick();
+            /*if( this.model.isLogin() ) {
+                this.trigger("showView",[ this ]);
+                this.$el.delay(200).fadeIn(200);
+
+            }
+            else{
+                window.location.hash = "";
+            }*/
+        },
+        hide: function() {
+            this.$el.fadeOut(200);
+        },
+        initialize: function() {
+            this.render();
+        }
+    });
+    return joyStickView;
+});
 define('router',[
     // Libs
     'backbone',
@@ -6885,10 +7054,11 @@ define('router',[
     'view_manager',
     'toolbar_view',
     'canvas_view',
+    'joystick_view',
     // Model
     'user_model',
 ], function(Backbone, MainView, LoginView, RegistrationView, 
-                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, CanvasView, 
+                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, CanvasView, JoystickView,
                     UserModel) {
     var Router = Backbone.Router.extend({
         routes: {
@@ -6898,6 +7068,7 @@ define('router',[
             'registration': 'registrationAction',
             'profile' : 'profileAction',
             'canvas' : 'canvasAction',
+            'joystick' : 'joystickAction',
             '': 'mainAction'
         },
         mainAction: function () {
@@ -6911,7 +7082,6 @@ define('router',[
             if (!this.gameView) {
                 this.gameView = new GameView({model:this.model});
                 this.viewManager.addView(this.gameView)
-                //this.VertexApp = new VertexApp({model:this.model});
             }
             this.gameView.show();
         },
@@ -6950,6 +7120,13 @@ define('router',[
             }
             this.canvasView.show();
         },
+        joystickAction: function () {
+            if (!this.joystickView) {
+                this.joystickView = new JoystickView({model:this.model});
+                this.viewManager.addView(this.joystickView)
+            }
+            this.joystickView.show();
+        },
         initialize: function() {
             this.viewManager = new ViewManager();
             this.model = new UserModel();
@@ -6975,6 +7152,7 @@ requirejs.config({
         // Templates/**
         "game_tmpl" : "tmpl/game_tmpl",
         "login_tmpl" : "tmpl/login_tmpl",
+        "joystick_tmpl" : "tmpl/joystick_tmpl",
         "main_user_tmpl" : "tmpl/main_user_tmpl",
         "main_guest_tmpl" : "tmpl/main_guest_tmpl",
         "registration_tmpl" : "tmpl/registration_tmpl",
@@ -6995,6 +7173,7 @@ requirejs.config({
         "view_manager" : "views/view_manager",
         "toolbar_view" : "views/toolbar_view",
         "canvas_view" : "views/canvas_view",
+        "joystick_view" : "views/joystick_view",
         // Models
         "score_model" : "models/score_model",
         "user_model" : "models/user_model",
@@ -7005,6 +7184,7 @@ requirejs.config({
         "vertex_collection" : "collections/vertex_collection",
         // Game_mechanics
         "air_hockey_app" : "mechanics/air_hockey_app",
+        "joystick" : "mechanics/joystick"
     },
     shim: {
         'jquery': {

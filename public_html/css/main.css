@@ -19,7 +19,7 @@ body {
   color: #555555;
   font-size: 18pt; }
 
-.screen__main,
+.main,
 .screen__game,
 .screen__login,
 .screen__registration,
@@ -167,5 +167,13 @@ label.valid {
   font-size: 12pt;
   font-weight: bold;
   display: none; }
+
+.loading {
+  position: absolute;
+  left: 35%;
+  top: 30%;
+  width: 400px;
+  height: 200px;
+  z-index: 100; }
 
 /*# sourceMappingURL=main.css.map */

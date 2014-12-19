@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
     AccountServiceResponse getTop10();
 
+    AccountServiceResponse increaseScore(String findEmail, int scoreToIncrease);
+
     AccountServiceResponse deleteUser(String email);
 
 }

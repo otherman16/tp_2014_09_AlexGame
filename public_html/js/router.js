@@ -11,10 +11,11 @@ define([
     'view_manager',
     'toolbar_view',
     'canvas_view',
+    'joystick_view',
     // Model
     'user_model',
 ], function(Backbone, MainView, LoginView, RegistrationView, 
-                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, CanvasView, 
+                    GameView, ScoreboardView, ProfileView, ViewManager, ToolbarView, CanvasView, JoystickView,
                     UserModel) {
     var Router = Backbone.Router.extend({
         routes: {
@@ -24,6 +25,7 @@ define([
             'registration': 'registrationAction',
             'profile' : 'profileAction',
             'canvas' : 'canvasAction',
+            'joystick' : 'joystickAction',
             '': 'mainAction'
         },
         mainAction: function () {
@@ -37,7 +39,6 @@ define([
             if (!this.gameView) {
                 this.gameView = new GameView({model:this.model});
                 this.viewManager.addView(this.gameView)
-                //this.VertexApp = new VertexApp({model:this.model});
             }
             this.gameView.show();
         },
@@ -75,6 +76,13 @@ define([
                 this.viewManager.addView(this.canvasView)
             }
             this.canvasView.show();
+        },
+        joystickAction: function () {
+            if (!this.joystickView) {
+                this.joystickView = new JoystickView({model:this.model});
+                this.viewManager.addView(this.joystickView)
+            }
+            this.joystickView.show();
         },
         initialize: function() {
             this.viewManager = new ViewManager();

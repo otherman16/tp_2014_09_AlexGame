@@ -1,0 +1,8 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+<form method="post" class="screen__joystick__form">
+    Enter token:<br></br>
+    <input type="text" name="token" ></input>
+        <br></br>
+    <input type="submit" value="Submit"></input>
+</form>
+</fest:template>
