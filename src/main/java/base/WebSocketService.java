@@ -2,6 +2,7 @@ package base;
 
 import mechanics.Direction;
 import mechanics.Puck;
+import messageSystem.Abonent;
 import websocket.GameWebSocket;
 
 public interface WebSocketService {

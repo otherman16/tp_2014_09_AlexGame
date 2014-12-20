@@ -1,7 +1,12 @@
 package websocket;
 
-import base.GameMechanics;
+
 import base.WebSocketService;
+import mechanics.MessageAddGamer;
+import messageSystem.Abonent;
+import messageSystem.Address;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -10,16 +15,29 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.JSONObject;
 
 @WebSocket
-public class GameWebSocket {
+public class GameWebSocket implements Abonent {
+
+    private final Address address = new Address();
+    private final MessageSystem messageSystem;
+
     private String gamerEmail;
     private Session session;
-    private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
 
-    public GameWebSocket(String gamerEmail, GameMechanics gameMechanics, WebSocketService webSocketService) {
+    public GameWebSocket(String gamerEmail, WebSocketService webSocketService, MessageSystem ms) {
+        this.messageSystem = ms;
+        messageSystem.addService(this);
+        messageSystem.getAddressService().registerGameWebSocket(this);
         this.gamerEmail = gamerEmail;
-        this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public MessageSystem getMessageSystem() {
+        return messageSystem;
     }
 
     @OnWebSocketConnect
@@ -27,12 +45,14 @@ public class GameWebSocket {
         System.out.println(session);
         setSession(session);
         webSocketService.addSocket(this);
-        gameMechanics.addGamerOrJoystick(gamerEmail);
+        Message messageAddGamer = new MessageAddGamer(getAddress(),
+                messageSystem.getAddressService().getGameMechanicsAddress(), gamerEmail);
+        messageSystem.sendMessage(messageAddGamer);
     }
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        //webSocketService.deleteSocket(this);
+
     }
 
     @OnWebSocketMessage
@@ -42,7 +62,9 @@ public class GameWebSocket {
             //System.out.println(data);
             //System.out.println(gamerEmail);
             JSONObject jsonRequest = new JSONObject(data);
-            gameMechanics.StepAction(gamerEmail, jsonRequest);
+            Message messageStepAction = new mechanics.MessageStepAction(getAddress(),
+                    messageSystem.getAddressService().getGameMechanicsAddress(), gamerEmail, jsonRequest );
+            messageSystem.sendMessage(messageStepAction);
         } catch (Exception e) {
             System.out.println("Exception in GameWebSocket.onMessage: " + e.getMessage());
         }

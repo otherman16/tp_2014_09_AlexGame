@@ -1,6 +1,7 @@
 package websocket;
 
 import base.*;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
@@ -8,17 +9,16 @@ import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 import javax.servlet.http.HttpSession;
 
 public class CustomWebSocketCreator implements WebSocketCreator {
+    private final MessageSystem messageSystem;
     private AccountService authService;
-    private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
 
     public CustomWebSocketCreator(AccountService authService,
-                                  GameMechanics gameMechanics,
-                                  WebSocketService webSocketService) {
-
+                                  WebSocketService webSocketService,
+                                  MessageSystem ms) {
         this.authService = authService;
-        this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
+        this.messageSystem = ms;
     }
 
     @Override
@@ -28,19 +28,15 @@ public class CustomWebSocketCreator implements WebSocketCreator {
         UserProfile user;
         if (!response.getStatus()) {
             user = new UserProfile("Guest","Guest@Guest.ru","Guest");
-            //System.out.println("Socket was not created");
-            //return null;
         }
         else {
             user = (UserProfile)response.getResponse();
         }
         String gamerEmail = user.getEmail();
         if (!webSocketService.exists(gamerEmail)) {
-            System.out.append("Create new web socket");
-            return new GameWebSocket(gamerEmail, gameMechanics, webSocketService);
+            return new GameWebSocket(gamerEmail, webSocketService, messageSystem);
         }
         else {
-            System.out.append("Return existing");
             return webSocketService.getExisting(gamerEmail);
         }
     }

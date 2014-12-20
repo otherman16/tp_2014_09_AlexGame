@@ -1,9 +1,10 @@
 package base;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+import messageSystem.Abonent;
 
- public interface AccountService extends Runnable {
+import javax.servlet.http.HttpSession;
+
+ public interface AccountService extends Runnable, Abonent {
 
     AccountServiceResponse authUser(UserProfile user, HttpSession session);
 

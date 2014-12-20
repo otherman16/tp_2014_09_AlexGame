@@ -1,38 +1,30 @@
 package messageSystem;
 
-import backend.AccountServiceImpl;
 import base.AccountService;
 import base.GameMechanics;
-import mechanics.GameMechanicsImpl;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import websocket.GameWebSocket;
 
 public class AddressService {
 
     private Address gameMechanics;
-    private List<Address> accountServiceList = new ArrayList<>();
+    private Address gameWebSocket;
+    private Address accountService;
 
-    private AtomicInteger accountServiceCounter = new AtomicInteger();
-
-    public void registerGameMechanics(GameMechanicsImpl gameMechanics) {
+    public void registerGameMechanics(GameMechanics gameMechanics) {
         this.gameMechanics = gameMechanics.getAddress();
     }
 
-    public void registerAccountService(AccountServiceImpl accountService) {
-        accountServiceList.add(accountService.getAddress());
+    public void registerAccountService(AccountService accountService) {
+        this.accountService = accountService.getAddress();
     }
 
-    public Address getGameMechanicsAddress() {
-        return gameMechanics;
+    public void registerGameWebSocket(GameWebSocket gameWebSocket) {
+        this.gameWebSocket = gameWebSocket.getAddress();
     }
 
-    public synchronized Address getAccountServiceAddress() {
-        int index = accountServiceCounter.getAndIncrement();
-        if (index >= accountServiceList.size()) {
-            index = 0;
-        }
-        return accountServiceList.get(index);
+    public Address getGameMechanicsAddress() { return gameMechanics; }
+
+    public Address getAccountServiceAddress() {
+            return accountService;
     }
 }

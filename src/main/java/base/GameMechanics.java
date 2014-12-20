@@ -1,14 +1,15 @@
 package base;
 
+import messageSystem.Abonent;
 import org.json.JSONObject;
 
-public interface GameMechanics extends Runnable  {
+public interface GameMechanics extends Runnable, Abonent {
 
     boolean isFirstWin();
 
     void addGamerOrJoystick(String gamerEmail);
 
-    void StepAction(String gamerEnemyEmail, JSONObject jsonObject);
+    void stepAction(String gamerEmail, JSONObject jsonObject);
 
     void runGameMechanics();
 }

@@ -1,11 +1,12 @@
 package messageSystem;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class MessageSystem {
-    private final Map<Address, ConcurrentLinkedQueue<Message>> messages = new HashMap<>();
+    private final Map<Address, ConcurrentLinkedQueue<Message>> messages = new ConcurrentHashMap<>();
     private final AddressService addressService = new AddressService();
 
     public MessageSystem() {
@@ -24,7 +25,7 @@ public final class MessageSystem {
     }
 
     public void execForAbonent(Abonent abonent) {
-        ConcurrentLinkedQueue<Message> queue = messages.get(abonent.getAddress());
+        Queue<Message> queue = messages.get(abonent.getAddress());
         while (!queue.isEmpty()) {
             Message message = queue.poll();
             message.exec(abonent);

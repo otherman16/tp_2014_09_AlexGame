@@ -4,7 +4,6 @@ import backend.MessageIncreaseScore;
 import base.GameMechanics;
 import base.WebSocketService;
 import main.ThreadSettings;
-import messageSystem.Abonent;
 import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
@@ -13,7 +12,7 @@ import utils.TimeHelper;
 
 import java.util.*;
 
-public class GameMechanicsImpl implements GameMechanics, Abonent {
+public class GameMechanicsImpl implements GameMechanics {
 
     private final Address address = new Address();
     private final MessageSystem messageSystem;
@@ -43,7 +42,7 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
                 sb.append(c);
             }
             String output = sb.toString();
-            System.out.println(output);
+            //System.out.println(output);
             if ( tokenMap.get(output) == null ) {
                 tokenMap.put(output, email);
                 success = true;
@@ -67,6 +66,10 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
         return messageSystem;
     }
 
+    public String getWaiter() {
+        return this.waiter;
+    }
+
     private Puck puck = new Puck();
     private Direction direction = new Direction();
 
@@ -78,14 +81,15 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
         }
     }
 
-    public void gmStep() {
+    private void gmStep() {
         for (GameSession session : allSessions) {
             if (session.isActive() && session.getSessionTime() > gameTime) {
                 session.closeGameSession();
 
                 Gamer winner = session.isFirstWin() ? session.getFirst() : session.getSecond();
 
-                Message messageIncreaseScore = new MessageIncreaseScore(getAddress(), messageSystem.getAddressService().getAccountServiceAddress(), winner.getEmail(), winner.getScore());
+                Message messageIncreaseScore = new MessageIncreaseScore(getAddress(),
+                        messageSystem.getAddressService().getAccountServiceAddress(), winner.getEmail(), winner.getScore());
                 messageSystem.sendMessage(messageIncreaseScore);
 
                 boolean firstWin = session.isFirstWin();
@@ -128,17 +132,12 @@ public class GameMechanicsImpl implements GameMechanics, Abonent {
     }
 
     @Override
-    public void StepAction(String gamerEnemyEmail, JSONObject jsonObject) {
-        //System.out.println("new action");
+    public void stepAction(String gamerEnemyEmail, JSONObject jsonObject) {
         int code = jsonObject.getInt("code");
         if ( code == 0 ) {
             String email = jsonObject.getString("email");
             direction.setDirection(jsonObject);
             webSocketService.notifyMyPosition(email, direction);
-            //GameSession myGameSession = gameSessionMap.get(jsonObject.getString("email"));
-            //Gamer enemy = myGameSession.getGamerEnemy(gamerEnemyEmail);
-            //direction.inverse();
-            //webSocketService.notifyEnemyPosition(enemy.getEmail(), direction);
         } else if ( code == -1 ) {
             String token = jsonObject.getString("token");
             String newEmail = tokenMap.get(token);

@@ -44,7 +44,7 @@ public class Main {
         HttpServlet logoutUserServlet = new LogoutServlet(service);
         HttpServlet adminServlet = new AdminServlet(service);
         HttpServlet getScoreServlet = new GetScoresServlet(service);
-        HttpServlet webSocketGameServlet = new WebSocketGameServlet(service, gameMechanics, webSocketService);
+        HttpServlet webSocketGameServlet = new WebSocketGameServlet(service, webSocketService, messageSystem);
 
         Server server = new Server(port);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
