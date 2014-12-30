@@ -135,7 +135,8 @@ define([
              }
 
             if ( !this.ws) {
-                var ws = new WebSocket("ws://localhost:8096/gameSocket");
+                var ws = new WebSocket("ws://" + location.host + "/gameSocket");
+                console.log("web socket");
             }
             var canvas = document.getElementById('myCanvas');
             var scene = new P.Scene();

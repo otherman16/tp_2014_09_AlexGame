@@ -10,8 +10,7 @@ define([
     var joystickView = Backbone.View.extend({
         initialize: function() {
             var Email;
-            // не забывать менять url на 192.168.43.43
-            var socket = new WebSocket("ws://192.168.43.43:8096/gameSocket");
+            var socket = new WebSocket("ws://" + location.host + "/gameSocket");
 
             socket.onopen = function () {
                 alert("Соединение установлено.");
